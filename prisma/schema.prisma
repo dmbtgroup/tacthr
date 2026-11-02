@@ -1,0 +1,312 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+/// How a company scores its staff.
+enum EvalMethod {
+  /// 12 shared factors (weights total 60), efficiency out of 75 + effectiveness band out of 25 = 100 (HR-WI-01).
+  CURRENT
+  /// Shared factors + each department's own factors (weights 65 + 65), out of 650 (WI1202).
+  DEPARTMENT
+}
+
+enum Role {
+  /// Human resources: staff, users, periods, factors and settings.
+  HR
+  /// CEO / board: everything HR does, plus the board approval, the CEO score and the salary figures.
+  CEO
+  /// Supervisor or unit manager: scores their own staff and approves their supervisors' scores.
+  MANAGER
+  /// Sees their own approved results.
+  EMPLOYEE
+}
+
+enum IndicatorKind {
+  EFFICIENCY
+  EFFECTIVENESS
+}
+
+enum EvalStatus {
+  DRAFT
+  /// Scored by the supervisor.
+  SUBMITTED
+  /// Approved by the unit manager.
+  MANAGER_APPROVED
+  /// Approved by the board; final.
+  APPROVED
+}
+
+enum EducationLevel {
+  DIPLOMA
+  ASSOCIATE
+  BACHELOR
+  MASTER
+  DOCTORATE
+}
+
+enum JobRank {
+  EMPLOYEE
+  EXPERT
+  SENIOR_EXPERT
+  SUPERVISOR
+  MANAGER
+}
+
+model Organization {
+  id                 String       @id @default(cuid())
+  /// Sign-in address, e.g. "homeco" for tacthr.dmbtgroup.com/homeco.
+  slug               String       @unique
+  name               String
+  method             EvalMethod   @default(CURRENT)
+  /// Efficiency's share of the 100 in the current method: 75 now, 50 once effectiveness is measured properly.
+  efficiencyShare    Int          @default(75)
+  /// Languages offered: "fa", "en".
+  languages          String[]     @default(["fa", "en"])
+  active             Boolean      @default(true)
+  createdAt          DateTime     @default(now())
+  users              User[]
+  departments        Department[]
+  employees          Employee[]
+  indicators         Indicator[]
+  periods            Period[]
+  salaryYears        SalaryYear[]
+  alerts             Alert[]
+}
+
+model User {
+  id             String        @id @default(cuid())
+  /// Null only for platform admins.
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name           String
+  email          String
+  passwordHash   String
+  role           Role          @default(EMPLOYEE)
+  isPlatformAdmin Boolean      @default(false)
+  active         Boolean       @default(true)
+  /// The staff record this account belongs to (what a manager scores, what an employee sees).
+  employeeId     String?       @unique
+  employee       Employee?     @relation(fields: [employeeId], references: [id], onDelete: SetNull)
+  createdAt      DateTime      @default(now())
+
+  @@unique([organizationId, email])
+  @@index([email])
+}
+
+model Department {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  name           String
+  createdAt      DateTime     @default(now())
+  employees      Employee[]
+  indicators     Indicator[]
+  periodIndicators PeriodIndicator[]
+
+  @@unique([organizationId, name])
+}
+
+model Employee {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  /// Personnel number, optional.
+  code           String?
+  firstName      String
+  lastName       String
+  jobTitle       String?
+  departmentId   String?
+  department     Department?  @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  /// Direct supervisor, who scores this person.
+  managerId      String?
+  manager        Employee?    @relation("Reports", fields: [managerId], references: [id], onDelete: SetNull)
+  reports        Employee[]   @relation("Reports")
+  startDate      DateTime?    @db.Date
+  fullTime       Boolean      @default(true)
+  active         Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  user           User?
+  evaluations    Evaluation[]
+  salaries       SalaryRecord[]
+  alerts         Alert[]
+
+  @@unique([organizationId, code])
+}
+
+/// A company's current list of factors. Each period takes a copy, so later changes never alter past results.
+model Indicator {
+  id             String        @id @default(cuid())
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  kind           IndicatorKind
+  /// Department factors (department method) only.
+  departmentId   String?
+  department     Department?   @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  name           String
+  description    String?
+  weight         Int
+  position       Int           @default(0)
+}
+
+/// Half-year evaluation period on the Persian year.
+model Period {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  /// Jalali year, e.g. 1404.
+  year           Int
+  /// 1 = Farvardin–Shahrivar, 2 = Mehr–Esfand.
+  half           Int
+  method         EvalMethod
+  efficiencyShare Int         @default(75)
+  /// Last day for evaluations: 20 days after the half ends.
+  deadline       DateTime     @db.Date
+  closed         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  indicators     PeriodIndicator[]
+  evaluations    Evaluation[]
+
+  @@unique([organizationId, year, half])
+}
+
+model PeriodIndicator {
+  id           String        @id @default(cuid())
+  periodId     String
+  period       Period        @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  kind         IndicatorKind
+  departmentId String?
+  department   Department?   @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  name         String
+  description  String?
+  weight       Int
+  position     Int           @default(0)
+  scores       EvaluationScore[]
+}
+
+model Evaluation {
+  id                 String       @id @default(cuid())
+  periodId           String
+  period             Period       @relation(fields: [periodId], references: [id], onDelete: Cascade)
+  employeeId         String
+  employee           Employee     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  /// Current method: the chosen band (VERY_HIGH … VERY_LOW) and the number inside it (0–25).
+  effectivenessBand  String?
+  effectivenessScore Float?
+  /// Results, kept in step with the scores (lib/calc.ts).
+  efficiency         Float?
+  effectiveness      Float?
+  /// Out of 100 (current) or 650 (department).
+  total              Float?
+  /// 0–100.
+  percent            Float?
+  /// Department method: total ÷ 540, at most 1.2.
+  coefficient        Float?
+  status             EvalStatus   @default(DRAFT)
+  notes              String?
+  scoredByName       String?
+  submittedAt        DateTime?
+  managerApprovedByName String?
+  managerApprovedAt  DateTime?
+  approvedByName     String?
+  approvedAt         DateTime?
+  updatedAt          DateTime     @updatedAt
+  scores             EvaluationScore[]
+
+  @@unique([periodId, employeeId])
+}
+
+model EvaluationScore {
+  id           String          @id @default(cuid())
+  evaluationId String
+  evaluation   Evaluation      @relation(fields: [evaluationId], references: [id], onDelete: Cascade)
+  indicatorId  String
+  indicator    PeriodIndicator @relation(fields: [indicatorId], references: [id], onDelete: Cascade)
+  score        Int
+
+  @@unique([evaluationId, indicatorId])
+}
+
+/// One Persian year's salary figures, set by the board.
+model SalaryYear {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  year           Int
+  /// Rials.
+  minWage        BigInt
+  maxSalary      BigInt
+  /// Bonus base amount; the bonus is base × performance coefficient.
+  bonusBase      BigInt       @default(0)
+  /// Salaries are due by 31 Farvardin of this year.
+  deadline       DateTime     @db.Date
+  closed         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  records        SalaryRecord[]
+
+  @@unique([organizationId, year])
+}
+
+model SalaryRecord {
+  id               String          @id @default(cuid())
+  salaryYearId     String
+  salaryYear       SalaryYear      @relation(fields: [salaryYearId], references: [id], onDelete: Cascade)
+  employeeId       String
+  employee         Employee        @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  education        EducationLevel?
+  /// Percent points, e.g. 5 for 5 %.
+  educationPct     Float?
+  experienceYears  Int?
+  skillLevel       Int?
+  physical         Int?
+  environment      Int?
+  mental           Int?
+  risk             Int?
+  rank             JobRank?
+  rankPct          Float?
+  /// 0–5 (none … very high).
+  sensitivity      Int?
+  ceoPct           Float?
+  /// On probation: the CEO sets the salary, never below the minimum wage.
+  probation        Boolean         @default(false)
+  probationSalary  BigInt?
+  notes            String?
+  approvedByName   String?
+  approvedAt       DateTime?
+  updatedAt        DateTime        @updatedAt
+
+  @@unique([salaryYearId, employeeId])
+}
+
+enum AlertKind {
+  /// Two half-years in a row under 50 %: HR meeting on continuing employment.
+  TWO_LOW_PERIODS
+  /// Evaluation deadline close or passed.
+  EVAL_DEADLINE
+  /// Salary deadline (31 Farvardin) close or passed.
+  SALARY_DEADLINE
+  /// Salary above the maximum.
+  SALARY_ABOVE_MAX
+  /// Yearly review of the factors.
+  REVIEW_FACTORS
+}
+
+model Alert {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  kind           AlertKind
+  employeeId     String?
+  employee       Employee?    @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  /// What it is about, e.g. "1404-2:<employee id>"; one alert per kind and key.
+  key            String
+  resolved       Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+
+  @@unique([organizationId, kind, key])
+}
