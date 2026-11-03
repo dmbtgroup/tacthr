@@ -4,7 +4,8 @@ import { db } from "@/lib/db";
 import { canManage, canScore, requireUser } from "@/lib/auth";
 import { getT } from "@/lib/i18n/server";
 import { daysBetween, formatDate, today } from "@/lib/dates";
-import { num, periodLabel } from "@/lib/format";
+import { num, periodLabel, year } from "@/lib/format";
+import { computeRecord, lastYearPerformance } from "@/lib/salaries";
 import { mayBoardApprove, mayManagerApprove, mayScore, previousHalf, teamOf } from "@/lib/evaluations";
 import { ScorePct } from "@/components/Score";
 
@@ -52,6 +53,20 @@ export default async function HomePage() {
   );
   const days = period ? daysBetween(today(), period.deadline) : null;
 
+  // The salary year being worked on: how many salaries are complete and approved.
+  const salaryYear = manage
+    ? await db.salaryYear.findFirst({ where: { organizationId: orgId, closed: false }, orderBy: { year: "desc" }, include: { records: true } })
+    : null;
+  let salaryCounts: { staff: number; complete: number; approved: number } | null = null;
+  if (salaryYear) {
+    const perf = await lastYearPerformance(orgId, salaryYear.year);
+    salaryCounts = {
+      staff: await db.employee.count({ where: { organizationId: orgId, active: true } }),
+      complete: salaryYear.records.filter((r) => computeRecord(r, salaryYear, perf.get(r.employeeId) ?? null).salary != null).length,
+      approved: salaryYear.records.filter((r) => r.approvedAt).length,
+    };
+  }
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">{t("Welcome, {name}", { name: user.name })}</h1>
@@ -88,6 +103,27 @@ export default async function HomePage() {
             )}
             <Link className="btn-secondary" href={`/evaluations/${period.id}`}>{t("Open the half-year")}</Link>
           </div>
+        </section>
+      )}
+
+      {salaryYear && salaryCounts && (
+        <section className="card space-y-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <h2 className="me-auto font-semibold">{t("Salaries {year}", { year: year(t, salaryYear.year) })}</h2>
+            <span className={`text-sm ${salaryYear.deadline < today() ? "font-medium text-red-700" : "text-slate-500"}`}>
+              {salaryYear.deadline < today()
+                ? t("Was due {date}", { date: formatDate(salaryYear.deadline, t.locale) })
+                : t("Due {date}", { date: formatDate(salaryYear.deadline, t.locale) })}
+            </span>
+          </div>
+          <p className="text-sm text-slate-600">
+            {t("{complete} of {total} complete, {approved} approved", {
+              complete: num(t, salaryCounts.complete),
+              total: num(t, salaryCounts.staff),
+              approved: num(t, salaryCounts.approved),
+            })}
+          </p>
+          <Link className="btn-secondary" href={`/salaries/${salaryYear.id}`}>{t("Open the salaries")}</Link>
         </section>
       )}
 

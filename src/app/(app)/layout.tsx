@@ -17,6 +17,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     );
   if (canManage(user)) {
     links.push(
+      { href: "/salaries", label: t("Salaries and bonus"), icon: "salaries" },
       { href: "/staff", label: t("Staff"), icon: "staff" },
       { href: "/factors", label: t("Factors"), icon: "factors" },
       { href: "/users", label: t("Users"), icon: "users" },

@@ -1,9 +1,10 @@
 import "server-only";
 import bcrypt from "bcryptjs";
 import { db } from "./db";
-import { halfRange, jalaliToDate, jalaliYear, today } from "./dates";
+import { halfRange, jalaliToDate, jalaliYear, salaryDeadline, today } from "./dates";
 import { BANDS, coefficient, currentScore, departmentScore, isPoor } from "./calc";
 import { checkTwoLow, factorsFor, openPeriod } from "./evaluations";
+import { computeRecord, lastYearPerformance } from "./salaries";
 import { seedFactors } from "./orgs";
 
 /**
@@ -203,7 +204,84 @@ export async function loadDemoData(organizationId: string): Promise<string | nul
   );
 
   await demoEvaluations(organizationId, halves, people);
+  await demoSalaries(organizationId, halves[halves.length - 1].year, people);
   return null;
+}
+
+/** Made-up salary figures (rials) for the two demo years. */
+const FIGURES = [
+  { minWage: 104_000_000n, maxSalary: 390_000_000n, bonusBase: 60_000_000n },
+  { minWage: 130_000_000n, maxSalary: 480_000_000n, bonusBase: 75_000_000n },
+];
+
+/**
+ * Two salary years: last year closed and fully approved; this year part-way (a few not filled in yet,
+ * some waiting for the board), with one salary above the maximum and the newcomer on probation.
+ */
+async function demoSalaries(organizationId: string, thisYear: number, people: { id: string; i: number }[]) {
+  const staff = await db.employee.findMany({ where: { organizationId } });
+  const ceoUser = await db.user.findFirst({ where: { organizationId, role: "CEO" } });
+  const index = new Map(people.map((x) => [x.id, x.i]));
+  for (const [k, y] of [thisYear - 1, thisYear].entries()) {
+    const f = FIGURES[k];
+    const current = k === 1;
+    const sy = await db.salaryYear.create({
+      data: { organizationId, year: y, ...f, deadline: salaryDeadline(y), closed: !current },
+    });
+    const yearStart = jalaliToDate(y, 1, 1);
+    const perf = await lastYearPerformance(organizationId, y);
+    const records = [];
+    for (const e of staff) {
+      const i = index.get(e.id) ?? 0;
+      // Last year only covers people who were there; the one who left is in last year's only.
+      if (!e.startDate || e.startDate >= yearStart) {
+        if (!current || !e.active) continue;
+      }
+      if (current && !e.active) continue;
+      if (current && i % 7 === 2 && i > 2) continue; // not filled in yet
+      const title = e.jobTitle ?? "";
+      const n = (salt: number) => noise(i, salt);
+      const isCeo = title === "مدیرعامل";
+      const isManager = !isCeo && (title.startsWith("مدیر") || title.startsWith("سرپرست"));
+      const isExpert = !isManager && !isCeo && (title.startsWith("کارشناس") || title === "حسابدار");
+      const startYear = e.startDate ? jalaliYear(e.startDate) : y;
+      const experience = Math.max(0, y - startYear) + Math.floor(n(20) * 6);
+      const newcomer = current && i === 11; // joined weeks ago: on probation
+      const star = i === 12; // the engineering manager, whose salary ends above the maximum
+      const education = isCeo || star ? "MASTER" : isManager ? (n(21) < 0.5 ? "MASTER" : "BACHELOR") : isExpert ? (n(21) < 0.2 ? "MASTER" : "BACHELOR") : n(21) < 0.5 ? "DIPLOMA" : "ASSOCIATE";
+      const eduRange = { DIPLOMA: [0, 1], ASSOCIATE: [0, 3], BACHELOR: [2, 7], MASTER: [3, 10] }[education]!;
+      const rank = isCeo || star || title.startsWith("مدیر") ? "MANAGER" : isManager ? "SUPERVISOR" : isExpert ? (n(22) < 0.25 ? "SENIOR_EXPERT" : "EXPERT") : "EMPLOYEE";
+      const rankRange = { MANAGER: [10, 15], SUPERVISOR: [6, 12], SENIOR_EXPERT: [3, 8], EXPERT: [1, 4], EMPLOYEE: [0, 2] }[rank]!;
+      const pick = (r: number[], salt: number) => Math.round((r[0] + n(salt) * (r[1] - r[0])) * 2) / 2;
+      const shop = !isCeo && !isManager && !isExpert;
+      records.push({
+        salaryYearId: sy.id,
+        employeeId: e.id,
+        education: education as "MASTER" | "BACHELOR" | "DIPLOMA" | "ASSOCIATE",
+        educationPct: star ? 10 : pick(eduRange, 23),
+        experienceYears: star ? 22 : experience,
+        skillLevel: star ? 9 : isCeo ? 9 : isManager ? 6 + Math.floor(n(24) * 3) : isExpert ? 3 + Math.floor(n(24) * 4) : 2 + Math.floor(n(24) * 4),
+        physical: star ? 2 : shop ? 3 + Math.floor(n(25) * 3) : Math.floor(n(25) * 2),
+        environment: star ? 2 : shop ? 2 + Math.floor(n(26) * 3) : Math.floor(n(26) * 2),
+        mental: star ? 5 : isManager || isCeo ? 3 + Math.floor(n(27) * 3) : 1 + Math.floor(n(27) * 3),
+        risk: star ? 3 : shop ? 3 + Math.floor(n(28) * 3) : Math.floor(n(28) * 2),
+        rank: rank as "MANAGER" | "SUPERVISOR" | "SENIOR_EXPERT" | "EXPERT" | "EMPLOYEE",
+        rankPct: star ? 15 : pick(rankRange, 29),
+        sensitivity: star || isCeo ? 5 : isManager ? 3 + Math.floor(n(30) * 2) : isExpert ? 1 + Math.floor(n(30) * 3) : Math.floor(n(30) * 2),
+        ceoPct: star ? 20 : isCeo ? 0 : Math.round(n(31) * (isManager ? 12 : 8)),
+        probation: newcomer,
+        probationSalary: newcomer ? f.minWage + 10_000_000n : null,
+      });
+    }
+    await db.salaryRecord.createMany({ data: records });
+    // Approve what's complete: everything last year; this year all but every fourth.
+    const saved = await db.salaryRecord.findMany({ where: { salaryYearId: sy.id } });
+    const approve = saved.filter((r, j) => computeRecord(r, f, perf.get(r.employeeId) ?? null).salary != null && (!current || j % 4 !== 1));
+    await db.salaryRecord.updateMany({
+      where: { id: { in: approve.map((r) => r.id) } },
+      data: { approvedAt: current ? new Date() : jalaliToDate(y, 1, 25), approvedByName: ceoUser?.name },
+    });
+  }
 }
 
 /**

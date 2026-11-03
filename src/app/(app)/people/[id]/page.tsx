@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { requireUser } from "@/lib/auth";
+import { canManage, requireUser } from "@/lib/auth";
 import { getT } from "@/lib/i18n/server";
 import { coefficient, isPoor, performancePct, yearlyPercent } from "@/lib/calc";
 import { formatDate } from "@/lib/dates";
-import { num, pct, periodLabel, periodShort, year } from "@/lib/format";
+import { num, pct, periodLabel, periodShort, rials, year } from "@/lib/format";
+import { computeRecord } from "@/lib/salaries";
 import { factorsFor, maySee } from "@/lib/evaluations";
 import { LineChart, BarList } from "@/components/Charts";
 import { ScorePct, StatusBadge } from "@/components/Score";
@@ -41,6 +42,21 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
     const avg = yearlyPercent(halves);
     return { year: y, halves, avg };
   });
+
+  // Salaries: HR and the CEO see every year, the person their approved ones.
+  const showPay = canManage(user) || self;
+  const salaryRows = showPay
+    ? (
+        await db.salaryRecord.findMany({
+          where: { employeeId: p.id, ...(canManage(user) ? {} : { approvedAt: { not: null } }) },
+          include: { salaryYear: true },
+          orderBy: { salaryYear: { year: "desc" } },
+        })
+      ).map((r) => {
+        const prev = [1, 2].map((h) => approved.find((e) => e.period.year === r.salaryYear.year - 1 && e.period.half === h)?.percent ?? null);
+        return { r, res: computeRecord(r, r.salaryYear, yearlyPercent(prev)) };
+      })
+    : [];
 
   let factors: { label: string; value: number; text: string; detail: string }[] = [];
   if (latest) {
@@ -164,6 +180,40 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
                   <td data-label={t("Average")} className="text-end"><ScorePct t={t} value={y.avg} /></td>
                   <td data-label={t("Coefficient")} className="text-end">{y.avg != null && num(t, coefficient(y.avg))}</td>
                   <td data-label={t("Next year's salary share")} className="text-end">{pct(t, performancePct(y.avg))}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      )}
+
+      {salaryRows.length > 0 && (
+        <section className="card overflow-x-auto p-0">
+          <h2 className="px-4 pt-4 font-semibold">{t("Salary and bonus")}</h2>
+          <table className="table table-stack">
+            <thead>
+              <tr>
+                <th className="ps-4">{t("Year")}</th>
+                <th className="text-end">{t("Total share of A")}</th>
+                <th className="text-end">{t("Salary")}</th>
+                <th className="text-end">{t("Bonus")}</th>
+                <th>{t("Status")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {salaryRows.map(({ r, res }) => (
+                <tr key={r.id}>
+                  <td data-label={t("Year")} className="ps-4">
+                    {canManage(user) ? (
+                      <Link className="text-brand-700 hover:underline" href={`/salaries/${r.salaryYearId}/${p.id}`}>{year(t, r.salaryYear.year)}</Link>
+                    ) : (
+                      year(t, r.salaryYear.year)
+                    )}
+                  </td>
+                  <td data-label={t("Total share of A")} className="text-end">{r.probation ? t("Probation") : pct(t, res.totalPct)}</td>
+                  <td data-label={t("Salary")} className="text-end font-medium">{rials(t, res.salary)}</td>
+                  <td data-label={t("Bonus")} className="text-end">{rials(t, res.bonus)}</td>
+                  <td data-label={t("Status")}>{r.approvedAt ? t("Approved") : res.salary == null ? t("Not complete") : t("Waiting for board")}</td>
                 </tr>
               ))}
             </tbody>
