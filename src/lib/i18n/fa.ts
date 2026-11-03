@@ -99,8 +99,6 @@ export const FA: Record<string, string> = {
   "No department": "بدون واحد",
   "No one to show.": "کسی برای نمایش نیست.",
   "One person per row, under a heading row, in these columns:": "هر نفر در یک ردیف، زیر ردیف عنوان، با این ستون‌ها:",
-  "Only the CEO can change the CEO's account.": "فقط مدیرعامل می‌تواند حساب مدیرعامل را تغییر دهد.",
-  "Only the CEO can give the CEO role.": "فقط مدیرعامل می‌تواند نقش مدیرعامل را بدهد.",
   "Open the app": "ورود به سامانه",
   "Open the menu": "باز کردن منو",
   "Out of 100": "از ۱۰۰",

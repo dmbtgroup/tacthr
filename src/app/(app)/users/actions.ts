@@ -24,8 +24,6 @@ export async function saveUser(form: FormData) {
   const employeeId = String(form.get("employeeId") ?? "") || null;
   if (!name || !email) fail("Enter the name and email.");
   if (!ROLES.includes(role)) fail("Choose a role.");
-  // Only the CEO gives out the CEO role.
-  if (role === "CEO" && me.role !== "CEO") fail("Only the CEO can give the CEO role.");
   if (!id && password.length < 8) fail("Passwords need at least 8 characters.");
   if (id && password && password.length < 8) fail("Passwords need at least 8 characters.");
   const same = await db.user.findFirst({ where: { organizationId: orgId, email, NOT: id ? { id } : undefined } });
@@ -41,7 +39,6 @@ export async function saveUser(form: FormData) {
   if (id) {
     const u = await db.user.findFirst({ where: { id, organizationId: orgId } });
     if (!u) fail("User not found.");
-    if (u!.role === "CEO" && me.role !== "CEO") fail("Only the CEO can change the CEO's account.");
     const active = !!form.get("active");
     if (id === me.id && (!active || !(role === "HR" || role === "CEO"))) fail("You can't remove your own access.");
     await db.user.update({
@@ -61,7 +58,6 @@ export async function deleteUser(form: FormData) {
   if (id === me.id) fail("You can't delete your own account.");
   const u = await db.user.findFirst({ where: { id, organizationId: me.org.id } });
   if (!u) fail("User not found.");
-  if (u!.role === "CEO" && me.role !== "CEO") fail("Only the CEO can change the CEO's account.");
   await db.user.delete({ where: { id } });
   revalidatePath("/users");
   done("{name} deleted.", { name: u!.name });
