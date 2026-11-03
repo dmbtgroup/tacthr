@@ -55,15 +55,16 @@ const NOTES = [
   "پیشنهادهای خوبی برای بهبود فرایندها داشته است.",
 ];
 
-const HALVES = 6;
+/** Six completed half-years and the one running now. */
+const HALVES = 7;
 
-/** The last `n` half-years that have ended, oldest first. */
-function finishedHalves(n: number) {
+/** The last `n` half-years that have started (the last one is running now), oldest first. */
+function recentHalves(n: number) {
   const now = today();
   const y = jalaliYear(now);
   const all: { year: number; half: 1 | 2 }[] = [];
   for (let yy = y - 5; yy <= y; yy++) for (const h of [1, 2] as const) all.push({ year: yy, half: h });
-  return all.filter((p) => halfRange(p.year, p.half).end < now).slice(-n);
+  return all.filter((p) => halfRange(p.year, p.half).start <= now).slice(-n);
 }
 
 /** A repeatable pseudo-random number in [0, 1) from a few integers. */
@@ -110,7 +111,7 @@ export async function loadDemoData(organizationId: string): Promise<string | nul
   if (await db.employee.count({ where: { organizationId } })) return "Demo data only goes into a company without staff.";
   const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 10);
   const host = `${org.slug}.example`;
-  const halves = finishedHalves(HALVES);
+  const halves = recentHalves(HALVES);
   const first = halves[0];
   /** People and their stories, by the order they were created. */
   const people: { id: string; i: number; p: Profile; leaves: boolean }[] = [];
@@ -185,8 +186,8 @@ export async function loadDemoData(organizationId: string): Promise<string | nul
           const start =
             u === 0 && k === unit.titles.length - 1
               ? (() => {
-                  const end = halfRange(halves[halves.length - 1].year, halves[halves.length - 1].half).end;
-                  const d = new Date(end);
+                  // Joined five weeks ago: on probation, first evaluated in the current half-year.
+                  const d = today();
                   d.setUTCDate(d.getUTCDate() - 35);
                   return d;
                 })()
@@ -285,7 +286,7 @@ async function demoSalaries(organizationId: string, thisYear: number, people: { 
 }
 
 /**
- * Six half-years of scores: the older five fully approved and closed, the latest part-way through
+ * Seven half-years of scores: the six completed ones fully approved and closed, the one running now
  * (some not scored yet, some half-scored, some waiting for the manager or the board).
  */
 async function demoEvaluations(
