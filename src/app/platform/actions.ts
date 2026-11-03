@@ -11,6 +11,9 @@ import { loadDemoData } from "@/lib/demo";
 import { msg } from "@/lib/i18n/message";
 import { SLUG_PATTERN } from "@/lib/session";
 
+/** App pages, which no company address may take. */
+const RESERVED = new Set(["login", "platform", "home", "staff", "users", "settings", "factors", "evaluations", "salaries", "reports", "people", "me", "alerts", "account", "api"]);
+
 const fail = (key: string, vars?: Record<string, string | number>) => redirect(`/platform?error=${encodeURIComponent(msg(key, vars))}`);
 const done = (key: string, vars?: Record<string, string | number>) => redirect(`/platform?notice=${encodeURIComponent(msg(key, vars))}`);
 
@@ -31,7 +34,7 @@ export async function addCompany(form: FormData) {
     password: String(form.get("adminPassword") ?? ""),
   };
   if (!c.name) fail("Enter the company's name.");
-  if (!SLUG_PATTERN.test(c.slug) || ["login", "platform", "home"].includes(c.slug))
+  if (!SLUG_PATTERN.test(c.slug) || RESERVED.has(c.slug))
     fail("The address may use small letters, digits and dashes only.");
   if (await db.organization.findUnique({ where: { slug: c.slug } })) fail("The address {slug} is taken.", { slug: c.slug });
   if (!admin.name || !admin.email) fail("Enter the first user's name and email.");

@@ -22,7 +22,9 @@ const patterns = [
   new RegExp(String.raw`\b(?:fail|done)\([\w.]+(?:\([\w.]*\))?,\s*${str}`, "g"), // fail(path, "…")
   new RegExp(String.raw`\b(?:error|notice): ${str}`, "g"),
   new RegExp(String.raw`\?(?:[\w=&]*&)?(?:error|notice)=([^"&\`$]+)"`, "g"), // redirect("/x?error=…")
-  new RegExp(String.raw`\b(?:label|hint|message|title|text): ${str}`, "g"), // { label: "…" }
+  new RegExp(String.raw`\b(?:label|hint|message|title|text|key): ${str}`, "g"), // { label: "…" }
+  new RegExp(String.raw`\bgo\([^,]+,\s*"(?:error|notice)",\s*${str}`, "g"), // go(page, "error", "…")
+  new RegExp(String.raw`^\s+[A-Z_]+: ${str},?$`, "gm"), // NAMES = { VERY_HIGH: "Very high" }
   new RegExp(String.raw`\b(?:LAST_ADMIN_ERROR|ARCHIVE_HINT) = ${str}`, "g"),
   new RegExp(String.raw`\.(?:min|regex)\([^"]*${str}\)`, "g"), // zod messages
   new RegExp(String.raw`\? ("[A-Z](?:[^"\\]|\\.)*") : ("[A-Z](?:[^"\\]|\\.)*")`, "g"), // cond ? "A" : "B" messages
@@ -36,7 +38,7 @@ for (const f of files) {
       for (let g of m.slice(1)) {
         if (!g || !/[A-Za-z]{2,}/.test(g)) continue;
         if (g.startsWith('"')) g = g.slice(1, -1); // the ternary patterns capture the quotes
-        if (/^[a-z0-9:\-[\]/.]+$/.test(g) && g.includes("-")) continue; // a CSS class, not text
+        if (g.split(" ").every((w) => /^[a-z0-9:\-[\]/.]+$/.test(w) && w.includes("-"))) continue; // CSS classes, not text
         if (/^\//.test(g) || /^[A-Z_]+$/.test(g)) continue; // a path or an enum value
         keys.add(JSON.parse(`"${g}"`));
       }

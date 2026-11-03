@@ -2,6 +2,8 @@ import "server-only";
 import bcrypt from "bcryptjs";
 import { db } from "./db";
 import { halfRange, jalaliToDate, jalaliYear, today } from "./dates";
+import { BANDS } from "./calc";
+import { checkTwoLow, factorsFor, openPeriod, recompute } from "./evaluations";
 
 /**
  * Fills an empty company with made-up staff for demonstrations: invented names, emails on the reserved
@@ -73,7 +75,7 @@ export async function loadDemoData(organizationId: string): Promise<string | nul
     };
     const login = (employeeId: string, i: number, role: "HR" | "CEO" | "MANAGER" | "EMPLOYEE", name: string) =>
       tx.user.create({
-        data: { organizationId, name, email: `${EN_FIRST[i % EN_FIRST.length]}@${host}`, passwordHash, role, employeeId },
+        data: { organizationId, name, email: `${EN_FIRST[i % EN_FIRST.length]}${i >= EN_FIRST.length ? Math.floor(i / EN_FIRST.length) + 1 : ""}@${host}`, passwordHash, role, employeeId },
       });
 
     const ceo = await person("مدیرعامل", null, null, 1390);
@@ -92,5 +94,80 @@ export async function loadDemoData(organizationId: string): Promise<string | nul
       }
     }
   });
+  await demoEvaluations(organizationId);
   return null;
+}
+
+/** The last `n` half-years that have ended, oldest first. */
+function finishedHalves(n: number) {
+  const now = today();
+  const y = jalaliYear(now);
+  const all: { year: number; half: 1 | 2 }[] = [];
+  for (let yy = y - 3; yy <= y; yy++) for (const h of [1, 2] as const) all.push({ year: yy, half: h });
+  return all.filter((p) => halfRange(p.year, p.half).end < now).slice(-n);
+}
+
+/** A repeatable pseudo-random number in [0, 1) from a few integers. */
+function noise(...k: number[]) {
+  let h = 2166136261;
+  for (const x of k) h = Math.imul(h ^ (x + 0x9e3779b9), 16777619);
+  return ((h >>> 0) % 1000) / 1000;
+}
+
+/**
+ * Scores for the last three half-years: the two older ones fully approved, the latest part-way through
+ * (some still being scored, some waiting for the manager or the board). Two people score under 50 %
+ * twice in a row, which raises the HR alert.
+ */
+async function demoEvaluations(organizationId: string) {
+  const halves = finishedHalves(3);
+  const ceo = await db.user.findFirst({ where: { organizationId, role: "CEO" } });
+  for (const [pi, h] of halves.entries()) {
+    const period = await openPeriod(organizationId, h.year, h.half);
+    const full = await db.period.findUniqueOrThrow({
+      where: { id: period.id },
+      include: { indicators: true, evaluations: { include: { employee: { include: { manager: true } } }, orderBy: { employee: { code: "asc" } } } },
+    });
+    const last = pi === halves.length - 1;
+    await db.$transaction(
+      async (tx) => {
+        for (const [i, ev] of full.evaluations.entries()) {
+          const e = ev.employee;
+          const code = Number(e.code ?? i);
+          const low = code % 9 === 4; // two people, every half-year
+          const ability = low ? 1.5 + noise(code, pi) * 0.4 : 2.7 + noise(code) * 1.9 + (noise(code, pi) - 0.5) * 0.6;
+          // In the latest half-year, every fourth person hasn't been scored yet.
+          if (last && !low && i % 4 === 0) continue;
+          const { shared, own } = factorsFor(full.indicators, full.method, e.departmentId);
+          const scores = [...shared, ...own].map((f, j) => ({
+            evaluationId: ev.id,
+            indicatorId: f.id,
+            score: Math.max(0, Math.min(5, Math.round(ability + (noise(code, pi, j) - 0.5) * 1.6))),
+          }));
+          await tx.evaluationScore.createMany({ data: scores });
+          const effMax = 100 - full.efficiencyShare;
+          const effScore = Math.round(Math.max(0, Math.min(effMax, (ability / 5) * effMax + (noise(code, pi, 99) - 0.5) * 4)));
+          const band = BANDS.find((b) => effScore >= (b.min * effMax) / 25 && effScore <= (b.max * effMax) / 25)!.key;
+          const status = !last || low ? "APPROVED" : (["SUBMITTED", "MANAGER_APPROVED", "APPROVED"] as const)[i % 3];
+          const supervisor = e.manager ? `${e.manager.firstName} ${e.manager.lastName}` : ceo?.name;
+          const at = new Date();
+          await tx.evaluation.update({
+            where: { id: ev.id },
+            data: {
+              ...(full.method === "CURRENT" ? { effectivenessBand: band, effectivenessScore: effScore } : {}),
+              status,
+              scoredByName: supervisor,
+              submittedAt: at,
+              ...(status !== "SUBMITTED" ? { managerApprovedAt: at, managerApprovedByName: ceo?.name } : {}),
+              ...(status === "APPROVED" ? { approvedAt: at, approvedByName: ceo?.name } : {}),
+            },
+          });
+          await recompute(tx, ev.id);
+          if (status === "APPROVED") await checkTwoLow(tx, ev.id);
+        }
+        if (!last) await tx.period.update({ where: { id: period.id }, data: { closed: true } });
+      },
+      { timeout: 120_000 },
+    );
+  }
 }

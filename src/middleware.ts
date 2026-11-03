@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { COMPANY_HEADER, HOME_COOKIE, SESSION_COOKIE, SLUG_PATTERN, verifySession } from "@/lib/session";
 
 /** The app's own pages, which need a session. The home page, /login and company pages (/homeco) are public. */
-const PROTECTED = /^\/(home|staff|users|settings|factors|periods|evaluations|salaries|reports|alerts|platform|account|api)(\/|$)/;
+const PROTECTED = /^\/(home|staff|users|settings|factors|evaluations|salaries|reports|people|me|alerts|platform|account|api)(\/|$)/;
 
 export async function middleware(req: NextRequest) {
   if (!PROTECTED.test(req.nextUrl.pathname)) {

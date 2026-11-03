@@ -35,3 +35,13 @@ export function parseRials(v: FormDataEntryValue | null): bigint | null {
   if (!/^\d+$/.test(s)) return null;
   return BigInt(s);
 }
+
+/** A year as written, without a thousands separator: ۱۴۰۴ / 1404. */
+export function year(t: T, y: number): string {
+  return new Intl.NumberFormat(t.locale, { useGrouping: false }).format(y);
+}
+
+/** "First half 1404" / "نیمه اول ۱۴۰۴". */
+export function periodLabel(t: T, y: number, half: number): string {
+  return t(half === 1 ? "First half {year}" : "Second half {year}", { year: year(t, y) });
+}
