@@ -44,7 +44,7 @@ export function Modal({
       <dialog
         ref={ref}
         tabIndex={-1}
-        className={`w-full ${wide ? "max-w-5xl" : "max-w-2xl"} rounded-lg p-0 text-start font-normal shadow-xl outline-none backdrop:bg-slate-900/40`}
+        className={`w-full ${wide ? "max-w-5xl" : "max-w-2xl"} whitespace-normal rounded-lg p-0 text-start font-normal shadow-xl outline-none backdrop:bg-slate-900/40`}
         onClick={(e) => {
           if (e.target === ref.current) ref.current?.close();
         }}
