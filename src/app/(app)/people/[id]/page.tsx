@@ -5,7 +5,7 @@ import { requireUser } from "@/lib/auth";
 import { getT } from "@/lib/i18n/server";
 import { coefficient, isPoor, performancePct, yearlyPercent } from "@/lib/calc";
 import { formatDate } from "@/lib/dates";
-import { num, pct, periodLabel, year } from "@/lib/format";
+import { num, pct, periodLabel, periodShort, year } from "@/lib/format";
 import { factorsFor, maySee } from "@/lib/evaluations";
 import { LineChart, BarList } from "@/components/Charts";
 import { ScorePct, StatusBadge } from "@/components/Score";
@@ -88,7 +88,7 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
         <section className="card space-y-2">
           <h2 className="font-semibold">{t("Score over time")}</h2>
           <LineChart
-            labels={approved.map((e) => periodLabel(t, e.period.year, e.period.half))}
+            labels={approved.map((e) => periodShort(t, e.period.year, e.period.half))}
             series={[{ name: `${p.firstName} ${p.lastName}`, values: approved.map((e) => e.percent) }]}
             locale={t.locale}
             floorLabel={t("50 % floor")}

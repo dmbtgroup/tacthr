@@ -45,3 +45,8 @@ export function year(t: T, y: number): string {
 export function periodLabel(t: T, y: number, half: number): string {
   return t(half === 1 ? "First half {year}" : "Second half {year}", { year: year(t, y) });
 }
+
+/** A short two-line label for chart axes: "1404" over "1st half". */
+export function periodShort(t: T, y: number, half: number): string {
+  return `${year(t, y)}\n${t(half === 1 ? "1st half" : "2nd half")}`;
+}

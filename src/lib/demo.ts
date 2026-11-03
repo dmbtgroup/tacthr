@@ -2,108 +2,66 @@ import "server-only";
 import bcrypt from "bcryptjs";
 import { db } from "./db";
 import { halfRange, jalaliToDate, jalaliYear, today } from "./dates";
-import { BANDS } from "./calc";
-import { checkTwoLow, factorsFor, openPeriod, recompute } from "./evaluations";
+import { BANDS, coefficient, currentScore, departmentScore, isPoor } from "./calc";
+import { checkTwoLow, factorsFor, openPeriod } from "./evaluations";
+import { seedFactors } from "./orgs";
 
 /**
- * Fills an empty company with made-up staff for demonstrations: invented names, emails on the reserved
- * .example domain. Never runs on a company that already has staff.
+ * Fills a company with made-up staff and three years of evaluations, for demonstrations: invented names,
+ * emails on the reserved .example domain, scores drawn from a fixed seed so every load looks the same.
  */
 export const DEMO_PASSWORD = "Demo12345";
 
-const FIRST = ["آرش", "نیلوفر", "بهرام", "مهسا", "کاوه", "ترانه", "سامان", "پریسا", "رامین", "شیدا", "فرهاد", "یاسمن", "بابک", "الهام", "پویا", "مینا", "سهراب", "لاله", "کیان", "نگار", "داریوش", "رویا", "امید", "سپیده"];
-const LAST = ["کیانی", "مهرآبادی", "رستگار", "نوروزی", "پارسا", "آذرنوش", "شکیبا", "روشن", "افشار", "بهاری", "نیک‌پور", "فرزانه", "آرمان", "سپهری", "دلاور", "خرسندی", "تابان", "مهرزاد", "صبوری", "آریان", "یکتا", "نامدار", "جهان‌بین", "ستوده"];
-const EN_FIRST = ["arash", "niloufar", "bahram", "mahsa", "kaveh", "taraneh", "saman", "parisa", "ramin", "sheida", "farhad", "yasaman", "babak", "elham", "pouya", "mina", "sohrab", "laleh", "kian", "negar", "dariush", "roya", "omid", "sepideh"];
-
-/** Departments and job titles for the current method (the department method brings its own departments). */
-const UNITS: { name: string; manager: string; titles: string[] }[] = [
-  { name: "تولید", manager: "سرپرست تولید", titles: ["اپراتور تولید", "اپراتور تولید", "تکنسین", "اپراتور تولید"] },
-  { name: "فنی و مهندسی", manager: "مدیر فنی", titles: ["کارشناس فنی", "کارشناس طراحی", "تکنسین"] },
-  { name: "مالی و اداری", manager: "سرپرست اداری", titles: ["حسابدار", "کارمند اداری", "انباردار"] },
-  { name: "فروش و خدمات", manager: "مدیر فروش", titles: ["کارشناس فروش", "کارشناس خدمات", "کارشناس فروش"] },
+const FIRST = [
+  "آرش", "نیلوفر", "بهرام", "مهسا", "کاوه", "ترانه", "سامان", "پریسا", "رامین", "شیدا",
+  "فرهاد", "یاسمن", "بابک", "الهام", "پویا", "مینا", "سهراب", "لاله", "کیان", "نگار",
+  "داریوش", "رویا", "امید", "سپیده", "بردیا", "آیدا", "نیما", "غزل", "سینا", "مریم",
+  "کامران", "نسترن", "هومن", "سارا", "پیمان", "شبنم", "آرمین", "هستی", "مهیار", "ژاله",
+];
+const EN_FIRST = [
+  "arash", "niloufar", "bahram", "mahsa", "kaveh", "taraneh", "saman", "parisa", "ramin", "sheida",
+  "farhad", "yasaman", "babak", "elham", "pouya", "mina", "sohrab", "laleh", "kian", "negar",
+  "dariush", "roya", "omid", "sepideh", "bardia", "aida", "nima", "ghazal", "sina", "maryam",
+  "kamran", "nastaran", "houman", "sara", "peyman", "shabnam", "armin", "hasti", "mahyar", "jaleh",
+];
+const LAST = [
+  "کیانی", "مهرآبادی", "رستگار", "نوروزی", "پارسا", "آذرنوش", "شکیبا", "روشن", "افشار", "بهاری",
+  "نیک‌پور", "فرزانه", "آرمان", "سپهری", "دلاور", "خرسندی", "تابان", "مهرزاد", "صبوری", "آریان",
+  "یکتا", "نامدار", "جهان‌بین", "ستوده", "کوشا", "پاکزاد", "رهنما", "سرمدی", "امینی", "نوبخت",
+  "شریفی", "دانا", "فرهمند", "بیگی", "نادری", "ثابت", "مقدم", "راد", "حکیمی", "زمانی",
 ];
 
-/** Five weeks before the end of the last finished half-year. */
-function newcomerStart() {
-  const now = today();
-  const y = jalaliYear(now);
-  const ends = [halfRange(y - 1, 2).end, halfRange(y, 1).end, halfRange(y, 2).end].filter((d) => d < now);
-  const d = new Date(ends[ends.length - 1]);
-  d.setUTCDate(d.getUTCDate() - 35);
-  return d;
-}
+/** Departments with their manager's title, staff titles and how well the unit does on the whole. */
+const UNITS: { name: string; manager: string; titles: string[]; offset: number }[] = [
+  {
+    name: "تولید",
+    manager: "سرپرست تولید",
+    titles: ["اپراتور تولید", "اپراتور تولید", "اپراتور تولید", "تکنسین", "اپراتور تولید", "کنترل کیفیت", "اپراتور تولید", "تکنسین", "کنترل کیفیت"],
+    offset: -0.1,
+  },
+  { name: "فنی و مهندسی", manager: "مدیر فنی", titles: ["کارشناس فنی", "کارشناس طراحی", "تکنسین", "کارشناس فنی", "کارشناس طراحی", "تکنسین"], offset: 0.25 },
+  { name: "مالی و اداری", manager: "سرپرست اداری", titles: ["حسابدار", "کارمند اداری", "انباردار", "حسابدار", "کارپرداز", "کارمند اداری"], offset: -0.25 },
+  { name: "فروش", manager: "مدیر فروش", titles: ["کارشناس فروش", "کارشناس فروش", "کارشناس بازاریابی", "کارشناس فروش", "کارشناس فروش", "کارشناس بازاریابی"], offset: 0.35 },
+  { name: "خدمات پس از فروش", manager: "سرپرست خدمات", titles: ["کارشناس خدمات", "کارشناس خدمات", "اپراتور مرکز تماس", "کارشناس خدمات", "اپراتور مرکز تماس", "کارشناس خدمات"], offset: 0 },
+];
 
-export async function loadDemoData(organizationId: string): Promise<string | null> {
-  const org = await db.organization.findUnique({ where: { id: organizationId }, include: { departments: true } });
-  if (!org) return "Company not found.";
-  if (await db.employee.count({ where: { organizationId } })) return "Demo data only goes into a company without staff.";
-  const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 10);
-  const host = `${org.slug}.example`;
+const NOTES = [
+  "عملکرد خوب در پروژه‌های این دوره.",
+  "نیاز به بهبود در مدیریت زمان.",
+  "پیشرفت محسوس نسبت به دوره قبل.",
+  "در کار تیمی بسیار همراه است.",
+  "پیگیری کارها نیاز به یادآوری دارد.",
+  "پیشنهادهای خوبی برای بهبود فرایندها داشته است.",
+];
 
-  await db.$transaction(async (tx) => {
-    // The department method already has its departments; the current method gets the demo ones.
-    const units =
-      org.method === "DEPARTMENT" && org.departments.length
-        ? org.departments.map((d, i) => ({ id: d.id, manager: `سرپرست ${d.name}`, titles: UNITS[i % UNITS.length].titles }))
-        : await Promise.all(
-            UNITS.map(async (u) => {
-              const d = await tx.department.upsert({
-                where: { organizationId_name: { organizationId, name: u.name } },
-                update: {},
-                create: { organizationId, name: u.name },
-              });
-              return { id: d.id, manager: u.manager, titles: u.titles };
-            }),
-          );
-
-    let n = 0;
-    const person = async (jobTitle: string, departmentId: string | null, managerId: string | null, start: number | Date) => {
-      const i = n++;
-      return tx.employee.create({
-        data: {
-          organizationId,
-          code: String(1001 + i),
-          firstName: FIRST[i % FIRST.length],
-          lastName: LAST[(i * 7) % LAST.length],
-          jobTitle,
-          departmentId,
-          managerId,
-          startDate: start instanceof Date ? start : jalaliToDate(start, ((i * 5) % 12) + 1, ((i * 11) % 28) + 1),
-          fullTime: i % 13 !== 12,
-        },
-      });
-    };
-    const login = (employeeId: string, i: number, role: "HR" | "CEO" | "MANAGER" | "EMPLOYEE", name: string) =>
-      tx.user.create({
-        data: { organizationId, name, email: `${EN_FIRST[i % EN_FIRST.length]}${i >= EN_FIRST.length ? Math.floor(i / EN_FIRST.length) + 1 : ""}@${host}`, passwordHash, role, employeeId },
-      });
-
-    const ceo = await person("مدیرعامل", null, null, 1390);
-    await login(ceo.id, 0, "CEO", `${ceo.firstName} ${ceo.lastName}`);
-    const hr = await person("سرپرست منابع انسانی", units[2 % units.length].id, ceo.id, 1396);
-    await login(hr.id, 1, "HR", `${hr.firstName} ${hr.lastName}`);
-
-    for (const u of units) {
-      const mgr = await person(u.manager, u.id, ceo.id, 1394 + (n % 5));
-      await login(mgr.id, n - 1, "MANAGER", `${mgr.firstName} ${mgr.lastName}`);
-      for (const [k, title] of u.titles.entries()) {
-        // One newcomer, under three months at the end of the last half-year, shows the eligibility rule.
-        const newcomer = k === 2 && u === units[0];
-        const e = await person(title, u.id, mgr.id, newcomer ? newcomerStart() : 1397 + ((n * 3) % 7));
-        if (k === 0) await login(e.id, n - 1, "EMPLOYEE", `${e.firstName} ${e.lastName}`);
-      }
-    }
-  });
-  await demoEvaluations(organizationId);
-  return null;
-}
+const HALVES = 6;
 
 /** The last `n` half-years that have ended, oldest first. */
 function finishedHalves(n: number) {
   const now = today();
   const y = jalaliYear(now);
   const all: { year: number; half: 1 | 2 }[] = [];
-  for (let yy = y - 3; yy <= y; yy++) for (const h of [1, 2] as const) all.push({ year: yy, half: h });
+  for (let yy = y - 5; yy <= y; yy++) for (const h of [1, 2] as const) all.push({ year: yy, half: h });
   return all.filter((p) => halfRange(p.year, p.half).end < now).slice(-n);
 }
 
@@ -114,57 +72,219 @@ function noise(...k: number[]) {
   return ((h >>> 0) % 1000) / 1000;
 }
 
+/** How a made-up person scores over the half-years: a level, a drift per half-year, and a few set stories. */
+type Profile = { base: number; trend: number };
+function profile(i: number, offset: number): Profile {
+  if (i === 7 || i === 23) return { base: 1.6, trend: 0.02 }; // always weak: two half-years under 50 raise the HR alert
+  if (i === 15) return { base: 3.6, trend: -0.42 }; // slides under 50 in the last two half-years
+  if (i === 13) return { base: 2.4, trend: 0.38 }; // the one who keeps improving
+  if (i === 30) return { base: 4.7, trend: 0 }; // steady top performer
+  return { base: 2.7 + noise(i, 1) * 1.6 + offset, trend: (noise(i, 2) - 0.5) * 0.24 };
+}
+
+/** Deletes the company's staff, departments, users linked to staff, half-years and alerts, then reloads the demo. */
+export async function reloadDemoData(organizationId: string) {
+  const org = await db.organization.findUnique({ where: { id: organizationId } });
+  if (!org) return "Company not found.";
+  await db.$transaction(
+    async (tx) => {
+      await tx.alert.deleteMany({ where: { organizationId } });
+      await tx.period.deleteMany({ where: { organizationId } });
+      await tx.salaryYear.deleteMany({ where: { organizationId } });
+      await tx.user.deleteMany({ where: { organizationId, employeeId: { not: null } } });
+      await tx.employee.updateMany({ where: { organizationId }, data: { managerId: null } });
+      await tx.employee.deleteMany({ where: { organizationId } });
+      await tx.indicator.deleteMany({ where: { organizationId } });
+      await tx.department.deleteMany({ where: { organizationId } });
+      await seedFactors(tx, organizationId, org.method);
+    },
+    { timeout: 60_000 },
+  );
+  return loadDemoData(organizationId);
+}
+
+export async function loadDemoData(organizationId: string): Promise<string | null> {
+  const org = await db.organization.findUnique({ where: { id: organizationId }, include: { departments: true } });
+  if (!org) return "Company not found.";
+  if (await db.employee.count({ where: { organizationId } })) return "Demo data only goes into a company without staff.";
+  const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 10);
+  const host = `${org.slug}.example`;
+  const halves = finishedHalves(HALVES);
+  const first = halves[0];
+  /** People and their stories, by the order they were created. */
+  const people: { id: string; i: number; p: Profile; leaves: boolean }[] = [];
+
+  await db.$transaction(
+    async (tx) => {
+      // The department method already has its departments (with their factors); the current method gets the demo ones.
+      const units =
+        org.method === "DEPARTMENT" && org.departments.length
+          ? org.departments.map((d, k) => ({ id: d.id, manager: `سرپرست ${d.name}`, titles: UNITS[k % UNITS.length].titles.slice(0, 6), offset: UNITS[k % UNITS.length].offset }))
+          : await Promise.all(
+              UNITS.map(async (u) => {
+                const d = await tx.department.upsert({
+                  where: { organizationId_name: { organizationId, name: u.name } },
+                  update: {},
+                  create: { organizationId, name: u.name },
+                });
+                return { id: d.id, manager: u.manager, titles: u.titles, offset: u.offset };
+              }),
+            );
+
+      let n = 0;
+      const person = async (jobTitle: string, departmentId: string | null, managerId: string | null, start: Date, offset: number, opts?: { partTime?: boolean }) => {
+        const i = n++;
+        const e = await tx.employee.create({
+          data: {
+            organizationId,
+            code: String(1001 + i),
+            firstName: FIRST[i % FIRST.length],
+            lastName: LAST[(i * 13 + 5) % LAST.length],
+            jobTitle,
+            departmentId,
+            managerId,
+            startDate: start,
+            fullTime: !opts?.partTime,
+          },
+        });
+        people.push({ id: e.id, i, p: profile(i, offset), leaves: i === 17 });
+        return e;
+      };
+      const login = (employeeId: string, i: number, role: "HR" | "CEO" | "MANAGER" | "EMPLOYEE", name: string) =>
+        tx.user.create({
+          data: {
+            organizationId,
+            name,
+            email: `${EN_FIRST[i % EN_FIRST.length]}${i >= EN_FIRST.length ? Math.floor(i / EN_FIRST.length) + 1 : ""}@${host}`,
+            passwordHash,
+            role,
+            employeeId,
+          },
+        });
+      // Most people were there before the first half-year; a few joined during the three years.
+      const longAgo = (i: number) => jalaliToDate(first.year - 1 - Math.floor(noise(i, 3) * 8), ((i * 5) % 12) + 1, ((i * 11) % 28) + 1);
+      const joinedDuring = (k: number) => {
+        const h = halves[Math.min(k, halves.length - 1)];
+        const s = new Date(halfRange(h.year, h.half).start);
+        s.setUTCDate(s.getUTCDate() - 20);
+        return s;
+      };
+
+      const ceo = await person("مدیرعامل", null, null, longAgo(0), 0.4);
+      await login(ceo.id, 0, "CEO", `${ceo.firstName} ${ceo.lastName}`);
+      const hr = await person("سرپرست منابع انسانی", units[2 % units.length].id, ceo.id, longAgo(1), 0.2);
+      await login(hr.id, 1, "HR", `${hr.firstName} ${hr.lastName}`);
+
+      for (const [u, unit] of units.entries()) {
+        const mgr = await person(unit.manager, unit.id, ceo.id, longAgo(n), unit.offset + 0.2);
+        await login(mgr.id, n - 1, "MANAGER", `${mgr.firstName} ${mgr.lastName}`);
+        for (const [k, title] of unit.titles.entries()) {
+          const i = n;
+          // Joiners: two in the second year, two in the last; one newcomer too recent to be evaluated yet.
+          const start =
+            u === 0 && k === unit.titles.length - 1
+              ? (() => {
+                  const end = halfRange(halves[halves.length - 1].year, halves[halves.length - 1].half).end;
+                  const d = new Date(end);
+                  d.setUTCDate(d.getUTCDate() - 35);
+                  return d;
+                })()
+              : i % 9 === 3
+                ? joinedDuring(2)
+                : i % 11 === 5
+                  ? joinedDuring(4)
+                  : longAgo(i);
+          const e = await person(title, unit.id, mgr.id, start, unit.offset, { partTime: u === 2 && k === 4 });
+          if (k === 0) await login(e.id, n - 1, "EMPLOYEE", `${e.firstName} ${e.lastName}`);
+        }
+      }
+    },
+    { timeout: 60_000 },
+  );
+
+  await demoEvaluations(organizationId, halves, people);
+  return null;
+}
+
 /**
- * Scores for the last three half-years: the two older ones fully approved, the latest part-way through
- * (some still being scored, some waiting for the manager or the board). Two people score under 50 %
- * twice in a row, which raises the HR alert.
+ * Six half-years of scores: the older five fully approved and closed, the latest part-way through
+ * (some not scored yet, some half-scored, some waiting for the manager or the board).
  */
-async function demoEvaluations(organizationId: string) {
-  const halves = finishedHalves(3);
+async function demoEvaluations(
+  organizationId: string,
+  halves: { year: number; half: 1 | 2 }[],
+  people: { id: string; i: number; p: Profile; leaves: boolean }[],
+) {
   const ceo = await db.user.findFirst({ where: { organizationId, role: "CEO" } });
+  const byId = new Map(people.map((x) => [x.id, x]));
   for (const [pi, h] of halves.entries()) {
+    // One person leaves after the third half-year; their history stays.
+    if (pi === 3) {
+      const leaver = people.find((x) => x.leaves);
+      if (leaver) await db.employee.update({ where: { id: leaver.id }, data: { active: false } });
+    }
     const period = await openPeriod(organizationId, h.year, h.half);
     const full = await db.period.findUniqueOrThrow({
       where: { id: period.id },
       include: { indicators: true, evaluations: { include: { employee: { include: { manager: true } } }, orderBy: { employee: { code: "asc" } } } },
     });
     const last = pi === halves.length - 1;
+    const effMax = 100 - full.efficiencyShare;
+    const at = halfRange(h.year, h.half).end;
+    const lowOnes: string[] = [];
     await db.$transaction(
       async (tx) => {
-        for (const [i, ev] of full.evaluations.entries()) {
-          const e = ev.employee;
-          const code = Number(e.code ?? i);
-          const low = code % 9 === 4; // two people, every half-year
-          const ability = low ? 1.5 + noise(code, pi) * 0.4 : 2.7 + noise(code) * 1.9 + (noise(code, pi) - 0.5) * 0.6;
-          // In the latest half-year, every fourth person hasn't been scored yet.
-          if (last && !low && i % 4 === 0) continue;
-          const { shared, own } = factorsFor(full.indicators, full.method, e.departmentId);
-          const scores = [...shared, ...own].map((f, j) => ({
-            evaluationId: ev.id,
-            indicatorId: f.id,
-            score: Math.max(0, Math.min(5, Math.round(ability + (noise(code, pi, j) - 0.5) * 1.6))),
-          }));
-          await tx.evaluationScore.createMany({ data: scores });
-          const effMax = 100 - full.efficiencyShare;
-          const effScore = Math.round(Math.max(0, Math.min(effMax, (ability / 5) * effMax + (noise(code, pi, 99) - 0.5) * 4)));
+        const allScores: { evaluationId: string; indicatorId: string; score: number }[] = [];
+        for (const [k, ev] of full.evaluations.entries()) {
+          const who = byId.get(ev.employeeId);
+          const i = who?.i ?? k;
+          const pr = who?.p ?? { base: 3.2, trend: 0 };
+          const ability = Math.max(0.6, Math.min(4.9, pr.base + pr.trend * pi + (noise(i, pi, 7) - 0.5) * 0.5));
+          const weakStory = i === 7 || i === 23 || i === 15;
+          // Latest half-year: a quarter not started, a few half-scored, the rest spread over the approval steps.
+          const stage = !last || weakStory ? 4 : i % 8 === 0 || i % 8 === 5 ? 0 : i % 8 === 2 ? 1 : i % 8 === 3 ? 2 : i % 8 === 6 ? 3 : 4;
+          if (stage === 0) continue;
+
+          const { shared, own } = factorsFor(full.indicators, full.method, ev.employee.departmentId);
+          const factors = [...shared, ...own];
+          const scored = stage === 1 ? factors.slice(0, Math.ceil(factors.length / 2)) : factors;
+          const scoreOf = new Map<string, number>();
+          for (const [j, f] of scored.entries()) {
+            const s = Math.max(0, Math.min(5, Math.round(ability + (noise(i, pi, j) - 0.5) * 1.6)));
+            scoreOf.set(f.id, s);
+            allScores.push({ evaluationId: ev.id, indicatorId: f.id, score: s });
+          }
+          const item = (f: { id: string; weight: number }) => ({ weight: f.weight, score: scoreOf.get(f.id) ?? null });
+          const effScore = Math.round(Math.max(0, Math.min(effMax, (ability / 5) * effMax + (noise(i, pi, 99) - 0.5) * 4)));
           const band = BANDS.find((b) => effScore >= (b.min * effMax) / 25 && effScore <= (b.max * effMax) / 25)!.key;
-          const status = !last || low ? "APPROVED" : (["SUBMITTED", "MANAGER_APPROVED", "APPROVED"] as const)[i % 3];
-          const supervisor = e.manager ? `${e.manager.firstName} ${e.manager.lastName}` : ceo?.name;
-          const at = new Date();
+          let result: { efficiency: number | null; effectiveness: number | null; total: number | null; percent: number | null };
+          if (full.method === "CURRENT") {
+            const r = currentScore(shared.map(item), band, effScore, full.efficiencyShare);
+            result = { efficiency: r.efficiency, effectiveness: r.effectiveness, total: r.total, percent: r.total };
+          } else {
+            const r = departmentScore(shared.map(item), own.map(item));
+            result = { efficiency: r.efficiency, effectiveness: r.effectiveness, total: r.total, percent: r.percent };
+          }
+          const status = stage === 1 ? "DRAFT" : stage === 2 ? "SUBMITTED" : stage === 3 ? "MANAGER_APPROVED" : "APPROVED";
+          const supervisor = ev.employee.manager ? `${ev.employee.manager.firstName} ${ev.employee.manager.lastName}` : ceo?.name;
           await tx.evaluation.update({
             where: { id: ev.id },
             data: {
               ...(full.method === "CURRENT" ? { effectivenessBand: band, effectivenessScore: effScore } : {}),
+              ...result,
+              coefficient: result.percent == null ? null : coefficient(result.percent),
               status,
+              notes: noise(i, pi, 5) < 0.25 ? NOTES[Math.floor(noise(i, pi, 6) * NOTES.length)] : null,
               scoredByName: supervisor,
-              submittedAt: at,
-              ...(status !== "SUBMITTED" ? { managerApprovedAt: at, managerApprovedByName: ceo?.name } : {}),
-              ...(status === "APPROVED" ? { approvedAt: at, approvedByName: ceo?.name } : {}),
+              submittedAt: stage >= 2 ? at : null,
+              ...(stage >= 3 ? { managerApprovedAt: at, managerApprovedByName: ceo?.name } : {}),
+              ...(stage === 4 ? { approvedAt: at, approvedByName: ceo?.name } : {}),
             },
           });
-          await recompute(tx, ev.id);
-          if (status === "APPROVED") await checkTwoLow(tx, ev.id);
+          if (stage === 4 && isPoor(result.percent)) lowOnes.push(ev.id);
         }
+        if (allScores.length) await tx.evaluationScore.createMany({ data: allScores });
+        for (const id of lowOnes) await checkTwoLow(tx, id);
         if (!last) await tx.period.update({ where: { id: period.id }, data: { closed: true } });
       },
       { timeout: 120_000 },

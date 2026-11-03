@@ -120,7 +120,11 @@ export const FA: Record<string, string> = {
   "Platform admins": "مدیران سامانه",
   "Platform login": "ورود مدیران سامانه",
   "Platform sign in": "ورود مدیران سامانه",
+  "Reload demo data": "بارگذاری دوباره داده نمایشی",
   "Rename department": "تغییر نام واحد",
+  "Replaces this company's staff, departments, staff sign-ins, factors and evaluations with made-up demo data. Type its name to confirm.":
+    "پرسنل، واحدها، حساب‌های پرسنل، شاخص‌ها و ارزیابی‌های این شرکت با داده نمایشی جایگزین می‌شوند. برای تأیید نام آن را بنویسید.",
+  "Type the company's name to reload its demo data.": "برای بارگذاری دوباره داده نمایشی، نام شرکت را بنویسید.",
   "Role": "نقش",
   "Row {row}: first and last name are needed.": "ردیف {row}: نام و نام خانوادگی لازم است.",
   "Row {row}: the start date {date} isn't valid.": "ردیف {row}: تاریخ شروع {date} معتبر نیست.",
@@ -170,6 +174,8 @@ export const FA: Record<string, string> = {
   "{name} saved.": "{name} ذخیره شد.",
 
   // Evaluations, people and reports
+  "1st half": "نیم‌سال اول",
+  "2nd half": "نیم‌سال دوم",
   "50 % floor": "کف ۵۰٪",
   "75 % and over": "۷۵٪ و بالاتر",
   "Add new staff": "افزودن پرسنل جدید",

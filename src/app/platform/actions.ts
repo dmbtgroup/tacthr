@@ -7,7 +7,7 @@ import type { EvalMethod } from "@prisma/client";
 import { db } from "@/lib/db";
 import { requirePlatformAdmin } from "@/lib/auth";
 import { createCompany, seedFactors } from "@/lib/orgs";
-import { loadDemoData } from "@/lib/demo";
+import { loadDemoData, reloadDemoData } from "@/lib/demo";
 import { msg } from "@/lib/i18n/message";
 import { SLUG_PATTERN } from "@/lib/session";
 
@@ -81,6 +81,19 @@ export async function demoData(form: FormData) {
   await requirePlatformAdmin();
   const id = String(form.get("id"));
   const result = await loadDemoData(id);
+  if (result) fail(result);
+  revalidatePath("/platform");
+  done("Demo data loaded.");
+}
+
+/** Replaces a company's staff, departments, staff logins and scores with fresh demo data. */
+export async function reloadDemo(form: FormData) {
+  await requirePlatformAdmin();
+  const id = String(form.get("id"));
+  const org = await db.organization.findUnique({ where: { id } });
+  if (!org) fail("Company not found.");
+  if (String(form.get("confirm") ?? "").trim() !== org!.name) fail("Type the company's name to reload its demo data.");
+  const result = await reloadDemoData(id);
   if (result) fail(result);
   revalidatePath("/platform");
   done("Demo data loaded.");

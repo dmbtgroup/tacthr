@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { canManage, canScore, requireUser } from "@/lib/auth";
 import { getT } from "@/lib/i18n/server";
 import { coefficient, GOOD_FROM, isPoor, round2, yearlyPercent } from "@/lib/calc";
-import { num, pct, periodLabel, year } from "@/lib/format";
+import { num, pct, periodLabel, periodShort, year } from "@/lib/format";
 import { teamOf } from "@/lib/evaluations";
 import { BarList, LineChart } from "@/components/Charts";
 import { ScorePct } from "@/components/Score";
@@ -45,7 +45,9 @@ export default async function ReportsPage({
         <p className="text-slate-500">{t("Reports show once evaluations are approved.")}</p>
       </div>
     );
-  const period = withData.find((p) => p.id === sp.period) ?? withData[withData.length - 1];
+  // By default the latest closed half-year, whose scores are final; else the latest with results.
+  const period =
+    withData.find((p) => p.id === sp.period) ?? [...withData].reverse().find((p) => p.closed) ?? withData[withData.length - 1];
   const evs = period.evaluations;
   const label = (p: { year: number; half: number }) => periodLabel(t, p.year, p.half);
 
@@ -210,7 +212,7 @@ export default async function ReportsPage({
               <button className="btn-secondary" type="submit">{t("Show")}</button>
             </form>
           </div>
-          <LineChart labels={withData.map(label)} series={series} locale={t.locale} floorLabel={t("50 % floor")} />
+          <LineChart labels={withData.map((p) => periodShort(t, p.year, p.half))} series={series} locale={t.locale} floorLabel={t("50 % floor")} />
         </section>
       )}
 

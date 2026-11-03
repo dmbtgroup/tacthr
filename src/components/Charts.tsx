@@ -28,7 +28,7 @@ export function LineChart({
   const format = (n: number) => new Intl.NumberFormat(locale, { style: "percent", maximumFractionDigits: 1 }).format(n / 100);
   const W = 640;
   const H = 240;
-  const pad = { l: 36, r: 16, t: 12, b: 28 };
+  const pad = { l: 36, r: 16, t: 12, b: 40 };
   const iw = W - pad.l - pad.r;
   const ih = H - pad.t - pad.b;
   const x = (i: number) => pad.l + (labels.length < 2 ? iw / 2 : (i / (labels.length - 1)) * iw);
@@ -48,9 +48,13 @@ export function LineChart({
         ))}
         <text x={W - pad.r} y={y(50) - 5} textAnchor="end" fontSize={10} fill="#64748b">{floorLabel}</text>
         {labels.map((l, i) => (
-          // The end labels align inward so they stay inside the chart.
-          <text key={i} x={x(i)} y={H - 8} textAnchor={labels.length > 1 && i === 0 ? "start" : labels.length > 1 && i === labels.length - 1 ? "end" : "middle"} fontSize={11} fill="#64748b">
-            {l}
+          // Labels may have two lines ("1404" over "1st half"); the end ones align inward to stay inside.
+          <text key={i} x={x(i)} y={H - 24} textAnchor={labels.length > 1 && i === 0 ? "start" : labels.length > 1 && i === labels.length - 1 ? "end" : "middle"} fontSize={11} fill="#64748b">
+            {l.split("\n").map((line, k) => (
+              <tspan key={k} x={x(i)} dy={k === 0 ? 0 : 14}>
+                {line}
+              </tspan>
+            ))}
           </text>
         ))}
         {hover != null && <line x1={x(hover)} x2={x(hover)} y1={pad.t} y2={pad.t + ih} stroke="#94a3b8" strokeWidth={1} />}
@@ -85,7 +89,7 @@ export function LineChart({
           className="pointer-events-none absolute top-2 z-10 rounded-md border border-slate-200 bg-white px-3 py-2 text-xs shadow-md"
           style={{ left: `${(x(hover) / W) * 100}%`, transform: `translateX(${hover > labels.length / 2 ? "-105%" : "5%"})` }}
         >
-          <p className="mb-1 font-medium text-slate-700">{labels[hover]}</p>
+          <p className="mb-1 font-medium text-slate-700">{labels[hover].replace("\n", " · ")}</p>
           {series.map((s, si) => (
             <p key={s.name} className="flex items-center gap-2 text-slate-700">
               <span className="inline-block h-2 w-2 rounded-full" style={{ background: SERIES[si] }} />

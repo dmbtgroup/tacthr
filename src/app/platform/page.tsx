@@ -9,7 +9,7 @@ import { EditIcon } from "@/components/EditIcon";
 import { TrashIcon } from "@/components/TrashIcon";
 import { LangSwitch } from "@/components/LangSwitch";
 import { logout } from "../login/actions";
-import { addAdmin, addCompany, deleteCompany, demoData, editCompany, removeAdmin } from "./actions";
+import { addAdmin, addCompany, deleteCompany, demoData, editCompany, reloadDemo, removeAdmin } from "./actions";
 
 type Company = { id: string; name: string; slug: string; method: string; languages: string[]; active: boolean };
 
@@ -123,11 +123,22 @@ export default async function PlatformPage({ searchParams }: { searchParams: Pro
                 <td data-label={t("Users")}>{c._count.users}</td>
                 <td className="whitespace-nowrap text-end">
                   <div className="inline-flex items-center gap-1">
-                    {c._count.employees === 0 && (
+                    {c._count.employees === 0 ? (
                       <form action={demoData}>
                         <input type="hidden" name="id" value={c.id} />
                         <button className="btn-secondary px-2 py-1 text-xs" type="submit">{t("Load demo data")}</button>
                       </form>
+                    ) : (
+                      <Modal buttonLabel={t("Reload demo data")} buttonClassName="btn-secondary px-2 py-1 text-xs" title={t("Reload demo data")}>
+                        <form action={reloadDemo} className="space-y-3 text-start">
+                          <input type="hidden" name="id" value={c.id} />
+                          <p className="text-sm text-slate-600">
+                            {t("Replaces this company's staff, departments, staff sign-ins, factors and evaluations with made-up demo data. Type its name to confirm.")}
+                          </p>
+                          <input className="input" name="confirm" placeholder={c.name} required />
+                          <button className="btn-danger" type="submit">{t("Reload demo data")}</button>
+                        </form>
+                      </Modal>
                     )}
                     <Modal
                       buttonLabel={<EditIcon />}
