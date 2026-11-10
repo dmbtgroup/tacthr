@@ -4,6 +4,7 @@ import { getT } from "@/lib/i18n/server";
 import { AppShell, Icon, type ShellLink } from "@/components/AppShell";
 import { LangSwitch } from "@/components/LangSwitch";
 import { logout } from "../login/actions";
+import { LogoOnDark } from "@/components/Logo";
 
 /** Every company page: the menu shows what the user's role may open. */
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
@@ -32,7 +33,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       links={links}
       brand={
         <Link href="/home" className="block">
-          <span className="block text-xs font-semibold tracking-wide text-brand-400">TactHR</span>
+          <span className="mb-2 block"><LogoOnDark /></span>
           <span className="block truncate font-semibold">{user.org.name}</span>
         </Link>
       }

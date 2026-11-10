@@ -1,6 +1,6 @@
-# TactHR
+# tactHR
 
-**TactHR** by DMBT: staff performance evaluation, salary and bonus. It runs at
+**tactHR** by DMBT: staff performance evaluation, salary and bonus. It runs at
 **https://tacthr.dmbtgroup.com**; each company signs in at its own address, e.g. `/homeco`.
 
 ## What it does

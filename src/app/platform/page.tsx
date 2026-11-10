@@ -10,6 +10,7 @@ import { TrashIcon } from "@/components/TrashIcon";
 import { LangSwitch } from "@/components/LangSwitch";
 import { logout } from "../login/actions";
 import { addAdmin, addCompany, deleteCompany, demoData, editCompany, reloadDemo, removeAdmin } from "./actions";
+import { Logo } from "@/components/Logo";
 
 type Company = { id: string; name: string; slug: string; method: string; languages: string[]; active: boolean };
 
@@ -63,7 +64,7 @@ export default async function PlatformPage({ searchParams }: { searchParams: Pro
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-6">
       <header className="flex flex-wrap items-center gap-3">
-        <span className="text-xl font-bold text-brand-500">TactHR</span>
+        <Logo className="h-8 w-auto" />
         <h1 className="text-xl font-semibold">{t("Platform")}</h1>
         <span className="ms-auto text-sm text-slate-500">{me.name}</span>
         <LangSwitch />

@@ -7,7 +7,7 @@ import { I18nProvider } from "@/components/I18nProvider";
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getT();
   return {
-    title: { default: "TactHR", template: "%s · TactHR" },
+    title: { default: "tactHR", template: "%s · tactHR" },
     description: t("Staff performance, salary and bonus, by DMBT"),
   };
 }

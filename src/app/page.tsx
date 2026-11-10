@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { LangSwitch } from "@/components/LangSwitch";
 import { db } from "@/lib/db";
 import { SLUG_PATTERN } from "@/lib/session";
+import { Logo } from "@/components/Logo";
 
 async function findCompany(form: FormData) {
   "use server";
@@ -28,7 +29,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ n
   return (
     <div className="flex min-h-screen flex-col">
       <header className="mx-auto flex w-full max-w-5xl items-center gap-4 px-4 py-4">
-        <span className="text-xl font-bold text-brand-500">TactHR</span>
+        <Logo className="h-10 w-auto sm:h-12" />
         <span className="ms-auto" />
         <LangSwitch />
         {user ? (

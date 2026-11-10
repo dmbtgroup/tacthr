@@ -1,4 +1,4 @@
-# Working on TactHR
+# Working on tactHR
 
 Conventions the product owner asked for; follow them in every change.
 
