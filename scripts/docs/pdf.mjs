@@ -1,6 +1,6 @@
-// Builds docs/procedures-specification.pdf for House Of Management Engineering: a cover, the English
-// documents, the Persian documents (right to left, in Vazirmatn) and the original specification as an
-// appendix. Parts between <!-- status --> and <!-- /status --> stay out of the PDF.
+// Builds docs/procedures-specification-en.pdf and -fa.pdf for House Of Management Engineering: each a
+// cover, the documents in its language (Persian right to left, in Vazirmatn) and the original
+// specification as an appendix. Parts between <!-- status --> and <!-- /status --> stay out of the PDF.
 // Usage: node scripts/docs/pdf.mjs <node_modules with marked@12 and vazirmatn@33>
 //   (from: npm i --prefix /some/dir marked@12 vazirmatn@33); needs pdfunite (poppler-utils).
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
@@ -85,53 +85,85 @@ blockquote{margin:6px 0;padding:4px 10px;border-inline-start:3px solid #1488f2;b
 .divider .s{font-size:12pt;color:#0f6cc2}
 `;
 
-const body = [
-  `<section class="cover">
-    <img src="${logo}" alt="House Of Management Engineering">
-    <div class="t">Staff performance evaluation, salary and bonus</div>
-    <div class="t" dir="rtl">ارزیابی عملکرد، حقوق و پاداش پرسنل</div>
-    <div class="s">Specification, processes and data entry · مشخصات، فرایندها و ورود داده</div>
-    <div class="d">${enDate} · <span dir="rtl">${faDate}</span></div>
-    <div class="d">House Of Management Engineering · <span dir="rtl">خانه مهندسی مدیریت</span></div>
-    <div class="band"></div>
-  </section>`,
-  `<section class="toc">
-    <h2>Contents · فهرست</h2>
-    <table>
-      <tr><th>English</th><th dir="rtl" style="text-align:right">فارسی</th></tr>
-      <tr><td>1. Performance evaluation module: specification v1.1 (summary and questions to settle)</td><td dir="rtl">۱. ماژول ارزیابی عملکرد: مشخصات نسخه ۱.۱ (خلاصه و پرسش‌ها)</td></tr>
-      <tr><td>2. Processes: six BPMN diagrams with their steps</td><td dir="rtl">۲. فرایندها: شش نمودار BPMN با گام‌ها</td></tr>
-      <tr><td>3. Data entry, page by page</td><td dir="rtl">۳. ورود داده، صفحه به صفحه</td></tr>
-      <tr><td>Appendix: the original specification v1.1 (Persian), as received</td><td dir="rtl">پیوست: سند اصلی مشخصات نسخه ۱.۱ (فارسی)، بدون تغییر</td></tr>
-    </table>
-    <p>The English part comes first, then the Persian part. The BPMN diagrams are also delivered as <code>.bpmn</code> files that open in Camunda Modeler or bpmn.io.</p>
-    <p dir="rtl">ابتدا بخش انگلیسی و سپس بخش فارسی آمده است. نمودارهای BPMN به‌صورت فایل <code>.bpmn</code> نیز ارائه شده‌اند که در Camunda Modeler یا bpmn.io باز می‌شوند.</p>
-  </section>`,
-  `<section class="divider"><div class="t">English</div><div class="s">Specification · Processes · Data entry</div></section>`,
-  `<div lang="en" dir="ltr">${parts[0][1].map(render).join("\n")}</div>`,
-  `<section class="divider" dir="rtl"><div class="t">فارسی</div><div class="s">مشخصات · فرایندها · ورود داده</div></section>`,
-  `<div lang="fa" dir="rtl">${parts[1][1].map(render).join("\n")}</div>`,
-  `<section class="divider"><div class="t">Appendix · پیوست</div><div class="s">The original specification v1.1, as received · سند اصلی مشخصات نسخه ۱.۱</div></section>`,
-].join("\n");
+/** The words of each edition. */
+const TEXT = {
+  en: {
+    dir: "ltr",
+    title: "Staff performance evaluation, salary and bonus",
+    sub: "Specification, processes and data entry",
+    date: enDate,
+    org: "House Of Management Engineering",
+    contents: "Contents",
+    rows: [
+      "1. Performance evaluation module: specification v1.1 (summary and questions to settle)",
+      "2. Processes: six BPMN diagrams with their steps",
+      "3. Data entry, page by page",
+      "Appendix: the original specification v1.1 (Persian), as received",
+    ],
+    note: "The BPMN diagrams are also delivered as <code>.bpmn</code> files that open in Camunda Modeler or bpmn.io.",
+    appendix: ["Appendix", "The original specification v1.1, as received"],
+    footer: "House Of Management Engineering · Staff performance evaluation, salary and bonus",
+    file: "procedures-specification-en.pdf",
+  },
+  fa: {
+    dir: "rtl",
+    title: "ارزیابی عملکرد، حقوق و پاداش پرسنل",
+    sub: "مشخصات، فرایندها و ورود داده",
+    date: faDate,
+    org: "خانه مهندسی مدیریت",
+    contents: "فهرست",
+    rows: [
+      "۱. ماژول ارزیابی عملکرد: مشخصات نسخه ۱.۱ (خلاصه و پرسش‌ها)",
+      "۲. فرایندها: شش نمودار BPMN با گام‌ها",
+      "۳. ورود داده، صفحه به صفحه",
+      "پیوست: سند اصلی مشخصات نسخه ۱.۱، بدون تغییر",
+    ],
+    note: "نمودارهای BPMN به‌صورت فایل <code>.bpmn</code> نیز ارائه شده‌اند که در Camunda Modeler یا bpmn.io باز می‌شوند.",
+    appendix: ["پیوست", "سند اصلی مشخصات نسخه ۱.۱، بدون تغییر"],
+    footer: "خانه مهندسی مدیریت · ارزیابی عملکرد، حقوق و پاداش پرسنل",
+    file: "procedures-specification-fa.pdf",
+  },
+};
 
-const html = `<!doctype html><html><head><meta charset="utf-8"><style>${css}</style></head><body>${body}</body></html>`;
 const browser = await chromium.launch();
-const page = await browser.newPage();
-await page.setContent(html, { waitUntil: "load" });
-await page.evaluate(() => document.fonts.ready);
-const main = join(docs, ".procedures-main.pdf");
-await page.pdf({
-  path: main,
-  format: "A4",
-  landscape: true,
-  printBackground: true,
-  displayHeaderFooter: true,
-  headerTemplate: "<span></span>",
-  footerTemplate: `<div style="width:100%;font-size:7pt;color:#8a939e;padding:0 14mm;display:flex;justify-content:space-between"><span>House Of Management Engineering · Staff performance evaluation, salary and bonus</span><span><span class="pageNumber"></span></span></div>`,
-  margin: { top: "14mm", bottom: "16mm", left: "14mm", right: "14mm" },
-});
+for (const [lang, files] of parts) {
+  const T = TEXT[lang];
+  const body = [
+    `<section class="cover">
+      <img src="${logo}" alt="House Of Management Engineering">
+      <div class="t">${T.title}</div>
+      <div class="s">${T.sub}</div>
+      <div class="d">${T.date}</div>
+      <div class="d">${T.org}</div>
+      <div class="band"></div>
+    </section>`,
+    `<section class="toc">
+      <h2>${T.contents}</h2>
+      <table>${T.rows.map((r) => `<tr><td>${r}</td></tr>`).join("")}</table>
+      <p>${T.note}</p>
+    </section>`,
+    files.map(render).join("\n"),
+    `<section class="divider"><div class="t">${T.appendix[0]}</div><div class="s">${T.appendix[1]}</div></section>`,
+  ].join("\n");
+  const html = `<!doctype html><html lang="${lang}" dir="${T.dir}"><head><meta charset="utf-8"><style>${css}</style></head><body>${body}</body></html>`;
+  const page = await browser.newPage();
+  await page.setContent(html, { waitUntil: "load" });
+  await page.evaluate(() => document.fonts.ready);
+  const main = join(docs, `.procedures-${lang}.pdf`);
+  await page.pdf({
+    path: main,
+    format: "A4",
+    landscape: true,
+    printBackground: true,
+    displayHeaderFooter: true,
+    headerTemplate: "<span></span>",
+    footerTemplate: `<div dir="${T.dir}" style="width:100%;font-size:7pt;color:#8a939e;padding:0 14mm;display:flex;justify-content:space-between;font-family:sans-serif"><span>${T.footer}</span><span class="pageNumber"></span></div>`,
+    margin: { top: "14mm", bottom: "16mm", left: "14mm", right: "14mm" },
+  });
+  await page.close();
+  const out = join(docs, T.file);
+  execFileSync("pdfunite", [main, join(docs, "performance-spec-v1.1-fa.pdf"), out]);
+  execFileSync("rm", ["-f", main]);
+  console.log("written", out);
+}
 await browser.close();
-const out = join(docs, "procedures-specification.pdf");
-execFileSync("pdfunite", [main, join(docs, "performance-spec-v1.1-fa.pdf"), out]);
-execFileSync("rm", ["-f", main]);
-console.log("written", out);

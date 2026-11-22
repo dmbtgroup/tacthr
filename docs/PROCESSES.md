@@ -11,7 +11,8 @@ specification v1.1 (the [specification summary](PERFORMANCE-SPEC.md)).
 <!-- status: kept in the repository, left out of the PDF -->
 The diagrams are written by `scripts/docs/bpmn.py` and drawn by `scripts/docs/render.mjs`; change the
 script, not the files. Persian versions are in [`bpmn/fa/`](bpmn/fa/) and [`fa/`](fa/); everything is
-collected, in English and Persian, in [`procedures-specification.pdf`](procedures-specification.pdf)
+collected, in English and Persian, in [`procedures-specification-en.pdf`](procedures-specification-en.pdf) and
+[`procedures-specification-fa.pdf`](procedures-specification-fa.pdf)
 (built by `scripts/docs/pdf.mjs`).
 <!-- /status -->
 
