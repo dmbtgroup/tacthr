@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="p6_salary_and_bonus_defs" targetNamespace="https://tacthr.dmbtgroup.com/bpmn" exporter="tactHR docs" exporterVersion="1">
+  <bpmn:collaboration id="p6_salary_and_bonus_collab">
+    <bpmn:participant id="p6_salary_and_bonus_pool" name="6. Yearly salary and bonus" processRef="p6_salary_and_bonus" />
+  </bpmn:collaboration>
+  <bpmn:process id="p6_salary_and_bonus" name="6. Yearly salary and bonus" isExecutable="false">
+    <bpmn:documentation>Salary instruction: salary = minimum wage + A x (education + experience + skill + difficulty + grade + performance + CEO score).</bpmn:documentation>
+    <bpmn:laneSet id="p6_salary_and_bonus_lanes">
+      <bpmn:lane id="p6_salary_and_bonus_lane_brd" name="CEO / board">
+        <bpmn:flowNodeRef>p6_salary_and_bonus_s</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_t1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_g1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_t4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_t5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_gm</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_g2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_t6</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_t7</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_e</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="p6_salary_and_bonus_lane_hr" name="HR">
+        <bpmn:flowNodeRef>p6_salary_and_bonus_t2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_t3</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="p6_salary_and_bonus_lane_sys" name="tactHR">
+        <bpmn:flowNodeRef>p6_salary_and_bonus_s1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p6_salary_and_bonus_s2</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="p6_salary_and_bonus_s" name="New Persian year (salaries due 31 Farvardin)"><bpmn:outgoing>p6_salary_and_bonus_f0</bpmn:outgoing><bpmn:timerEventDefinition id="p6_salary_and_bonus_s_timer" /></bpmn:startEvent>
+    <bpmn:userTask id="p6_salary_and_bonus_t1" name="Set the minimum wage, maximum salary and bonus base (A = max - min)"><bpmn:incoming>p6_salary_and_bonus_f0</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f1</bpmn:outgoing></bpmn:userTask>
+    <bpmn:userTask id="p6_salary_and_bonus_t2" name="Open the salary year"><bpmn:incoming>p6_salary_and_bonus_f1</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f2</bpmn:outgoing></bpmn:userTask>
+    <bpmn:serviceTask id="p6_salary_and_bonus_s1" name="Copy last year's factors with one more year of experience"><bpmn:incoming>p6_salary_and_bonus_f2</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f3</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:userTask id="p6_salary_and_bonus_t3" name="Per person: education, experience, skill, job difficulty, rank and sensitivity"><bpmn:incoming>p6_salary_and_bonus_f3</bpmn:incoming><bpmn:incoming>p6_salary_and_bonus_f11</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f4</bpmn:outgoing></bpmn:userTask>
+    <bpmn:serviceTask id="p6_salary_and_bonus_s2" name="Add last year's average performance; calculate salary and bonus; flag above-maximum"><bpmn:incoming>p6_salary_and_bonus_f4</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f5</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="p6_salary_and_bonus_g1" name="On probation?"><bpmn:incoming>p6_salary_and_bonus_f5</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f6</bpmn:outgoing><bpmn:outgoing>p6_salary_and_bonus_f7</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:userTask id="p6_salary_and_bonus_t4" name="Give the CEO score (0-20 %)"><bpmn:incoming>p6_salary_and_bonus_f6</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f8</bpmn:outgoing></bpmn:userTask>
+    <bpmn:userTask id="p6_salary_and_bonus_t5" name="Set the probation salary (not below the minimum wage)"><bpmn:incoming>p6_salary_and_bonus_f7</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f9</bpmn:outgoing></bpmn:userTask>
+    <bpmn:exclusiveGateway id="p6_salary_and_bonus_gm" name=""><bpmn:incoming>p6_salary_and_bonus_f8</bpmn:incoming><bpmn:incoming>p6_salary_and_bonus_f9</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f10</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="p6_salary_and_bonus_g2" name="Salary right?"><bpmn:incoming>p6_salary_and_bonus_f10</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f11</bpmn:outgoing><bpmn:outgoing>p6_salary_and_bonus_f12</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:userTask id="p6_salary_and_bonus_t6" name="Approve (one by one or all complete)"><bpmn:incoming>p6_salary_and_bonus_f12</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f13</bpmn:outgoing></bpmn:userTask>
+    <bpmn:userTask id="p6_salary_and_bonus_t7" name="Close the salary year"><bpmn:incoming>p6_salary_and_bonus_f13</bpmn:incoming><bpmn:outgoing>p6_salary_and_bonus_f14</bpmn:outgoing></bpmn:userTask>
+    <bpmn:endEvent id="p6_salary_and_bonus_e" name="Salaries and bonuses paid"><bpmn:incoming>p6_salary_and_bonus_f14</bpmn:incoming></bpmn:endEvent>
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f0" sourceRef="p6_salary_and_bonus_s" targetRef="p6_salary_and_bonus_t1" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f1" sourceRef="p6_salary_and_bonus_t1" targetRef="p6_salary_and_bonus_t2" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f2" sourceRef="p6_salary_and_bonus_t2" targetRef="p6_salary_and_bonus_s1" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f3" sourceRef="p6_salary_and_bonus_s1" targetRef="p6_salary_and_bonus_t3" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f4" sourceRef="p6_salary_and_bonus_t3" targetRef="p6_salary_and_bonus_s2" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f5" sourceRef="p6_salary_and_bonus_s2" targetRef="p6_salary_and_bonus_g1" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f6" name="No" sourceRef="p6_salary_and_bonus_g1" targetRef="p6_salary_and_bonus_t4" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f7" name="Yes" sourceRef="p6_salary_and_bonus_g1" targetRef="p6_salary_and_bonus_t5" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f8" sourceRef="p6_salary_and_bonus_t4" targetRef="p6_salary_and_bonus_gm" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f9" sourceRef="p6_salary_and_bonus_t5" targetRef="p6_salary_and_bonus_gm" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f10" sourceRef="p6_salary_and_bonus_gm" targetRef="p6_salary_and_bonus_g2" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f11" name="No: revise" sourceRef="p6_salary_and_bonus_g2" targetRef="p6_salary_and_bonus_t3" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f12" name="Yes" sourceRef="p6_salary_and_bonus_g2" targetRef="p6_salary_and_bonus_t6" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f13" sourceRef="p6_salary_and_bonus_t6" targetRef="p6_salary_and_bonus_t7" />
+    <bpmn:sequenceFlow id="p6_salary_and_bonus_f14" sourceRef="p6_salary_and_bonus_t7" targetRef="p6_salary_and_bonus_e" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="p6_salary_and_bonus_diagram">
+    <bpmndi:BPMNPlane id="p6_salary_and_bonus_plane" bpmnElement="p6_salary_and_bonus_collab">
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_pool_di" bpmnElement="p6_salary_and_bonus_pool" isHorizontal="true"><dc:Bounds x="70" y="40" width="2865" height="560" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_lane_brd_di" bpmnElement="p6_salary_and_bonus_lane_brd" isHorizontal="true"><dc:Bounds x="100" y="40" width="2835" height="280" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_lane_hr_di" bpmnElement="p6_salary_and_bonus_lane_hr" isHorizontal="true"><dc:Bounds x="100" y="320" width="2835" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_lane_sys_di" bpmnElement="p6_salary_and_bonus_lane_sys" isHorizontal="true"><dc:Bounds x="100" y="460" width="2835" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_s_di" bpmnElement="p6_salary_and_bonus_s"><dc:Bounds x="202.0" y="92.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="162.0" y="132.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_t1_di" bpmnElement="p6_salary_and_bonus_t1"><dc:Bounds x="355.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_t2_di" bpmnElement="p6_salary_and_bonus_t2"><dc:Bounds x="570.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_s1_di" bpmnElement="p6_salary_and_bonus_s1"><dc:Bounds x="785.0" y="482.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_t3_di" bpmnElement="p6_salary_and_bonus_t3"><dc:Bounds x="1000.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_s2_di" bpmnElement="p6_salary_and_bonus_s2"><dc:Bounds x="1215.0" y="482.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_g1_di" bpmnElement="p6_salary_and_bonus_g1" isMarkerVisible="true"><dc:Bounds x="1485.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1440.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_t4_di" bpmnElement="p6_salary_and_bonus_t4"><dc:Bounds x="1645.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_t5_di" bpmnElement="p6_salary_and_bonus_t5"><dc:Bounds x="1645.0" y="202.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_gm_di" bpmnElement="p6_salary_and_bonus_gm" isMarkerVisible="true"><dc:Bounds x="1915.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1870.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_g2_di" bpmnElement="p6_salary_and_bonus_g2" isMarkerVisible="true"><dc:Bounds x="2130.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2085.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_t6_di" bpmnElement="p6_salary_and_bonus_t6"><dc:Bounds x="2290.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_t7_di" bpmnElement="p6_salary_and_bonus_t7"><dc:Bounds x="2505.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p6_salary_and_bonus_e_di" bpmnElement="p6_salary_and_bonus_e"><dc:Bounds x="2782.0" y="92.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2742.0" y="132.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f0_di" bpmnElement="p6_salary_and_bonus_f0"><di:waypoint x="238" y="110" /><di:waypoint x="355" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f1_di" bpmnElement="p6_salary_and_bonus_f1"><di:waypoint x="515" y="110" /><di:waypoint x="545" y="110" /><di:waypoint x="545" y="390" /><di:waypoint x="570" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f2_di" bpmnElement="p6_salary_and_bonus_f2"><di:waypoint x="730" y="390" /><di:waypoint x="760" y="390" /><di:waypoint x="760" y="530" /><di:waypoint x="785" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f3_di" bpmnElement="p6_salary_and_bonus_f3"><di:waypoint x="945" y="530" /><di:waypoint x="975" y="530" /><di:waypoint x="975" y="390" /><di:waypoint x="1000" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f4_di" bpmnElement="p6_salary_and_bonus_f4"><di:waypoint x="1160" y="390" /><di:waypoint x="1190" y="390" /><di:waypoint x="1190" y="530" /><di:waypoint x="1215" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f5_di" bpmnElement="p6_salary_and_bonus_f5"><di:waypoint x="1375" y="530" /><di:waypoint x="1460" y="530" /><di:waypoint x="1460" y="110" /><di:waypoint x="1485" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f6_di" bpmnElement="p6_salary_and_bonus_f6"><di:waypoint x="1535" y="110" /><di:waypoint x="1645" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="1541" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f7_di" bpmnElement="p6_salary_and_bonus_f7"><di:waypoint x="1510" y="135" /><di:waypoint x="1510" y="250" /><di:waypoint x="1645" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="1516" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f8_di" bpmnElement="p6_salary_and_bonus_f8"><di:waypoint x="1805" y="110" /><di:waypoint x="1915" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f9_di" bpmnElement="p6_salary_and_bonus_f9"><di:waypoint x="1805" y="250" /><di:waypoint x="1890" y="250" /><di:waypoint x="1890" y="110" /><di:waypoint x="1915" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f10_di" bpmnElement="p6_salary_and_bonus_f10"><di:waypoint x="1965" y="110" /><di:waypoint x="2130" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f11_di" bpmnElement="p6_salary_and_bonus_f11"><di:waypoint x="2155" y="135" /><di:waypoint x="2155" y="616" /><di:waypoint x="1050" y="616" /><di:waypoint x="1050" y="438" /><bpmndi:BPMNLabel><dc:Bounds x="2161" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f12_di" bpmnElement="p6_salary_and_bonus_f12"><di:waypoint x="2180" y="110" /><di:waypoint x="2290" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="2186" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f13_di" bpmnElement="p6_salary_and_bonus_f13"><di:waypoint x="2450" y="110" /><di:waypoint x="2505" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p6_salary_and_bonus_f14_di" bpmnElement="p6_salary_and_bonus_f14"><di:waypoint x="2665" y="110" /><di:waypoint x="2782" y="110" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

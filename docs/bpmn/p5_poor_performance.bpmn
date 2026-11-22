@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="p5_poor_performance_defs" targetNamespace="https://tacthr.dmbtgroup.com/bpmn" exporter="tactHR docs" exporterVersion="1">
+  <bpmn:collaboration id="p5_poor_performance_collab">
+    <bpmn:participant id="p5_poor_performance_pool" name="5. Poor performance follow-up" processRef="p5_poor_performance" />
+  </bpmn:collaboration>
+  <bpmn:process id="p5_poor_performance" name="5. Poor performance follow-up" isExecutable="false">
+    <bpmn:documentation>HR-WI-01 5-3 and spec v1.1 section 5. Under 50 % also means no bonus that year.</bpmn:documentation>
+    <bpmn:laneSet id="p5_poor_performance_lanes">
+      <bpmn:lane id="p5_poor_performance_lane_sys" name="tactHR">
+        <bpmn:flowNodeRef>p5_poor_performance_s</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p5_poor_performance_g1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p5_poor_performance_s1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p5_poor_performance_g2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p5_poor_performance_s2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p5_poor_performance_e2</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="p5_poor_performance_lane_hr" name="HR, with the supervisor, unit manager and CEO">
+        <bpmn:flowNodeRef>p5_poor_performance_t1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p5_poor_performance_g3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p5_poor_performance_t2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p5_poor_performance_t3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p5_poor_performance_t4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p5_poor_performance_e1</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="p5_poor_performance_s" name="The board approves a score"><bpmn:outgoing>p5_poor_performance_f0</bpmn:outgoing></bpmn:startEvent>
+    <bpmn:exclusiveGateway id="p5_poor_performance_g1" name="Under 50 %?"><bpmn:incoming>p5_poor_performance_f0</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f1</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f2</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="p5_poor_performance_s1" name="Record poor performance"><bpmn:incoming>p5_poor_performance_f1</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f3</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="p5_poor_performance_g2" name="Previous half-year also under 50 %?"><bpmn:incoming>p5_poor_performance_f3</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f4</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f5</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="p5_poor_performance_s2" name="Alert on HR's home page"><bpmn:incoming>p5_poor_performance_f4</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f6</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:manualTask id="p5_poor_performance_t1" name="Meeting on continuing employment"><bpmn:incoming>p5_poor_performance_f6</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f7</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:exclusiveGateway id="p5_poor_performance_g3" name="Decision"><bpmn:incoming>p5_poor_performance_f7</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f8</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f9</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:manualTask id="p5_poor_performance_t2" name="Record the decision and an improvement plan"><bpmn:incoming>p5_poor_performance_f8</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f10</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:userTask id="p5_poor_performance_t3" name="End employment: untick Active (history kept)"><bpmn:incoming>p5_poor_performance_f9</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f11</bpmn:outgoing></bpmn:userTask>
+    <bpmn:userTask id="p5_poor_performance_t4" name="Mark the alert done"><bpmn:incoming>p5_poor_performance_f10</bpmn:incoming><bpmn:incoming>p5_poor_performance_f11</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f12</bpmn:outgoing></bpmn:userTask>
+    <bpmn:endEvent id="p5_poor_performance_e1" name="Followed up"><bpmn:incoming>p5_poor_performance_f12</bpmn:incoming></bpmn:endEvent>
+    <bpmn:endEvent id="p5_poor_performance_e2" name="No action"><bpmn:incoming>p5_poor_performance_f2</bpmn:incoming><bpmn:incoming>p5_poor_performance_f5</bpmn:incoming></bpmn:endEvent>
+    <bpmn:sequenceFlow id="p5_poor_performance_f0" sourceRef="p5_poor_performance_s" targetRef="p5_poor_performance_g1" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f1" name="Yes" sourceRef="p5_poor_performance_g1" targetRef="p5_poor_performance_s1" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f2" name="No" sourceRef="p5_poor_performance_g1" targetRef="p5_poor_performance_e2" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f3" sourceRef="p5_poor_performance_s1" targetRef="p5_poor_performance_g2" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f4" name="Yes" sourceRef="p5_poor_performance_g2" targetRef="p5_poor_performance_s2" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f5" name="No" sourceRef="p5_poor_performance_g2" targetRef="p5_poor_performance_e2" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f6" sourceRef="p5_poor_performance_s2" targetRef="p5_poor_performance_t1" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f7" sourceRef="p5_poor_performance_t1" targetRef="p5_poor_performance_g3" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f8" name="Continue" sourceRef="p5_poor_performance_g3" targetRef="p5_poor_performance_t2" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f9" name="End cooperation" sourceRef="p5_poor_performance_g3" targetRef="p5_poor_performance_t3" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f10" sourceRef="p5_poor_performance_t2" targetRef="p5_poor_performance_t4" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f11" sourceRef="p5_poor_performance_t3" targetRef="p5_poor_performance_t4" />
+    <bpmn:sequenceFlow id="p5_poor_performance_f12" sourceRef="p5_poor_performance_t4" targetRef="p5_poor_performance_e1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="p5_poor_performance_diagram">
+    <bpmndi:BPMNPlane id="p5_poor_performance_plane" bpmnElement="p5_poor_performance_collab">
+      <bpmndi:BPMNShape id="p5_poor_performance_pool_di" bpmnElement="p5_poor_performance_pool" isHorizontal="true"><dc:Bounds x="70" y="40" width="2220" height="560" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_lane_sys_di" bpmnElement="p5_poor_performance_lane_sys" isHorizontal="true"><dc:Bounds x="100" y="40" width="2190" height="280" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_lane_hr_di" bpmnElement="p5_poor_performance_lane_hr" isHorizontal="true"><dc:Bounds x="100" y="320" width="2190" height="280" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_s_di" bpmnElement="p5_poor_performance_s"><dc:Bounds x="202.0" y="92.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="162.0" y="132.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_g1_di" bpmnElement="p5_poor_performance_g1" isMarkerVisible="true"><dc:Bounds x="410.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="365.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_s1_di" bpmnElement="p5_poor_performance_s1"><dc:Bounds x="570.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_g2_di" bpmnElement="p5_poor_performance_g2" isMarkerVisible="true"><dc:Bounds x="840.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="795.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_s2_di" bpmnElement="p5_poor_performance_s2"><dc:Bounds x="1000.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_t1_di" bpmnElement="p5_poor_performance_t1"><dc:Bounds x="1215.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_g3_di" bpmnElement="p5_poor_performance_g3" isMarkerVisible="true"><dc:Bounds x="1485.0" y="365.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1440.0" y="319.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_t2_di" bpmnElement="p5_poor_performance_t2"><dc:Bounds x="1645.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_t3_di" bpmnElement="p5_poor_performance_t3"><dc:Bounds x="1645.0" y="482.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_t4_di" bpmnElement="p5_poor_performance_t4"><dc:Bounds x="1860.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_e1_di" bpmnElement="p5_poor_performance_e1"><dc:Bounds x="2137.0" y="372.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2097.0" y="412.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p5_poor_performance_e2_di" bpmnElement="p5_poor_performance_e2"><dc:Bounds x="1062.0" y="232.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="1022.0" y="272.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f0_di" bpmnElement="p5_poor_performance_f0"><di:waypoint x="238" y="110" /><di:waypoint x="410" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f1_di" bpmnElement="p5_poor_performance_f1"><di:waypoint x="460" y="110" /><di:waypoint x="570" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="466" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f2_di" bpmnElement="p5_poor_performance_f2"><di:waypoint x="435" y="135" /><di:waypoint x="435" y="250" /><di:waypoint x="1062" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="441" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f3_di" bpmnElement="p5_poor_performance_f3"><di:waypoint x="730" y="110" /><di:waypoint x="840" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f4_di" bpmnElement="p5_poor_performance_f4"><di:waypoint x="890" y="110" /><di:waypoint x="1000" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="896" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f5_di" bpmnElement="p5_poor_performance_f5"><di:waypoint x="865" y="135" /><di:waypoint x="865" y="250" /><di:waypoint x="1062" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="871" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f6_di" bpmnElement="p5_poor_performance_f6"><di:waypoint x="1160" y="110" /><di:waypoint x="1190" y="110" /><di:waypoint x="1190" y="390" /><di:waypoint x="1215" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f7_di" bpmnElement="p5_poor_performance_f7"><di:waypoint x="1375" y="390" /><di:waypoint x="1485" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f8_di" bpmnElement="p5_poor_performance_f8"><di:waypoint x="1535" y="390" /><di:waypoint x="1645" y="390" /><bpmndi:BPMNLabel><dc:Bounds x="1541" y="372" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f9_di" bpmnElement="p5_poor_performance_f9"><di:waypoint x="1510" y="415" /><di:waypoint x="1510" y="530" /><di:waypoint x="1645" y="530" /><bpmndi:BPMNLabel><dc:Bounds x="1516" y="419" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f10_di" bpmnElement="p5_poor_performance_f10"><di:waypoint x="1805" y="390" /><di:waypoint x="1860" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f11_di" bpmnElement="p5_poor_performance_f11"><di:waypoint x="1805" y="530" /><di:waypoint x="1835" y="530" /><di:waypoint x="1835" y="390" /><di:waypoint x="1860" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p5_poor_performance_f12_di" bpmnElement="p5_poor_performance_f12"><di:waypoint x="2020" y="390" /><di:waypoint x="2137" y="390" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

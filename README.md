@@ -24,6 +24,9 @@ The performance module's target specification (v1.1, from House Of Management En
 in [`docs/PERFORMANCE-SPEC.md`](docs/PERFORMANCE-SPEC.md), with the original Persian PDF beside it and a
 list of where the app still differs.
 
+The procedures are drawn as BPMN diagrams in [`docs/PROCESSES.md`](docs/PROCESSES.md) (files in
+`docs/bpmn/`), and every field entered on each page is listed in [`docs/DATA-ENTRY.md`](docs/DATA-ENTRY.md).
+
 ## Running it
 ```
 npm install
