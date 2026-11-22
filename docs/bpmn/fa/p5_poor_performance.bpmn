@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="p5_poor_performance_defs" targetNamespace="https://tacthr.dmbtgroup.com/bpmn" exporter="tactHR docs" exporterVersion="1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="p5_poor_performance_defs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="procedures" exporterVersion="1">
   <bpmn:collaboration id="p5_poor_performance_collab">
     <bpmn:participant id="p5_poor_performance_pool" name="۵. پیگیری عملکرد نامناسب" processRef="p5_poor_performance" />
   </bpmn:collaboration>
   <bpmn:process id="p5_poor_performance" name="۵. پیگیری عملکرد نامناسب" isExecutable="false">
     <bpmn:documentation>HR-WI-01 5-3 and spec v1.1 section 5. Under 50 % also means no bonus that year.</bpmn:documentation>
     <bpmn:laneSet id="p5_poor_performance_lanes">
-      <bpmn:lane id="p5_poor_performance_lane_sys" name="tactHR">
+      <bpmn:lane id="p5_poor_performance_lane_sys" name="سامانه">
         <bpmn:flowNodeRef>p5_poor_performance_s</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p5_poor_performance_g1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p5_poor_performance_s1</bpmn:flowNodeRef>
@@ -27,7 +27,7 @@
     <bpmn:exclusiveGateway id="p5_poor_performance_g1" name="زیر ۵۰٪؟"><bpmn:incoming>p5_poor_performance_f0</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f1</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f2</bpmn:outgoing></bpmn:exclusiveGateway>
     <bpmn:serviceTask id="p5_poor_performance_s1" name="ثبت عملکرد نامناسب"><bpmn:incoming>p5_poor_performance_f1</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f3</bpmn:outgoing></bpmn:serviceTask>
     <bpmn:exclusiveGateway id="p5_poor_performance_g2" name="نیم‌سال قبل هم زیر ۵۰٪؟"><bpmn:incoming>p5_poor_performance_f3</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f4</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f5</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="p5_poor_performance_s2" name="هشدار در صفحه خانه منابع انسانی"><bpmn:incoming>p5_poor_performance_f4</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f6</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:serviceTask id="p5_poor_performance_s2" name="هشدار به منابع انسانی"><bpmn:incoming>p5_poor_performance_f4</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f6</bpmn:outgoing></bpmn:serviceTask>
     <bpmn:manualTask id="p5_poor_performance_t1" name="جلسه درباره ادامه همکاری"><bpmn:incoming>p5_poor_performance_f6</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f7</bpmn:outgoing></bpmn:manualTask>
     <bpmn:exclusiveGateway id="p5_poor_performance_g3" name="تصمیم"><bpmn:incoming>p5_poor_performance_f7</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f8</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f9</bpmn:outgoing></bpmn:exclusiveGateway>
     <bpmn:manualTask id="p5_poor_performance_t2" name="ثبت تصمیم و برنامه بهبود"><bpmn:incoming>p5_poor_performance_f8</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f10</bpmn:outgoing></bpmn:manualTask>

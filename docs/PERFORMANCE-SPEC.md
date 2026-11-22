@@ -1,13 +1,9 @@
 # Performance evaluation module: specification v1.1
 
 English summary of *سند مشخصات فنی و محصولی جامع — ماژول ارزیابی عملکرد کارکنان (کارایی و اثربخشی)*,
-version 1.1, by House Of Management Engineering (خانه مهندسی مدیریت). The original Persian document is
-[`performance-spec-v1.1-fa.pdf`](performance-spec-v1.1-fa.pdf); where this summary and the original differ,
-the original wins. References: the workbook "فرم تعیین امتیاز عملکرد پرسنل.xlsx" and the HR-WI-01/00
+version 1.1, by House Of Management Engineering (خانه مهندسی مدیریت). The original Persian document
+([appended in full](performance-spec-v1.1-fa.pdf)) prevails wherever it and this summary differ. References: the workbook "فرم تعیین امتیاز عملکرد پرسنل.xlsx" and the HR-WI-01/00
 performance evaluation instruction.
-
-This document describes the target. The app does not follow all of it yet: see
-[Differences from the app today](#differences-from-the-app-today).
 
 ## 1. Purpose
 Evaluate staff on two dimensions, **efficiency** (کارایی) and **effectiveness** (اثربخشی). At the start of
@@ -132,7 +128,19 @@ For each person the system calculates and shows three separate results, as a per
 5. Enter the eligible people (3 months' service or more) and score each 1 to 5, with the level descriptions shown.
 6. Output: efficiency score, effectiveness score and total performance score.
 
-## Differences from the app today
+## Questions to settle
+1. **Turning 1–5 into a percentage.** v1.1 asks for 0–100 % scores but scores from 1 to 5. Is 5 = 100 %
+   and 1 = 20 % (score ÷ 5), or 1 = 0 % and 5 = 100 % ((score − 1) ÷ 4)?
+2. **The department method of WI1202** (shared factors plus each department's own, out of 650). v1.1
+   doesn't mention it. Keep it as a third option, fold it into mode A (department factors as the
+   organization's own), or drop it?
+3. **Mode B weights.** Keep the rule that weights total exactly 60, or always normalize (so any total
+   works)? v1.1 asks for both to be possible: is it a per-company choice?
+4. **Effectiveness in mode B.** Is the choice between the 4 factors and the 0–25 score made per company
+   or per half-year?
+
+<!-- status: kept in the repository, left out of the PDF until the procedures are final -->
+## Differences from the app today (internal)
 What the app does now (performance part; salary and bonus are outside this spec), against v1.1:
 
 | Topic | v1.1 | The app today |
@@ -147,14 +155,6 @@ What the app does now (performance part; salary and bonus are outside this spec)
 | Scores | Each score shown separately as 0–100 %, total as the weighted mix | Efficiency out of 75 (or its share), effectiveness out of 25, total out of 100 (or out of 650) |
 | Eligibility, half-years, 20-day deadline, approval, two halves under 50 % | As in section 5 | Already done |
 
-### Questions to settle before changing the app
-1. **Turning 1–5 into a percentage.** v1.1 asks for 0–100 % scores but scores from 1 to 5. Is 5 = 100 %
-   and 1 = 20 % (score ÷ 5), or 1 = 0 % and 5 = 100 % ((score − 1) ÷ 4)?
-2. **The out-of-650 method (WI1202).** v1.1 doesn't mention it. Keep it as a third option, fold it into
-   mode A (department factors as the organization's own), or drop it?
-3. **Existing scores.** Scores already given on 0–5 (including the demo history): keep them as they are,
-   or convert them to the 1–5 scale?
-4. **Mode B weights.** Keep the rule that weights total exactly 60, or always normalize (so any total
-   works)? v1.1 asks for both to be possible: is it a per-company choice?
-5. **Effectiveness in mode B.** Is the choice between the 4 factors and the 0–25 score made per company
-   or per half-year?
+Also to settle then: scores already given on 0–5 (including the demo history): keep them as they are, or
+convert them to the 1–5 scale?
+<!-- /status -->

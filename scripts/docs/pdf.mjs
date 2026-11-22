@@ -1,5 +1,6 @@
-// Builds docs/tactHR-documentation.pdf: a cover, the English documents, the Persian documents (right to
-// left, in Vazirmatn) and the client's original specification as an appendix.
+// Builds docs/procedures-specification.pdf for House Of Management Engineering: a cover, the English
+// documents, the Persian documents (right to left, in Vazirmatn) and the original specification as an
+// appendix. Parts between <!-- status --> and <!-- /status --> stay out of the PDF.
 // Usage: node scripts/docs/pdf.mjs <node_modules with marked@12 and vazirmatn@33>
 //   (from: npm i --prefix /some/dir marked@12 vazirmatn@33); needs pdfunite (poppler-utils).
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
@@ -20,7 +21,8 @@ const dataUri = (file, type) => `data:${type};base64,${readFileSync(file).toStri
 /** A Markdown file as HTML: pictures embedded, links to other documents kept as plain text. */
 function render(file) {
   const base = dirname(file);
-  let html = marked.parse(readFileSync(file, "utf8"));
+  const md = readFileSync(file, "utf8").replace(/<!-- status[\s\S]*?<!-- \/status -->\n?/g, "");
+  let html = marked.parse(md);
   // Diagrams go in as their SVG (sharp at any zoom); other pictures as images.
   html = html.replace(/<img src="([^"]+)" alt="([^"]*)">/g, (m, src, alt) => {
     const p = resolve(base, src);
@@ -35,7 +37,7 @@ function render(file) {
 const today = new Date();
 const enDate = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(today);
 const faDate = new Intl.DateTimeFormat("fa-IR-u-ca-persian", { day: "numeric", month: "long", year: "numeric" }).format(today);
-const logo = dataUri(join(repo, "public", "tacthr-logo.png"), "image/png");
+const logo = dataUri(join(docs, "assets", "home-logo.png"), "image/png");
 
 const parts = [
   ["en", ["PERFORMANCE-SPEC.md", "PROCESSES.md", "DATA-ENTRY.md"].map((f) => join(docs, f))],
@@ -49,54 +51,56 @@ const css = `
 @page{size:A4 landscape;margin:14mm 14mm 16mm}
 *{box-sizing:border-box}
 body{font-family:Vazirmatn,sans-serif;font-size:9.6pt;line-height:1.55;color:#1f2933;margin:0}
-h1{font-size:19pt;color:#474747;border-bottom:3px solid #f5821f;padding-bottom:4px;margin:0 0 10px;break-before:page}
-h2{font-size:13.5pt;color:#c05c12;margin:18px 0 6px;break-after:avoid}
-h3{font-size:11pt;color:#474747;margin:12px 0 4px;break-after:avoid}
+h1{font-size:19pt;color:#0b3d6b;border-bottom:3px solid #1488f2;padding-bottom:4px;margin:0 0 10px;break-before:page}
+h2{font-size:13.5pt;color:#0f6cc2;margin:18px 0 6px;break-after:avoid}
+h3{font-size:11pt;color:#0b3d6b;margin:12px 0 4px;break-after:avoid}
 p{margin:4px 0 6px}
 ul,ol{margin:4px 0 8px;padding-inline-start:22px}
 li{margin:1px 0}
 table{border-collapse:collapse;width:100%;margin:6px 0 10px;font-size:8.6pt;break-inside:auto}
 tr{break-inside:avoid}
-th{background:#474747;color:#fff;font-weight:600;text-align:start;padding:4px 6px}
+th{background:#0f6cc2;color:#fff;font-weight:600;text-align:start;padding:4px 6px}
 td{border-bottom:1px solid #d9dee4;padding:3px 6px;vertical-align:top}
-tr:nth-child(even) td{background:#fafafa}
+tr:nth-child(even) td{background:#f4f9fe}
 code{font-family:inherit;background:#f1f3f5;padding:0 3px;border-radius:3px;direction:ltr;unicode-bidi:embed}
 img{max-width:100%;max-height:150mm;display:block;margin:6px auto 8px;border:1px solid #e5e7eb}
 .diagram{margin:6px 0 10px;direction:ltr}
 .diagram svg{width:100%;height:auto;max-height:150mm;display:block}
 .doc-processes h2{break-before:page}
 hr{border:0;border-top:1px solid #d9dee4;margin:10px 0}
-blockquote{margin:6px 0;padding:4px 10px;border-inline-start:3px solid #f5821f;background:#fff7ef}
+blockquote{margin:6px 0;padding:4px 10px;border-inline-start:3px solid #1488f2;background:#eef6fe}
 [dir=rtl]{text-align:right}
 [dir=rtl] ol{list-style:persian}
 .cover{height:178mm;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:10px}
-.cover img{border:0;max-height:none;width:120mm;margin:0 0 14px}
-.cover .t{font-size:22pt;font-weight:700;color:#474747}
+.cover img{border:0;max-height:none;width:110mm;margin:0 0 18px}
+.cover .band{width:100%;height:6px;background:linear-gradient(90deg,#1488f2,#0b3d6b);margin-top:22px;border-radius:3px}
+.cover .t{font-size:22pt;font-weight:700;color:#0b3d6b}
 .cover .s{font-size:12pt;color:#5b6470}
 .cover .d{font-size:10pt;color:#5b6470;margin-top:16px}
 .toc{break-before:page}
 .toc h2{margin-top:0}
 .toc table td{font-size:10pt;padding:6px}
 .divider{break-before:page;height:178mm;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px}
-.divider .t{font-size:24pt;font-weight:700;color:#474747}
-.divider .s{font-size:12pt;color:#c05c12}
+.divider .t{font-size:24pt;font-weight:700;color:#0b3d6b}
+.divider .s{font-size:12pt;color:#0f6cc2}
 `;
 
 const body = [
   `<section class="cover">
-    <img src="${logo}" alt="tactHR">
-    <div class="t">Specification, processes and data entry</div>
-    <div class="t" dir="rtl">مشخصات، فرایندها و ورود داده</div>
-    <div class="s">Staff performance evaluation, salary and bonus · ارزیابی عملکرد، حقوق و پاداش پرسنل</div>
+    <img src="${logo}" alt="House Of Management Engineering">
+    <div class="t">Staff performance evaluation, salary and bonus</div>
+    <div class="t" dir="rtl">ارزیابی عملکرد، حقوق و پاداش پرسنل</div>
+    <div class="s">Specification, processes and data entry · مشخصات، فرایندها و ورود داده</div>
     <div class="d">${enDate} · <span dir="rtl">${faDate}</span></div>
-    <div class="d">tacthr.dmbtgroup.com · DMBT</div>
+    <div class="d">House Of Management Engineering · <span dir="rtl">خانه مهندسی مدیریت</span></div>
+    <div class="band"></div>
   </section>`,
   `<section class="toc">
     <h2>Contents · فهرست</h2>
     <table>
       <tr><th>English</th><th dir="rtl" style="text-align:right">فارسی</th></tr>
-      <tr><td>1. Performance evaluation module: specification v1.1 (summary, differences from the app, open questions)</td><td dir="rtl">۱. ماژول ارزیابی عملکرد: مشخصات نسخه ۱.۱ (خلاصه، تفاوت‌ها با نرم‌افزار، پرسش‌ها)</td></tr>
-      <tr><td>2. tactHR processes: six BPMN diagrams with their steps</td><td dir="rtl">۲. فرایندهای tactHR: شش نمودار BPMN با گام‌ها</td></tr>
+      <tr><td>1. Performance evaluation module: specification v1.1 (summary and questions to settle)</td><td dir="rtl">۱. ماژول ارزیابی عملکرد: مشخصات نسخه ۱.۱ (خلاصه و پرسش‌ها)</td></tr>
+      <tr><td>2. Processes: six BPMN diagrams with their steps</td><td dir="rtl">۲. فرایندها: شش نمودار BPMN با گام‌ها</td></tr>
       <tr><td>3. Data entry, page by page</td><td dir="rtl">۳. ورود داده، صفحه به صفحه</td></tr>
       <tr><td>Appendix: the original specification v1.1 (Persian), as received</td><td dir="rtl">پیوست: سند اصلی مشخصات نسخه ۱.۱ (فارسی)، بدون تغییر</td></tr>
     </table>
@@ -115,7 +119,7 @@ const browser = await chromium.launch();
 const page = await browser.newPage();
 await page.setContent(html, { waitUntil: "load" });
 await page.evaluate(() => document.fonts.ready);
-const main = join(docs, ".tactHR-main.pdf");
+const main = join(docs, ".procedures-main.pdf");
 await page.pdf({
   path: main,
   format: "A4",
@@ -123,11 +127,11 @@ await page.pdf({
   printBackground: true,
   displayHeaderFooter: true,
   headerTemplate: "<span></span>",
-  footerTemplate: `<div style="width:100%;font-size:7pt;color:#8a939e;padding:0 14mm;display:flex;justify-content:space-between"><span>tactHR · Specification, processes and data entry</span><span><span class="pageNumber"></span></span></div>`,
+  footerTemplate: `<div style="width:100%;font-size:7pt;color:#8a939e;padding:0 14mm;display:flex;justify-content:space-between"><span>House Of Management Engineering · Staff performance evaluation, salary and bonus</span><span><span class="pageNumber"></span></span></div>`,
   margin: { top: "14mm", bottom: "16mm", left: "14mm", right: "14mm" },
 });
 await browser.close();
-const out = join(docs, "tactHR-documentation.pdf");
+const out = join(docs, "procedures-specification.pdf");
 execFileSync("pdfunite", [main, join(docs, "performance-spec-v1.1-fa.pdf"), out]);
 execFileSync("rm", ["-f", main]);
 console.log("written", out);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="p4_half_year_evaluation_defs" targetNamespace="https://tacthr.dmbtgroup.com/bpmn" exporter="tactHR docs" exporterVersion="1">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="p4_half_year_evaluation_defs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="procedures" exporterVersion="1">
   <bpmn:collaboration id="p4_half_year_evaluation_collab">
     <bpmn:participant id="p4_half_year_evaluation_pool" name="۴. ارزیابی عملکرد نیم‌سالانه" processRef="p4_half_year_evaluation" />
   </bpmn:collaboration>
@@ -26,7 +26,7 @@
         <bpmn:flowNodeRef>p4_half_year_evaluation_t5</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p4_half_year_evaluation_g4</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="p4_half_year_evaluation_lane_sys" name="tactHR">
+      <bpmn:lane id="p4_half_year_evaluation_lane_sys" name="سامانه">
         <bpmn:flowNodeRef>p4_half_year_evaluation_s1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p4_half_year_evaluation_g2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p4_half_year_evaluation_s2</bpmn:flowNodeRef>

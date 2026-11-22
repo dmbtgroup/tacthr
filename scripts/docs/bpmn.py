@@ -161,7 +161,7 @@ def write(lang, pid, name, lanes, nodes, flows, doc=""):
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" '
         'xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" '
-        f'id="{pid}_defs" targetNamespace="https://tacthr.dmbtgroup.com/bpmn" exporter="tactHR docs" exporterVersion="1">',
+        f'id="{pid}_defs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="procedures" exporterVersion="1">',
         *x, *d, '</bpmn:definitions>', ""])
     out = os.path.join(OUT, "fa") if lang == "fa" else OUT
     os.makedirs(out, exist_ok=True)
@@ -174,25 +174,23 @@ os.makedirs(OUT, exist_ok=True)
 # 1. Setting up a client company -------------------------------------------------------------------
 process(
     "p1_company_setup", "1. Setting up a client company",
-    [("pa", "Platform admin (DMBT)"), ("sys", "tactHR"), ("hr", "Company HR")],
+    [("pa", "System administrator"), ("sys", "System"), ("hr", "Company HR")],
     [
         ("s", "start", "New client company", "pa", 0, 0),
-        ("t1", "user", "Create the company: name, address, evaluation method, languages, first HR user", "pa", 1, 0),
+        ("t1", "user", "Create the company: name, sign-in address, evaluation mode, languages, first HR user", "pa", 1, 0),
         ("s1", "service", "Create the company with the default factors and the HR sign-in", "sys", 2, 0),
-        ("g1", "xor", "Demo company?", "pa", 3, 0),
-        ("s2", "service", "Fill with made-up staff, evaluations and salaries", "sys", 4, 0),
-        ("t2", "manual", "Send HR the sign-in address and password", "pa", 5, 0),
-        ("t3", "user", "Sign in, change the password, check settings and languages", "hr", 6, 0),
-        ("e", "end", "Company ready", "hr", 7, 0),
+        ("t2", "manual", "Send HR the sign-in address and password", "pa", 3, 0),
+        ("t3", "user", "Sign in, change the password, check settings and languages", "hr", 4, 0),
+        ("e", "end", "Company ready", "hr", 5, 0),
     ],
-    [("s", "t1", ""), ("t1", "s1", ""), ("s1", "g1", ""), ("g1", "s2", "Yes"), ("g1", "t2", "No"), ("s2", "t2", ""), ("t2", "t3", ""), ("t3", "e", "")],
-    "A platform admin creates each client company; its first user has the HR role.",
+    [("s", "t1", ""), ("t1", "s1", ""), ("s1", "t2", ""), ("t2", "t3", ""), ("t3", "e", "")],
+    "The system administrator creates each client company; its first user has the HR role.",
 )
 
 # 2. Staff and users -------------------------------------------------------------------------------
 process(
     "p2_staff_and_users", "2. Staff and user accounts",
-    [("hr", "HR / CEO"), ("sys", "tactHR"), ("st", "Staff member")],
+    [("hr", "HR / CEO"), ("sys", "System"), ("st", "Staff member")],
     [
         ("s", "start", "New staff or yearly update", "hr", 0, 0),
         ("g1", "xor", "How?", "hr", 1, 0),
@@ -218,7 +216,7 @@ process(
 # 3. Evaluation factors (spec v1.1, modes A and B) -------------------------------------------------
 process(
     "p3_factor_setup", "3. Setting up the evaluation factors (spec v1.1)",
-    [("hr", "HR / CEO"), ("sys", "tactHR")],
+    [("hr", "HR / CEO"), ("sys", "System")],
     [
         ("s", "start", "Before the first half-year (reviewed every year)", "hr", 0, 0),
         ("g1", "xor", "Which mode?", "hr", 1, 0),
@@ -245,7 +243,7 @@ process(
 # 4. The half-year evaluation ----------------------------------------------------------------------
 process(
     "p4_half_year_evaluation", "4. Half-year performance evaluation",
-    [("hr", "HR"), ("sup", "Supervisor"), ("mgr", "Unit manager"), ("brd", "CEO / board"), ("sys", "tactHR")],
+    [("hr", "HR"), ("sup", "Supervisor"), ("mgr", "Unit manager"), ("brd", "CEO / board"), ("sys", "System")],
     [
         ("s", "timer", "Half-year ends (31 Shahrivar / end of Esfand)", "hr", 0, 0),
         ("t1", "user", "Open the half-year", "hr", 1, 0),
@@ -272,13 +270,13 @@ process(
 # 5. Two half-years under 50 % ---------------------------------------------------------------------
 process(
     "p5_poor_performance", "5. Poor performance follow-up",
-    [("sys", "tactHR"), ("hr", "HR, with the supervisor, unit manager and CEO")],
+    [("sys", "System"), ("hr", "HR, with the supervisor, unit manager and CEO")],
     [
         ("s", "start", "The board approves a score", "sys", 0, 0),
         ("g1", "xor", "Under 50 %?", "sys", 1, 0),
         ("s1", "service", "Record poor performance", "sys", 2, 0),
         ("g2", "xor", "Previous half-year also under 50 %?", "sys", 3, 0),
-        ("s2", "service", "Alert on HR's home page", "sys", 4, 0),
+        ("s2", "service", "Alert HR", "sys", 4, 0),
         ("t1", "manual", "Meeting on continuing employment", "hr", 5, 0),
         ("g3", "xor", "Decision", "hr", 6, 0),
         ("t2", "manual", "Record the decision and an improvement plan", "hr", 7, 0),
@@ -295,7 +293,7 @@ process(
 # 6. Salary and bonus ------------------------------------------------------------------------------
 process(
     "p6_salary_and_bonus", "6. Yearly salary and bonus",
-    [("brd", "CEO / board"), ("hr", "HR"), ("sys", "tactHR")],
+    [("brd", "CEO / board"), ("hr", "HR"), ("sys", "System")],
     [
         ("s", "timer", "New Persian year (salaries due 31 Farvardin)", "brd", 0, 0),
         ("t1", "user", "Set the minimum wage, maximum salary and bonus base (A = max - min)", "brd", 1, 0),
