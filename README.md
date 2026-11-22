@@ -20,6 +20,10 @@
 
 The calculations are in `src/lib/calc.ts` and checked by `npm test`.
 
+The performance module's target specification (v1.1, from House Of Management Engineering) is summarized
+in [`docs/PERFORMANCE-SPEC.md`](docs/PERFORMANCE-SPEC.md), with the original Persian PDF beside it and a
+list of where the app still differs.
+
 ## Running it
 ```
 npm install
