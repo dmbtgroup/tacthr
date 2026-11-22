@@ -8,6 +8,8 @@ outside the app.
 They follow the app as it is today, the HR instructions (HR-WI-01, the salary instruction, WI1202) and,
 for the factors, specification v1.1 ([`PERFORMANCE-SPEC.md`](PERFORMANCE-SPEC.md)). The diagrams are
 written by `scripts/docs/bpmn.py` and drawn by `scripts/docs/render.mjs`; change the script, not the files.
+Persian versions are in [`bpmn/fa/`](bpmn/fa/) and [`fa/`](fa/); everything is collected, in English and Persian,
+in [`tactHR-documentation.pdf`](tactHR-documentation.pdf) (built by `scripts/docs/pdf.mjs`).
 
 | # | Process | Who | File |
 |---|---|---|---|

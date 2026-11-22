@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="p3_factor_setup_defs" targetNamespace="https://tacthr.dmbtgroup.com/bpmn" exporter="tactHR docs" exporterVersion="1">
+  <bpmn:collaboration id="p3_factor_setup_collab">
+    <bpmn:participant id="p3_factor_setup_pool" name="۳. تعریف شاخص‌های ارزیابی (مشخصات نسخه ۱.۱)" processRef="p3_factor_setup" />
+  </bpmn:collaboration>
+  <bpmn:process id="p3_factor_setup" name="۳. تعریف شاخص‌های ارزیابی (مشخصات نسخه ۱.۱)" isExecutable="false">
+    <bpmn:documentation>Spec v1.1 sections 2-4. A half-year keeps a copy of the factors, so later changes never alter it.</bpmn:documentation>
+    <bpmn:laneSet id="p3_factor_setup_lanes">
+      <bpmn:lane id="p3_factor_setup_lane_hr" name="منابع انسانی / مدیرعامل">
+        <bpmn:flowNodeRef>p3_factor_setup_s</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_g1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_a1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_a2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_a3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_a4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_b2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_gB</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_b3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_gBm</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_gm</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_t1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="p3_factor_setup_lane_sys" name="tactHR">
+        <bpmn:flowNodeRef>p3_factor_setup_b1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_s1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p3_factor_setup_e</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="p3_factor_setup_s" name="پیش از نخستین نیم‌سال (بازنگری سالانه)"><bpmn:outgoing>p3_factor_setup_f0</bpmn:outgoing></bpmn:startEvent>
+    <bpmn:exclusiveGateway id="p3_factor_setup_g1" name="کدام حالت؟"><bpmn:incoming>p3_factor_setup_f0</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f1</bpmn:outgoing><bpmn:outgoing>p3_factor_setup_f2</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:userTask id="p3_factor_setup_a1" name="حالت الف: ورود شاخص‌های کارایی (عناوین)"><bpmn:incoming>p3_factor_setup_f1</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f3</bpmn:outgoing></bpmn:userTask>
+    <bpmn:userTask id="p3_factor_setup_a2" name="وزن‌دهی هر شاخص کارایی ۱ تا ۱۰ (صفر = غیرفعال)"><bpmn:incoming>p3_factor_setup_f3</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f4</bpmn:outgoing></bpmn:userTask>
+    <bpmn:userTask id="p3_factor_setup_a3" name="ورود شاخص‌های اثربخشی از شرح وظایف"><bpmn:incoming>p3_factor_setup_f4</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f5</bpmn:outgoing></bpmn:userTask>
+    <bpmn:userTask id="p3_factor_setup_a4" name="وزن‌دهی هر شاخص اثربخشی ۱ تا ۱۰ (یا صفر)"><bpmn:incoming>p3_factor_setup_f5</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f6</bpmn:outgoing></bpmn:userTask>
+    <bpmn:serviceTask id="p3_factor_setup_b1" name="حالت ب: بارگذاری ۱۲ شاخص استاندارد کارایی (عناوین قفل، جمع پیش‌فرض ۶۰)"><bpmn:incoming>p3_factor_setup_f2</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f7</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:userTask id="p3_factor_setup_b2" name="تنظیم وزن ۱۲ شاخص، ۱ تا ۹ (صفر = حذف از محاسبه)"><bpmn:incoming>p3_factor_setup_f7</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f8</bpmn:outgoing></bpmn:userTask>
+    <bpmn:exclusiveGateway id="p3_factor_setup_gB" name="الگوی اثربخشی؟"><bpmn:incoming>p3_factor_setup_f8</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f9</bpmn:outgoing><bpmn:outgoing>p3_factor_setup_f10</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:userTask id="p3_factor_setup_b3" name="وزن‌دهی ۴ شاخص استاندارد: تحقق نتیجه، انتظارات کلیدی، تأثیرگذاری، کیفیت"><bpmn:incoming>p3_factor_setup_f9</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f11</bpmn:outgoing></bpmn:userTask>
+    <bpmn:exclusiveGateway id="p3_factor_setup_gBm" name=""><bpmn:incoming>p3_factor_setup_f10</bpmn:incoming><bpmn:incoming>p3_factor_setup_f11</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f12</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="p3_factor_setup_gm" name=""><bpmn:incoming>p3_factor_setup_f6</bpmn:incoming><bpmn:incoming>p3_factor_setup_f12</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f13</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:userTask id="p3_factor_setup_t1" name="تعیین نسبت کارایی به اثربخشی (پیش‌فرض ۵۰/۵۰، مثلاً ۷۵/۲۵)"><bpmn:incoming>p3_factor_setup_f13</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f14</bpmn:outgoing></bpmn:userTask>
+    <bpmn:serviceTask id="p3_factor_setup_s1" name="نسبی‌سازی وزن‌ها و بررسی هر گروه"><bpmn:incoming>p3_factor_setup_f14</bpmn:incoming><bpmn:outgoing>p3_factor_setup_f15</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:endEvent id="p3_factor_setup_e" name="شاخص‌ها برای نیم‌سال بعد آماده است"><bpmn:incoming>p3_factor_setup_f15</bpmn:incoming></bpmn:endEvent>
+    <bpmn:sequenceFlow id="p3_factor_setup_f0" sourceRef="p3_factor_setup_s" targetRef="p3_factor_setup_g1" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f1" name="الف: شاخص‌های اختصاصی" sourceRef="p3_factor_setup_g1" targetRef="p3_factor_setup_a1" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f2" name="ب: استاندارد" sourceRef="p3_factor_setup_g1" targetRef="p3_factor_setup_b1" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f3" sourceRef="p3_factor_setup_a1" targetRef="p3_factor_setup_a2" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f4" sourceRef="p3_factor_setup_a2" targetRef="p3_factor_setup_a3" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f5" sourceRef="p3_factor_setup_a3" targetRef="p3_factor_setup_a4" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f6" sourceRef="p3_factor_setup_a4" targetRef="p3_factor_setup_gm" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f7" sourceRef="p3_factor_setup_b1" targetRef="p3_factor_setup_b2" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f8" sourceRef="p3_factor_setup_b2" targetRef="p3_factor_setup_gB" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f9" name="۴ شاخص استاندارد" sourceRef="p3_factor_setup_gB" targetRef="p3_factor_setup_b3" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f10" name="نمره مستقیم ۰ تا ۲۵" sourceRef="p3_factor_setup_gB" targetRef="p3_factor_setup_gBm" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f11" sourceRef="p3_factor_setup_b3" targetRef="p3_factor_setup_gBm" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f12" sourceRef="p3_factor_setup_gBm" targetRef="p3_factor_setup_gm" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f13" sourceRef="p3_factor_setup_gm" targetRef="p3_factor_setup_t1" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f14" sourceRef="p3_factor_setup_t1" targetRef="p3_factor_setup_s1" />
+    <bpmn:sequenceFlow id="p3_factor_setup_f15" sourceRef="p3_factor_setup_s1" targetRef="p3_factor_setup_e" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="p3_factor_setup_diagram">
+    <bpmndi:BPMNPlane id="p3_factor_setup_plane" bpmnElement="p3_factor_setup_collab">
+      <bpmndi:BPMNShape id="p3_factor_setup_pool_di" bpmnElement="p3_factor_setup_pool" isHorizontal="true"><dc:Bounds x="70" y="40" width="2435" height="420" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_lane_hr_di" bpmnElement="p3_factor_setup_lane_hr" isHorizontal="true"><dc:Bounds x="100" y="40" width="2405" height="280" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_lane_sys_di" bpmnElement="p3_factor_setup_lane_sys" isHorizontal="true"><dc:Bounds x="100" y="320" width="2405" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_s_di" bpmnElement="p3_factor_setup_s"><dc:Bounds x="202.0" y="92.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="162.0" y="132.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_g1_di" bpmnElement="p3_factor_setup_g1" isMarkerVisible="true"><dc:Bounds x="410.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="365.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_a1_di" bpmnElement="p3_factor_setup_a1"><dc:Bounds x="570.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_a2_di" bpmnElement="p3_factor_setup_a2"><dc:Bounds x="785.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_a3_di" bpmnElement="p3_factor_setup_a3"><dc:Bounds x="1000.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_a4_di" bpmnElement="p3_factor_setup_a4"><dc:Bounds x="1215.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_b1_di" bpmnElement="p3_factor_setup_b1"><dc:Bounds x="570.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_b2_di" bpmnElement="p3_factor_setup_b2"><dc:Bounds x="785.0" y="202.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_gB_di" bpmnElement="p3_factor_setup_gB" isMarkerVisible="true"><dc:Bounds x="1055.0" y="225.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1010.0" y="179.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_b3_di" bpmnElement="p3_factor_setup_b3"><dc:Bounds x="1215.0" y="202.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_gBm_di" bpmnElement="p3_factor_setup_gBm" isMarkerVisible="true"><dc:Bounds x="1485.0" y="225.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1440.0" y="179.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_gm_di" bpmnElement="p3_factor_setup_gm" isMarkerVisible="true"><dc:Bounds x="1700.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1655.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_t1_di" bpmnElement="p3_factor_setup_t1"><dc:Bounds x="1860.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_s1_di" bpmnElement="p3_factor_setup_s1"><dc:Bounds x="2075.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p3_factor_setup_e_di" bpmnElement="p3_factor_setup_e"><dc:Bounds x="2352.0" y="372.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2312.0" y="412.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f0_di" bpmnElement="p3_factor_setup_f0"><di:waypoint x="238" y="110" /><di:waypoint x="410" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f1_di" bpmnElement="p3_factor_setup_f1"><di:waypoint x="460" y="110" /><di:waypoint x="570" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="466" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f2_di" bpmnElement="p3_factor_setup_f2"><di:waypoint x="435" y="135" /><di:waypoint x="435" y="390" /><di:waypoint x="570" y="390" /><bpmndi:BPMNLabel><dc:Bounds x="441" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f3_di" bpmnElement="p3_factor_setup_f3"><di:waypoint x="730" y="110" /><di:waypoint x="785" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f4_di" bpmnElement="p3_factor_setup_f4"><di:waypoint x="945" y="110" /><di:waypoint x="1000" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f5_di" bpmnElement="p3_factor_setup_f5"><di:waypoint x="1160" y="110" /><di:waypoint x="1215" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f6_di" bpmnElement="p3_factor_setup_f6"><di:waypoint x="1375" y="110" /><di:waypoint x="1700" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f7_di" bpmnElement="p3_factor_setup_f7"><di:waypoint x="730" y="390" /><di:waypoint x="760" y="390" /><di:waypoint x="760" y="250" /><di:waypoint x="785" y="250" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f8_di" bpmnElement="p3_factor_setup_f8"><di:waypoint x="945" y="250" /><di:waypoint x="1055" y="250" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f9_di" bpmnElement="p3_factor_setup_f9"><di:waypoint x="1105" y="250" /><di:waypoint x="1215" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="1111" y="232" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f10_di" bpmnElement="p3_factor_setup_f10"><di:waypoint x="1080" y="275" /><di:waypoint x="1080" y="312" /><di:waypoint x="1510" y="312" /><di:waypoint x="1510" y="275" /><bpmndi:BPMNLabel><dc:Bounds x="1086" y="279" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f11_di" bpmnElement="p3_factor_setup_f11"><di:waypoint x="1375" y="250" /><di:waypoint x="1485" y="250" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f12_di" bpmnElement="p3_factor_setup_f12"><di:waypoint x="1535" y="250" /><di:waypoint x="1675" y="250" /><di:waypoint x="1675" y="110" /><di:waypoint x="1700" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f13_di" bpmnElement="p3_factor_setup_f13"><di:waypoint x="1750" y="110" /><di:waypoint x="1860" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f14_di" bpmnElement="p3_factor_setup_f14"><di:waypoint x="2020" y="110" /><di:waypoint x="2050" y="110" /><di:waypoint x="2050" y="390" /><di:waypoint x="2075" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p3_factor_setup_f15_di" bpmnElement="p3_factor_setup_f15"><di:waypoint x="2235" y="390" /><di:waypoint x="2352" y="390" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

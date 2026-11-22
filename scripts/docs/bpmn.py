@@ -6,7 +6,11 @@ Each process is a pool with lanes (who does it); each node sits in a lane, a col
 the lane. Flows are drawn as right-angled lines; flows back to an earlier step run under the pool.
 """
 import os
+import sys
 from xml.sax.saxutils import escape
+
+sys.path.insert(0, os.path.dirname(__file__))
+from bpmn_fa import FA  # noqa: E402
 
 OUT = os.path.join(os.path.dirname(__file__), "..", "..", "docs", "bpmn")
 
@@ -15,8 +19,22 @@ SIZE = {"start": (36, 36), "end": (36, 36), "timer": (36, 36), "user": (160, 96)
 TAG = {"start": "startEvent", "end": "endEvent", "timer": "startEvent", "user": "userTask", "service": "serviceTask", "manual": "manualTask", "xor": "exclusiveGateway"}
 
 
-def process(pid, name, lanes, nodes, flows, doc=""):
+PROCESSES = []
+
+
+def process(*args):
+    """Records a process; it is written in English (docs/bpmn/) and Persian (docs/bpmn/fa/) at the end."""
+    PROCESSES.append(args)
+
+
+def write(lang, pid, name, lanes, nodes, flows, doc=""):
     """lanes: [(key, title)]; nodes: [(id, kind, label, lane, col, row)]; flows: [(from, to, label)]."""
+    if lang == "fa":
+        tr = lambda t: FA[t] if t else t  # noqa: E731 (a missing Persian label stops the script)
+        name = tr(name)
+        lanes = [(k, tr(title)) for k, title in lanes]
+        nodes = [(n[0], n[1], tr(n[2]), *n[3:]) for n in nodes]
+        flows = [(a, b, tr(label)) for a, b, label in flows]
     rows = {k: 1 + max([n[5] for n in nodes if n[3] == k] or [0]) for k, _ in lanes}
     lane_y, y = {}, 40
     for k, _ in lanes:
@@ -145,7 +163,9 @@ def process(pid, name, lanes, nodes, flows, doc=""):
         'xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" '
         f'id="{pid}_defs" targetNamespace="https://tacthr.dmbtgroup.com/bpmn" exporter="tactHR docs" exporterVersion="1">',
         *x, *d, '</bpmn:definitions>', ""])
-    with open(os.path.join(OUT, f"{pid}.bpmn"), "w", encoding="utf-8") as f:
+    out = os.path.join(OUT, "fa") if lang == "fa" else OUT
+    os.makedirs(out, exist_ok=True)
+    with open(os.path.join(out, f"{pid}.bpmn"), "w", encoding="utf-8") as f:
         f.write(xml)
 
 
@@ -296,4 +316,7 @@ process(
      ("t4", "gm", ""), ("t5", "gm", ""), ("gm", "g2", ""), ("g2", "t3", "No: revise"), ("g2", "t6", "Yes"), ("t6", "t7", ""), ("t7", "e", "")],
     "Salary instruction: salary = minimum wage + A x (education + experience + skill + difficulty + grade + performance + CEO score).",
 )
-print("written to", os.path.normpath(OUT))
+for lang in ("en", "fa"):
+    for args in PROCESSES:
+        write(lang, *args)
+print("written to", os.path.normpath(OUT), "and", os.path.normpath(os.path.join(OUT, "fa")))
