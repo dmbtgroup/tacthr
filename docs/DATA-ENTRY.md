@@ -47,7 +47,9 @@ The process each page belongs to is described in [Processes](PROCESSES.md).
 | Personnel no. | شماره پرسنلی | | Text or digits, unique in the company | Matches people on Excel import |
 | Job title | سمت | | Text | |
 | Department | واحد | | From the department list | |
-| Supervisor | سرپرست | | From the active staff | Scores this person; nobody can be their own supervisor, directly or through others |
+| Supervisor | سرپرست | ✓ to be scored | From the active staff | The first scorer, always; nobody can be their own supervisor, directly or through others |
+| Second scorer | امتیازدهنده دوم | | From the active staff, not the person or the supervisor | Scores the person separately |
+| Third scorer | امتیازدهنده سوم | | From the active staff, not the person or the other scorers | Scores the person separately |
 | Start date | تاریخ شروع به کار | ✓ | Date | Decides eligibility (3 months by the end of the half-year) |
 | Full-time | تمام‌وقت | ✓ | Yes / no (default yes) | Only full-time staff are evaluated |
 | Education level | مدرک تحصیلی | | Diploma or less / associate / bachelor's / master's / doctorate | Used for the salary |
@@ -82,10 +84,10 @@ updated, not added again; new departments are created; a supervisor can be a row
 
 | Role | Can |
 |---|---|
-| Employee (کارمند) | See their own approved results and salary |
-| Manager / supervisor (مدیر / سرپرست) | Score their team; approve as unit manager; see their team's reports |
-| HR (منابع انسانی) | Staff, users, factors, half-years, salaries and settings; not the board's decisions |
-| CEO / board (مدیرعامل / هیئت‌مدیره) | Everything, plus final approvals, the CEO score, probation salaries and closing a salary year |
+| Employee (کارمند) | See their own results and salary |
+| Manager / supervisor (مدیر / سرپرست) | Score the people they are a scorer for; notified of scores still missing; see their team's reports |
+| HR (منابع انسانی) | Staff and their scorers, users, factors, half-years, salaries and settings; notified each time a scorer completes a person's scoring, and of whatever needs following up; not the board's decisions |
+| CEO / board (مدیرعامل / هیئت‌مدیره) | Everything, plus salary approvals, the CEO score, probation salaries and closing a salary year |
 
 **My account**: current password ✓, new password ✓ (8+).
 
@@ -117,7 +119,7 @@ own copy.
 |---|---|---|---|---|
 | Half-year | نیم‌سال | ✓ | A half-year that has started and isn't open | The system sets the deadline (end + 20 days), copies the factors and adds eligible staff |
 
-### Scoring form (supervisor, or HR / CEO). Process 4.
+### Scoring form (each of the person's scorers, separately). Process 4.
 | Field | Persian label | Req. | Format / allowed values | Notes |
 |---|---|---|---|---|
 | Score per efficiency factor | امتیاز | ✓ to send | 1-5, each option with its description | 5 excellent, 4 good, 3 acceptable, 2 weak, 1 not achieved |
@@ -127,8 +129,9 @@ own copy.
 | Notes | توضیحات | | Text | |
 
 Shown as you score: the efficiency score, the effectiveness score and the total, each 0-100 %. **Save**
-keeps a draft; **Send for approval** needs every score. Approvals (approve, approve as board, send back)
-have no fields.
+keeps a draft; **Complete** needs every score and notifies HR. No approval follows. The person's
+result is the average of the scorers who completed their scoring by the deadline, factor by factor; the
+supervisor's score alone is enough.
 
 ## 7. Salaries and bonus
 ### Open a salary year / year figures (HR / CEO). Process 6.
@@ -161,5 +164,5 @@ Changing the figures later needs the board's approval again for every salary.
 | Probation salary | حقوق دوره آزمایشی (ریال) | ✓ on probation | Rials, not below the minimum wage | Replaces the calculation; no bonus |
 | Notes | توضیحات | | Text | |
 
-Calculated, not entered: last year's performance (average of the approved half-years; nothing under 60),
+Calculated, not entered: last year's performance (average of the completed half-years; nothing under 60),
 the total share of A, the salary, the above-maximum warning and the bonus.

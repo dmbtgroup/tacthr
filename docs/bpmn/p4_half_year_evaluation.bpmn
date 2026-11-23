@@ -4,111 +4,103 @@
     <bpmn:participant id="p4_half_year_evaluation_pool" name="4. Half-year performance evaluation" processRef="p4_half_year_evaluation" />
   </bpmn:collaboration>
   <bpmn:process id="p4_half_year_evaluation" name="4. Half-year performance evaluation" isExecutable="false">
-    <bpmn:documentation>HR-WI-01 section 5 and spec v1.1. Nobody scores or approves their own evaluation.</bpmn:documentation>
+    <bpmn:documentation>HR-WI-01 section 5 and spec v1.1, with up to three scorers per person and no approval step. Nobody scores themselves.</bpmn:documentation>
     <bpmn:laneSet id="p4_half_year_evaluation_lanes">
       <bpmn:lane id="p4_half_year_evaluation_lane_hr" name="HR">
         <bpmn:flowNodeRef>p4_half_year_evaluation_s</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p4_half_year_evaluation_t1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>p4_half_year_evaluation_g5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p4_half_year_evaluation_g4</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p4_half_year_evaluation_t6</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p4_half_year_evaluation_e</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="p4_half_year_evaluation_lane_sup" name="Supervisor">
+      <bpmn:lane id="p4_half_year_evaluation_lane_sc" name="Scorers (the supervisor and up to 2 more)">
         <bpmn:flowNodeRef>p4_half_year_evaluation_t2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p4_half_year_evaluation_g1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p4_half_year_evaluation_t3</bpmn:flowNodeRef>
       </bpmn:lane>
-      <bpmn:lane id="p4_half_year_evaluation_lane_mgr" name="Unit manager">
-        <bpmn:flowNodeRef>p4_half_year_evaluation_t4</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>p4_half_year_evaluation_g3</bpmn:flowNodeRef>
-      </bpmn:lane>
-      <bpmn:lane id="p4_half_year_evaluation_lane_brd" name="CEO / board">
-        <bpmn:flowNodeRef>p4_half_year_evaluation_t5</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>p4_half_year_evaluation_g4</bpmn:flowNodeRef>
-      </bpmn:lane>
       <bpmn:lane id="p4_half_year_evaluation_lane_sys" name="System">
         <bpmn:flowNodeRef>p4_half_year_evaluation_s1</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>p4_half_year_evaluation_g2</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p4_half_year_evaluation_s2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p4_half_year_evaluation_g2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p4_half_year_evaluation_g3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p4_half_year_evaluation_s3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p4_half_year_evaluation_s4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>p4_half_year_evaluation_s5</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="p4_half_year_evaluation_s" name="Half-year ends (31 Shahrivar / end of Esfand)"><bpmn:outgoing>p4_half_year_evaluation_f0</bpmn:outgoing><bpmn:timerEventDefinition id="p4_half_year_evaluation_s_timer" /></bpmn:startEvent>
     <bpmn:userTask id="p4_half_year_evaluation_t1" name="Open the half-year"><bpmn:incoming>p4_half_year_evaluation_f0</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f1</bpmn:outgoing></bpmn:userTask>
-    <bpmn:serviceTask id="p4_half_year_evaluation_s1" name="Copy the factors; add eligible staff (full-time, 3+ months); deadline = end + 20 days"><bpmn:incoming>p4_half_year_evaluation_f1</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f2</bpmn:outgoing></bpmn:serviceTask>
-    <bpmn:userTask id="p4_half_year_evaluation_t2" name="Score each team member 1-5 per factor (and effectiveness)"><bpmn:incoming>p4_half_year_evaluation_f2</bpmn:incoming><bpmn:incoming>p4_half_year_evaluation_f4</bpmn:incoming><bpmn:incoming>p4_half_year_evaluation_f10</bpmn:incoming><bpmn:incoming>p4_half_year_evaluation_f13</bpmn:incoming><bpmn:incoming>p4_half_year_evaluation_f16</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f3</bpmn:outgoing></bpmn:userTask>
+    <bpmn:serviceTask id="p4_half_year_evaluation_s1" name="Copy the factors; add eligible staff with their scorers; deadline = end + 20 days"><bpmn:incoming>p4_half_year_evaluation_f1</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f2</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:userTask id="p4_half_year_evaluation_t2" name="Each scorer, separately: score the person 1-5 per factor (and effectiveness)"><bpmn:incoming>p4_half_year_evaluation_f2</bpmn:incoming><bpmn:incoming>p4_half_year_evaluation_f4</bpmn:incoming><bpmn:incoming>p4_half_year_evaluation_f8</bpmn:incoming><bpmn:incoming>p4_half_year_evaluation_f11</bpmn:incoming><bpmn:incoming>p4_half_year_evaluation_f15</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f3</bpmn:outgoing></bpmn:userTask>
     <bpmn:exclusiveGateway id="p4_half_year_evaluation_g1" name="Every score in?"><bpmn:incoming>p4_half_year_evaluation_f3</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f4</bpmn:outgoing><bpmn:outgoing>p4_half_year_evaluation_f5</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:userTask id="p4_half_year_evaluation_t3" name="Send for approval"><bpmn:incoming>p4_half_year_evaluation_f5</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f6</bpmn:outgoing></bpmn:userTask>
-    <bpmn:exclusiveGateway id="p4_half_year_evaluation_g2" name="Unit manager above the supervisor?"><bpmn:incoming>p4_half_year_evaluation_f6</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f7</bpmn:outgoing><bpmn:outgoing>p4_half_year_evaluation_f8</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:userTask id="p4_half_year_evaluation_t4" name="Review and approve"><bpmn:incoming>p4_half_year_evaluation_f7</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f9</bpmn:outgoing></bpmn:userTask>
-    <bpmn:exclusiveGateway id="p4_half_year_evaluation_g3" name="Approved?"><bpmn:incoming>p4_half_year_evaluation_f9</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f10</bpmn:outgoing><bpmn:outgoing>p4_half_year_evaluation_f11</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:userTask id="p4_half_year_evaluation_t5" name="Final approval (one by one or all waiting)"><bpmn:incoming>p4_half_year_evaluation_f8</bpmn:incoming><bpmn:incoming>p4_half_year_evaluation_f11</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f12</bpmn:outgoing></bpmn:userTask>
-    <bpmn:exclusiveGateway id="p4_half_year_evaluation_g4" name="Approved?"><bpmn:incoming>p4_half_year_evaluation_f12</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f13</bpmn:outgoing><bpmn:outgoing>p4_half_year_evaluation_f14</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="p4_half_year_evaluation_s2" name="Calculate the results; check for two half-years under 50 % (process 5)"><bpmn:incoming>p4_half_year_evaluation_f14</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f15</bpmn:outgoing></bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="p4_half_year_evaluation_g5" name="Everyone approved?"><bpmn:incoming>p4_half_year_evaluation_f15</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f16</bpmn:outgoing><bpmn:outgoing>p4_half_year_evaluation_f17</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:userTask id="p4_half_year_evaluation_t6" name="Close the half-year"><bpmn:incoming>p4_half_year_evaluation_f17</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f18</bpmn:outgoing></bpmn:userTask>
-    <bpmn:endEvent id="p4_half_year_evaluation_e" name="Results final"><bpmn:incoming>p4_half_year_evaluation_f18</bpmn:incoming></bpmn:endEvent>
+    <bpmn:userTask id="p4_half_year_evaluation_t3" name="Complete the scoring"><bpmn:incoming>p4_half_year_evaluation_f5</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f6</bpmn:outgoing></bpmn:userTask>
+    <bpmn:serviceTask id="p4_half_year_evaluation_s2" name="Notify HR: the person's scoring is complete by this scorer"><bpmn:incoming>p4_half_year_evaluation_f6</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f7</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="p4_half_year_evaluation_g2" name="All scorers done, or deadline passed?"><bpmn:incoming>p4_half_year_evaluation_f7</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f8</bpmn:outgoing><bpmn:outgoing>p4_half_year_evaluation_f9</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="p4_half_year_evaluation_g3" name="Supervisor's score in?"><bpmn:incoming>p4_half_year_evaluation_f9</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f10</bpmn:outgoing><bpmn:outgoing>p4_half_year_evaluation_f12</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="p4_half_year_evaluation_s3" name="Average the scores given; calculate the results; check under 50 % (process 5)"><bpmn:incoming>p4_half_year_evaluation_f12</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f13</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:serviceTask id="p4_half_year_evaluation_s4" name="Notify the supervisor and HR: the supervisor's score is missing"><bpmn:incoming>p4_half_year_evaluation_f10</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f11</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="p4_half_year_evaluation_g4" name="Everyone's result in?"><bpmn:incoming>p4_half_year_evaluation_f13</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f14</bpmn:outgoing><bpmn:outgoing>p4_half_year_evaluation_f16</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="p4_half_year_evaluation_s5" name="Notify each scorer who hasn't completed, and HR"><bpmn:incoming>p4_half_year_evaluation_f14</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f15</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:userTask id="p4_half_year_evaluation_t6" name="Close the half-year"><bpmn:incoming>p4_half_year_evaluation_f16</bpmn:incoming><bpmn:outgoing>p4_half_year_evaluation_f17</bpmn:outgoing></bpmn:userTask>
+    <bpmn:endEvent id="p4_half_year_evaluation_e" name="Results final"><bpmn:incoming>p4_half_year_evaluation_f17</bpmn:incoming></bpmn:endEvent>
     <bpmn:sequenceFlow id="p4_half_year_evaluation_f0" sourceRef="p4_half_year_evaluation_s" targetRef="p4_half_year_evaluation_t1" />
     <bpmn:sequenceFlow id="p4_half_year_evaluation_f1" sourceRef="p4_half_year_evaluation_t1" targetRef="p4_half_year_evaluation_s1" />
     <bpmn:sequenceFlow id="p4_half_year_evaluation_f2" sourceRef="p4_half_year_evaluation_s1" targetRef="p4_half_year_evaluation_t2" />
     <bpmn:sequenceFlow id="p4_half_year_evaluation_f3" sourceRef="p4_half_year_evaluation_t2" targetRef="p4_half_year_evaluation_g1" />
     <bpmn:sequenceFlow id="p4_half_year_evaluation_f4" name="No: keep scoring" sourceRef="p4_half_year_evaluation_g1" targetRef="p4_half_year_evaluation_t2" />
     <bpmn:sequenceFlow id="p4_half_year_evaluation_f5" name="Yes" sourceRef="p4_half_year_evaluation_g1" targetRef="p4_half_year_evaluation_t3" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f6" sourceRef="p4_half_year_evaluation_t3" targetRef="p4_half_year_evaluation_g2" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f7" name="Yes" sourceRef="p4_half_year_evaluation_g2" targetRef="p4_half_year_evaluation_t4" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f8" name="No" sourceRef="p4_half_year_evaluation_g2" targetRef="p4_half_year_evaluation_t5" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f9" sourceRef="p4_half_year_evaluation_t4" targetRef="p4_half_year_evaluation_g3" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f10" name="No: send back" sourceRef="p4_half_year_evaluation_g3" targetRef="p4_half_year_evaluation_t2" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f11" name="Yes" sourceRef="p4_half_year_evaluation_g3" targetRef="p4_half_year_evaluation_t5" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f12" sourceRef="p4_half_year_evaluation_t5" targetRef="p4_half_year_evaluation_g4" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f13" name="No: send back" sourceRef="p4_half_year_evaluation_g4" targetRef="p4_half_year_evaluation_t2" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f14" name="Yes" sourceRef="p4_half_year_evaluation_g4" targetRef="p4_half_year_evaluation_s2" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f15" sourceRef="p4_half_year_evaluation_s2" targetRef="p4_half_year_evaluation_g5" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f16" name="No: HR chases" sourceRef="p4_half_year_evaluation_g5" targetRef="p4_half_year_evaluation_t2" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f17" name="Yes" sourceRef="p4_half_year_evaluation_g5" targetRef="p4_half_year_evaluation_t6" />
-    <bpmn:sequenceFlow id="p4_half_year_evaluation_f18" sourceRef="p4_half_year_evaluation_t6" targetRef="p4_half_year_evaluation_e" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f6" sourceRef="p4_half_year_evaluation_t3" targetRef="p4_half_year_evaluation_s2" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f7" sourceRef="p4_half_year_evaluation_s2" targetRef="p4_half_year_evaluation_g2" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f8" name="No: others keep scoring" sourceRef="p4_half_year_evaluation_g2" targetRef="p4_half_year_evaluation_t2" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f9" name="Yes" sourceRef="p4_half_year_evaluation_g2" targetRef="p4_half_year_evaluation_g3" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f10" name="No: HR chases the supervisor" sourceRef="p4_half_year_evaluation_g3" targetRef="p4_half_year_evaluation_s4" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f11" sourceRef="p4_half_year_evaluation_s4" targetRef="p4_half_year_evaluation_t2" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f12" name="Yes" sourceRef="p4_half_year_evaluation_g3" targetRef="p4_half_year_evaluation_s3" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f13" sourceRef="p4_half_year_evaluation_s3" targetRef="p4_half_year_evaluation_g4" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f14" name="No: HR chases" sourceRef="p4_half_year_evaluation_g4" targetRef="p4_half_year_evaluation_s5" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f15" sourceRef="p4_half_year_evaluation_s5" targetRef="p4_half_year_evaluation_t2" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f16" name="Yes" sourceRef="p4_half_year_evaluation_g4" targetRef="p4_half_year_evaluation_t6" />
+    <bpmn:sequenceFlow id="p4_half_year_evaluation_f17" sourceRef="p4_half_year_evaluation_t6" targetRef="p4_half_year_evaluation_e" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="p4_half_year_evaluation_diagram">
     <bpmndi:BPMNPlane id="p4_half_year_evaluation_plane" bpmnElement="p4_half_year_evaluation_collab">
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_pool_di" bpmnElement="p4_half_year_evaluation_pool" isHorizontal="true"><dc:Bounds x="70" y="40" width="3295" height="700" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_lane_hr_di" bpmnElement="p4_half_year_evaluation_lane_hr" isHorizontal="true"><dc:Bounds x="100" y="40" width="3265" height="140" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_lane_sup_di" bpmnElement="p4_half_year_evaluation_lane_sup" isHorizontal="true"><dc:Bounds x="100" y="180" width="3265" height="140" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_lane_mgr_di" bpmnElement="p4_half_year_evaluation_lane_mgr" isHorizontal="true"><dc:Bounds x="100" y="320" width="3265" height="140" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_lane_brd_di" bpmnElement="p4_half_year_evaluation_lane_brd" isHorizontal="true"><dc:Bounds x="100" y="460" width="3265" height="140" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_lane_sys_di" bpmnElement="p4_half_year_evaluation_lane_sys" isHorizontal="true"><dc:Bounds x="100" y="600" width="3265" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_pool_di" bpmnElement="p4_half_year_evaluation_pool" isHorizontal="true"><dc:Bounds x="70" y="40" width="2865" height="560" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_lane_hr_di" bpmnElement="p4_half_year_evaluation_lane_hr" isHorizontal="true"><dc:Bounds x="100" y="40" width="2835" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_lane_sc_di" bpmnElement="p4_half_year_evaluation_lane_sc" isHorizontal="true"><dc:Bounds x="100" y="180" width="2835" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_lane_sys_di" bpmnElement="p4_half_year_evaluation_lane_sys" isHorizontal="true"><dc:Bounds x="100" y="320" width="2835" height="280" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p4_half_year_evaluation_s_di" bpmnElement="p4_half_year_evaluation_s"><dc:Bounds x="202.0" y="92.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="162.0" y="132.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p4_half_year_evaluation_t1_di" bpmnElement="p4_half_year_evaluation_t1"><dc:Bounds x="355.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_s1_di" bpmnElement="p4_half_year_evaluation_s1"><dc:Bounds x="570.0" y="622.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_s1_di" bpmnElement="p4_half_year_evaluation_s1"><dc:Bounds x="570.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p4_half_year_evaluation_t2_di" bpmnElement="p4_half_year_evaluation_t2"><dc:Bounds x="785.0" y="202.0" width="160" height="96" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p4_half_year_evaluation_g1_di" bpmnElement="p4_half_year_evaluation_g1" isMarkerVisible="true"><dc:Bounds x="1055.0" y="225.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1010.0" y="179.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p4_half_year_evaluation_t3_di" bpmnElement="p4_half_year_evaluation_t3"><dc:Bounds x="1215.0" y="202.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_g2_di" bpmnElement="p4_half_year_evaluation_g2" isMarkerVisible="true"><dc:Bounds x="1485.0" y="645.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1440.0" y="699.0" width="140" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_t4_di" bpmnElement="p4_half_year_evaluation_t4"><dc:Bounds x="1645.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_s2_di" bpmnElement="p4_half_year_evaluation_s2"><dc:Bounds x="1430.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_g2_di" bpmnElement="p4_half_year_evaluation_g2" isMarkerVisible="true"><dc:Bounds x="1700.0" y="365.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1655.0" y="319.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p4_half_year_evaluation_g3_di" bpmnElement="p4_half_year_evaluation_g3" isMarkerVisible="true"><dc:Bounds x="1915.0" y="365.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1870.0" y="319.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_t5_di" bpmnElement="p4_half_year_evaluation_t5"><dc:Bounds x="2075.0" y="482.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_g4_di" bpmnElement="p4_half_year_evaluation_g4" isMarkerVisible="true"><dc:Bounds x="2345.0" y="505.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2300.0" y="459.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_s2_di" bpmnElement="p4_half_year_evaluation_s2"><dc:Bounds x="2505.0" y="622.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_g5_di" bpmnElement="p4_half_year_evaluation_g5" isMarkerVisible="true"><dc:Bounds x="2775.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2730.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_t6_di" bpmnElement="p4_half_year_evaluation_t6"><dc:Bounds x="2935.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p4_half_year_evaluation_e_di" bpmnElement="p4_half_year_evaluation_e"><dc:Bounds x="3212.0" y="92.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="3172.0" y="132.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_s3_di" bpmnElement="p4_half_year_evaluation_s3"><dc:Bounds x="2075.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_s4_di" bpmnElement="p4_half_year_evaluation_s4"><dc:Bounds x="2075.0" y="482.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_g4_di" bpmnElement="p4_half_year_evaluation_g4" isMarkerVisible="true"><dc:Bounds x="2345.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2300.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_s5_di" bpmnElement="p4_half_year_evaluation_s5"><dc:Bounds x="2505.0" y="482.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_t6_di" bpmnElement="p4_half_year_evaluation_t6"><dc:Bounds x="2505.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p4_half_year_evaluation_e_di" bpmnElement="p4_half_year_evaluation_e"><dc:Bounds x="2782.0" y="92.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2742.0" y="132.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="p4_half_year_evaluation_f0_di" bpmnElement="p4_half_year_evaluation_f0"><di:waypoint x="238" y="110" /><di:waypoint x="355" y="110" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f1_di" bpmnElement="p4_half_year_evaluation_f1"><di:waypoint x="515" y="110" /><di:waypoint x="545" y="110" /><di:waypoint x="545" y="670" /><di:waypoint x="570" y="670" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f2_di" bpmnElement="p4_half_year_evaluation_f2"><di:waypoint x="730" y="670" /><di:waypoint x="760" y="670" /><di:waypoint x="760" y="250" /><di:waypoint x="785" y="250" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f1_di" bpmnElement="p4_half_year_evaluation_f1"><di:waypoint x="515" y="110" /><di:waypoint x="545" y="110" /><di:waypoint x="545" y="390" /><di:waypoint x="570" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f2_di" bpmnElement="p4_half_year_evaluation_f2"><di:waypoint x="730" y="390" /><di:waypoint x="760" y="390" /><di:waypoint x="760" y="250" /><di:waypoint x="785" y="250" /></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="p4_half_year_evaluation_f3_di" bpmnElement="p4_half_year_evaluation_f3"><di:waypoint x="945" y="250" /><di:waypoint x="1055" y="250" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f4_di" bpmnElement="p4_half_year_evaluation_f4"><di:waypoint x="1080" y="275" /><di:waypoint x="1080" y="756" /><di:waypoint x="835" y="756" /><di:waypoint x="835" y="298" /><bpmndi:BPMNLabel><dc:Bounds x="1086" y="279" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f4_di" bpmnElement="p4_half_year_evaluation_f4"><di:waypoint x="1080" y="275" /><di:waypoint x="1080" y="616" /><di:waypoint x="835" y="616" /><di:waypoint x="835" y="298" /><bpmndi:BPMNLabel><dc:Bounds x="1086" y="279" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="p4_half_year_evaluation_f5_di" bpmnElement="p4_half_year_evaluation_f5"><di:waypoint x="1105" y="250" /><di:waypoint x="1215" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="1111" y="232" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f6_di" bpmnElement="p4_half_year_evaluation_f6"><di:waypoint x="1375" y="250" /><di:waypoint x="1460" y="250" /><di:waypoint x="1460" y="670" /><di:waypoint x="1485" y="670" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f7_di" bpmnElement="p4_half_year_evaluation_f7"><di:waypoint x="1510" y="645" /><di:waypoint x="1510" y="390" /><di:waypoint x="1645" y="390" /><bpmndi:BPMNLabel><dc:Bounds x="1516" y="625" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f8_di" bpmnElement="p4_half_year_evaluation_f8"><di:waypoint x="1535" y="670" /><di:waypoint x="2050" y="670" /><di:waypoint x="2050" y="530" /><di:waypoint x="2075" y="530" /><bpmndi:BPMNLabel><dc:Bounds x="1541" y="652" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f9_di" bpmnElement="p4_half_year_evaluation_f9"><di:waypoint x="1805" y="390" /><di:waypoint x="1915" y="390" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f10_di" bpmnElement="p4_half_year_evaluation_f10"><di:waypoint x="1940" y="415" /><di:waypoint x="1940" y="772" /><di:waypoint x="850" y="772" /><di:waypoint x="850" y="298" /><bpmndi:BPMNLabel><dc:Bounds x="1946" y="419" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f11_di" bpmnElement="p4_half_year_evaluation_f11"><di:waypoint x="1965" y="390" /><di:waypoint x="2050" y="390" /><di:waypoint x="2050" y="530" /><di:waypoint x="2075" y="530" /><bpmndi:BPMNLabel><dc:Bounds x="1971" y="372" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f12_di" bpmnElement="p4_half_year_evaluation_f12"><di:waypoint x="2235" y="530" /><di:waypoint x="2345" y="530" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f13_di" bpmnElement="p4_half_year_evaluation_f13"><di:waypoint x="2370" y="555" /><di:waypoint x="2370" y="788" /><di:waypoint x="865" y="788" /><di:waypoint x="865" y="298" /><bpmndi:BPMNLabel><dc:Bounds x="2376" y="559" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f14_di" bpmnElement="p4_half_year_evaluation_f14"><di:waypoint x="2395" y="530" /><di:waypoint x="2480" y="530" /><di:waypoint x="2480" y="670" /><di:waypoint x="2505" y="670" /><bpmndi:BPMNLabel><dc:Bounds x="2401" y="512" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f15_di" bpmnElement="p4_half_year_evaluation_f15"><di:waypoint x="2665" y="670" /><di:waypoint x="2750" y="670" /><di:waypoint x="2750" y="110" /><di:waypoint x="2775" y="110" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f16_di" bpmnElement="p4_half_year_evaluation_f16"><di:waypoint x="2800" y="135" /><di:waypoint x="2800" y="804" /><di:waypoint x="880" y="804" /><di:waypoint x="880" y="298" /><bpmndi:BPMNLabel><dc:Bounds x="2806" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f17_di" bpmnElement="p4_half_year_evaluation_f17"><di:waypoint x="2825" y="110" /><di:waypoint x="2935" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="2831" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f18_di" bpmnElement="p4_half_year_evaluation_f18"><di:waypoint x="3095" y="110" /><di:waypoint x="3212" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f6_di" bpmnElement="p4_half_year_evaluation_f6"><di:waypoint x="1375" y="250" /><di:waypoint x="1405" y="250" /><di:waypoint x="1405" y="390" /><di:waypoint x="1430" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f7_di" bpmnElement="p4_half_year_evaluation_f7"><di:waypoint x="1590" y="390" /><di:waypoint x="1700" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f8_di" bpmnElement="p4_half_year_evaluation_f8"><di:waypoint x="1725" y="415" /><di:waypoint x="1725" y="632" /><di:waypoint x="850" y="632" /><di:waypoint x="850" y="298" /><bpmndi:BPMNLabel><dc:Bounds x="1731" y="419" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f9_di" bpmnElement="p4_half_year_evaluation_f9"><di:waypoint x="1750" y="390" /><di:waypoint x="1915" y="390" /><bpmndi:BPMNLabel><dc:Bounds x="1756" y="372" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f10_di" bpmnElement="p4_half_year_evaluation_f10"><di:waypoint x="1940" y="415" /><di:waypoint x="1940" y="530" /><di:waypoint x="2075" y="530" /><bpmndi:BPMNLabel><dc:Bounds x="1946" y="419" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f11_di" bpmnElement="p4_half_year_evaluation_f11"><di:waypoint x="2155" y="578" /><di:waypoint x="2155" y="648" /><di:waypoint x="865" y="648" /><di:waypoint x="865" y="298" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f12_di" bpmnElement="p4_half_year_evaluation_f12"><di:waypoint x="1965" y="390" /><di:waypoint x="2075" y="390" /><bpmndi:BPMNLabel><dc:Bounds x="1971" y="372" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f13_di" bpmnElement="p4_half_year_evaluation_f13"><di:waypoint x="2235" y="390" /><di:waypoint x="2320" y="390" /><di:waypoint x="2320" y="110" /><di:waypoint x="2345" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f14_di" bpmnElement="p4_half_year_evaluation_f14"><di:waypoint x="2370" y="135" /><di:waypoint x="2370" y="530" /><di:waypoint x="2505" y="530" /><bpmndi:BPMNLabel><dc:Bounds x="2376" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f15_di" bpmnElement="p4_half_year_evaluation_f15"><di:waypoint x="2585" y="578" /><di:waypoint x="2585" y="664" /><di:waypoint x="880" y="664" /><di:waypoint x="880" y="298" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f16_di" bpmnElement="p4_half_year_evaluation_f16"><di:waypoint x="2395" y="110" /><di:waypoint x="2505" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="2401" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p4_half_year_evaluation_f17_di" bpmnElement="p4_half_year_evaluation_f17"><di:waypoint x="2665" y="110" /><di:waypoint x="2782" y="110" /></bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

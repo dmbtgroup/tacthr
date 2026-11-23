@@ -23,11 +23,11 @@
         <bpmn:flowNodeRef>p5_poor_performance_e1</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="p5_poor_performance_s" name="The board approves a score"><bpmn:outgoing>p5_poor_performance_f0</bpmn:outgoing></bpmn:startEvent>
+    <bpmn:startEvent id="p5_poor_performance_s" name="A person's half-year result is calculated"><bpmn:outgoing>p5_poor_performance_f0</bpmn:outgoing></bpmn:startEvent>
     <bpmn:exclusiveGateway id="p5_poor_performance_g1" name="Under 50 %?"><bpmn:incoming>p5_poor_performance_f0</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f1</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f2</bpmn:outgoing></bpmn:exclusiveGateway>
     <bpmn:serviceTask id="p5_poor_performance_s1" name="Record poor performance"><bpmn:incoming>p5_poor_performance_f1</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f3</bpmn:outgoing></bpmn:serviceTask>
     <bpmn:exclusiveGateway id="p5_poor_performance_g2" name="Previous half-year also under 50 %?"><bpmn:incoming>p5_poor_performance_f3</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f4</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f5</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="p5_poor_performance_s2" name="Alert HR"><bpmn:incoming>p5_poor_performance_f4</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f6</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:serviceTask id="p5_poor_performance_s2" name="Alert HR, the supervisor, the unit manager and the CEO"><bpmn:incoming>p5_poor_performance_f4</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f6</bpmn:outgoing></bpmn:serviceTask>
     <bpmn:manualTask id="p5_poor_performance_t1" name="Meeting on continuing employment"><bpmn:incoming>p5_poor_performance_f6</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f7</bpmn:outgoing></bpmn:manualTask>
     <bpmn:exclusiveGateway id="p5_poor_performance_g3" name="Decision"><bpmn:incoming>p5_poor_performance_f7</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f8</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f9</bpmn:outgoing></bpmn:exclusiveGateway>
     <bpmn:manualTask id="p5_poor_performance_t2" name="Record the decision and an improvement plan"><bpmn:incoming>p5_poor_performance_f8</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f10</bpmn:outgoing></bpmn:manualTask>

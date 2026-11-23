@@ -95,8 +95,10 @@ For each person the system calculates and shows three separate results, as a per
 - **Who is evaluated:** full-time staff with at least **3 months'** service; the system must filter out
   or warn about people with less.
 - **Periods:** Farvardin to Esfand in two **half-years**, each evaluated within **20 days** after it ends.
-- **Approval:** the supervisor or unit manager fills in the form; senior management or the board gives
-  the final approval.
+- **Scorers:** each person has up to three scorers, chosen in their profile by HR or the CEO: the
+  supervisor (always) and up to two more. Each scores separately; the person's result is the average of
+  the scores given by the deadline, and the supervisor's score alone is enough. There is no approval
+  step: HR is notified each time a scorer completes a person's scoring.
 - **Under 50 %:** a total under 50 % is recorded as **poor performance**. Twice in a row, the system
   raises an alert to review continued employment, for the HR committee, the supervisor or unit manager
   and the CEO.
@@ -153,7 +155,8 @@ What the app does now (performance part; salary and bonus are outside this spec)
 | Efficiency / effectiveness split | Default 50 / 50; any custom split | 75 / 25 or 50 / 50; default 75 / 25 |
 | Score scale | **1 to 5**, each option with its description on the form | 0 to 5, no descriptions |
 | Scores | Each score shown separately as 0–100 %, total as the weighted mix | Efficiency out of 75 (or its share), effectiveness out of 25, total out of 100 (or out of 650) |
-| Eligibility, half-years, 20-day deadline, approval, two halves under 50 % | As in section 5 | Already done |
+| Eligibility, half-years, 20-day deadline, two halves under 50 % | As in section 5 | Already done |
+| Scorers and approval | Up to 3 scorers per person, averaged; no approval, HR notified | One scorer (the supervisor), then unit manager and board approval |
 
 Also to settle then: scores already given on 0–5 (including the demo history): keep them as they are, or
 convert them to the 1–5 scale?

@@ -21,7 +21,7 @@ collected, in English and Persian, in [`procedures-specification-en.pdf`](proced
 | 1 | Setting up a client company | System administrator, HR | `p1_company_setup.bpmn` |
 | 2 | Staff and user accounts | HR / CEO, staff | `p2_staff_and_users.bpmn` |
 | 3 | Setting up the evaluation factors | HR / CEO | `p3_factor_setup.bpmn` |
-| 4 | Half-year performance evaluation | HR, supervisor, unit manager, CEO / board | `p4_half_year_evaluation.bpmn` |
+| 4 | Half-year performance evaluation | HR, scorers (the supervisor and up to two more) | `p4_half_year_evaluation.bpmn` |
 | 5 | Poor performance follow-up | HR, supervisor, unit manager, CEO | `p5_poor_performance.bpmn` |
 | 6 | Yearly salary and bonus | CEO / board, HR | `p6_salary_and_bonus.bpmn` |
 
@@ -43,10 +43,12 @@ The fields entered at each step are listed in [Data entry, page by page](DATA-EN
 2. On import, the system checks every row, adds new people and updates existing ones by personnel
    number, creates missing departments and links supervisors. A row in error stops the import, to be
    fixed and imported again.
-3. People who need to sign in get a user account: managers and employees are linked to their staff
+3. In each person's profile, HR or the CEO chooses up to three scorers: the person's supervisor (always)
+   and up to two more people. Each scores the person separately in every half-year.
+4. People who need to sign in get a user account: managers and employees are linked to their staff
    record. HR sends them the sign-in address and password; they change the password when they first
    sign in.
-4. People who leave are marked inactive, never deleted, so their history stays.
+5. People who leave are marked inactive, never deleted, so their history stays.
 
 ## 3. Setting up the evaluation factors
 ![Process 3](bpmn/p3_factor_setup.png)
@@ -68,23 +70,29 @@ The factors are reviewed every year. Each half-year keeps its own copy, so later
 1. When a half-year ends (31 Shahrivar or the end of Esfand), HR opens it.
 2. The system copies the factors, adds everyone eligible (full-time, three months' service by the
    half's end) and sets the deadline 20 days after the half ends.
-3. Each supervisor scores their team from 1 to 5 on every factor (and effectiveness), then sends each
-   evaluation for approval once every score is in.
-4. The unit manager (the supervisor's own supervisor) reviews it. Where the supervisor has no one above
-   them, it goes straight to the board.
-5. The CEO / board gives the final approval, one by one or all waiting at once. The manager or the
-   board can send an evaluation back to the supervisor to change.
-6. On approval the system calculates the results and checks for two half-years under 50 % (process 5).
-7. HR chases what's left; when everyone is approved, HR closes the half-year. The results feed the
+3. Each of the person's scorers (from their profile: the supervisor and up to two more) scores them
+   separately, from 1 to 5 on every factor (and effectiveness), and completes the scoring once every
+   score is in.
+4. Each time a scorer completes a person's scoring, the system notifies HR: "*person*'s scoring has been
+   completed by *scorer*". No approval is needed.
+5. When all the person's scorers are done, or the deadline has passed, the system averages the scores
+   that were given: each factor's score is the average of the scorers who scored it. If one or two of
+   the other scorers didn't score, the supervisor's score alone is enough. Without the supervisor's
+   score, the system notifies the supervisor and HR, and HR follows it up.
+6. The system then calculates the results and checks for two half-years under 50 % (process 5).
+7. For what's left, the system notifies each scorer who hasn't completed (and HR), and HR follows it
+   up; when everyone's result is in, HR closes the half-year. The results feed the
    reports, the ranking and next year's salary.
 
-Nobody scores or approves their own evaluation.
+Nobody scores themselves. Only the average is the person's result; each scorer's own scores stay on
+record for HR.
 
 ## 5. Poor performance follow-up
 ![Process 5](bpmn/p5_poor_performance.png)
 
-1. When the board approves a score under 50 %, the system records poor performance (no bonus that year).
-2. If the previous half-year was also under 50 %, the system alerts HR.
+1. When a person's half-year result is under 50 %, the system records poor performance (no bonus that year).
+2. If the previous half-year was also under 50 %, the system alerts HR, the supervisor, the unit
+   manager and the CEO.
 3. HR meets the supervisor, the unit manager and the CEO about continuing the employment.
 4. HR records the decision: an improvement plan, or the end of employment (the person is marked
    inactive; their history stays). HR then marks the alert done.
@@ -98,7 +106,7 @@ Nobody scores or approves their own evaluation.
    experience.
 3. HR enters or updates each person's education, experience, skill, job difficulty, job rank and
    sensitivity.
-4. The system adds last year's average performance (approved half-years), calculates the salary
+4. The system adds last year's average performance (completed half-years), calculates the salary
    (minimum wage + A × the sum of the seven percentages) and the bonus (base × performance coefficient;
    nothing under 50 %), and flags salaries above the maximum.
 5. The CEO / board gives the CEO score (0-20 %), or for someone on probation sets the probation salary

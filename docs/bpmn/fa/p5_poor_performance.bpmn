@@ -23,11 +23,11 @@
         <bpmn:flowNodeRef>p5_poor_performance_e1</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="p5_poor_performance_s" name="تأیید یک نمره توسط هیئت‌مدیره"><bpmn:outgoing>p5_poor_performance_f0</bpmn:outgoing></bpmn:startEvent>
+    <bpmn:startEvent id="p5_poor_performance_s" name="نتیجه نیم‌سال یک نفر محاسبه شد"><bpmn:outgoing>p5_poor_performance_f0</bpmn:outgoing></bpmn:startEvent>
     <bpmn:exclusiveGateway id="p5_poor_performance_g1" name="زیر ۵۰٪؟"><bpmn:incoming>p5_poor_performance_f0</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f1</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f2</bpmn:outgoing></bpmn:exclusiveGateway>
     <bpmn:serviceTask id="p5_poor_performance_s1" name="ثبت عملکرد نامناسب"><bpmn:incoming>p5_poor_performance_f1</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f3</bpmn:outgoing></bpmn:serviceTask>
     <bpmn:exclusiveGateway id="p5_poor_performance_g2" name="نیم‌سال قبل هم زیر ۵۰٪؟"><bpmn:incoming>p5_poor_performance_f3</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f4</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f5</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="p5_poor_performance_s2" name="هشدار به منابع انسانی"><bpmn:incoming>p5_poor_performance_f4</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f6</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:serviceTask id="p5_poor_performance_s2" name="هشدار به منابع انسانی، سرپرست، مدیر واحد و مدیرعامل"><bpmn:incoming>p5_poor_performance_f4</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f6</bpmn:outgoing></bpmn:serviceTask>
     <bpmn:manualTask id="p5_poor_performance_t1" name="جلسه درباره ادامه همکاری"><bpmn:incoming>p5_poor_performance_f6</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f7</bpmn:outgoing></bpmn:manualTask>
     <bpmn:exclusiveGateway id="p5_poor_performance_g3" name="تصمیم"><bpmn:incoming>p5_poor_performance_f7</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f8</bpmn:outgoing><bpmn:outgoing>p5_poor_performance_f9</bpmn:outgoing></bpmn:exclusiveGateway>
     <bpmn:manualTask id="p5_poor_performance_t2" name="ثبت تصمیم و برنامه بهبود"><bpmn:incoming>p5_poor_performance_f8</bpmn:incoming><bpmn:outgoing>p5_poor_performance_f10</bpmn:outgoing></bpmn:manualTask>
