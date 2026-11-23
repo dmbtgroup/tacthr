@@ -12,11 +12,9 @@
         <bpmn:flowNodeRef>p2_staff_and_users_tAdd</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p2_staff_and_users_tPrep</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p2_staff_and_users_tImp</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>p2_staff_and_users_gM</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p2_staff_and_users_gS</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p2_staff_and_users_tSc</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p2_staff_and_users_tAll</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>p2_staff_and_users_gSm</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p2_staff_and_users_gAcc</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p2_staff_and_users_tUser</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>p2_staff_and_users_tSend</bpmn:flowNodeRef>
@@ -39,18 +37,16 @@
     <bpmn:userTask id="p2_staff_and_users_tImp" name="Import from Excel"><bpmn:incoming>p2_staff_and_users_f3</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f4</bpmn:outgoing></bpmn:userTask>
     <bpmn:serviceTask id="p2_staff_and_users_sChk" name="Check rows; add or update by personnel no.; create departments; link supervisors"><bpmn:incoming>p2_staff_and_users_f4</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f5</bpmn:outgoing></bpmn:serviceTask>
     <bpmn:exclusiveGateway id="p2_staff_and_users_gErr" name="Errors?"><bpmn:incoming>p2_staff_and_users_f5</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f6</bpmn:outgoing><bpmn:outgoing>p2_staff_and_users_f7</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:exclusiveGateway id="p2_staff_and_users_gM" name=""><bpmn:incoming>p2_staff_and_users_f7</bpmn:incoming><bpmn:incoming>p2_staff_and_users_f8</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f9</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:exclusiveGateway id="p2_staff_and_users_gS" name="Scorers: one person or everyone?"><bpmn:incoming>p2_staff_and_users_f9</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f10</bpmn:outgoing><bpmn:outgoing>p2_staff_and_users_f11</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:userTask id="p2_staff_and_users_tSc" name="In the person's profile, choose up to 3 scorers: the supervisor and up to 2 more"><bpmn:incoming>p2_staff_and_users_f10</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f13</bpmn:outgoing></bpmn:userTask>
-    <bpmn:userTask id="p2_staff_and_users_tAll" name="Second or third scorer for everyone: choose the person, everyone or one department, replace existing or not"><bpmn:incoming>p2_staff_and_users_f11</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f12</bpmn:outgoing></bpmn:userTask>
-    <bpmn:serviceTask id="p2_staff_and_users_sAll" name="Set that scorer for everyone in scope except themselves; fill only empty ones unless replacing"><bpmn:incoming>p2_staff_and_users_f12</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f14</bpmn:outgoing></bpmn:serviceTask>
-    <bpmn:exclusiveGateway id="p2_staff_and_users_gSm" name=""><bpmn:incoming>p2_staff_and_users_f13</bpmn:incoming><bpmn:incoming>p2_staff_and_users_f14</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f15</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:exclusiveGateway id="p2_staff_and_users_gAcc" name="Needs a sign-in?"><bpmn:incoming>p2_staff_and_users_f15</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f16</bpmn:outgoing><bpmn:outgoing>p2_staff_and_users_f17</bpmn:outgoing></bpmn:exclusiveGateway>
-    <bpmn:userTask id="p2_staff_and_users_tUser" name="Create the user: name, email, role, staff record, password"><bpmn:incoming>p2_staff_and_users_f16</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f18</bpmn:outgoing></bpmn:userTask>
-    <bpmn:manualTask id="p2_staff_and_users_tSend" name="Send the sign-in address and password"><bpmn:incoming>p2_staff_and_users_f18</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f19</bpmn:outgoing></bpmn:manualTask>
-    <bpmn:userTask id="p2_staff_and_users_tSign" name="Sign in and change the password"><bpmn:incoming>p2_staff_and_users_f19</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f20</bpmn:outgoing></bpmn:userTask>
-    <bpmn:endEvent id="p2_staff_and_users_e1" name="Staff member can sign in"><bpmn:incoming>p2_staff_and_users_f20</bpmn:incoming></bpmn:endEvent>
-    <bpmn:endEvent id="p2_staff_and_users_e2" name="Staff recorded"><bpmn:incoming>p2_staff_and_users_f17</bpmn:incoming></bpmn:endEvent>
+    <bpmn:exclusiveGateway id="p2_staff_and_users_gS" name="Scorers: one person or everyone?"><bpmn:incoming>p2_staff_and_users_f7</bpmn:incoming><bpmn:incoming>p2_staff_and_users_f8</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f9</bpmn:outgoing><bpmn:outgoing>p2_staff_and_users_f10</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:userTask id="p2_staff_and_users_tSc" name="In the person's profile, choose up to 3 scorers: the supervisor and up to 2 more"><bpmn:incoming>p2_staff_and_users_f9</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f12</bpmn:outgoing></bpmn:userTask>
+    <bpmn:userTask id="p2_staff_and_users_tAll" name="Second or third scorer for everyone: choose the person, everyone or one department, replace existing or not"><bpmn:incoming>p2_staff_and_users_f10</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f11</bpmn:outgoing></bpmn:userTask>
+    <bpmn:serviceTask id="p2_staff_and_users_sAll" name="Set that scorer for everyone in scope except themselves; fill only empty ones unless replacing"><bpmn:incoming>p2_staff_and_users_f11</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f13</bpmn:outgoing></bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="p2_staff_and_users_gAcc" name="Needs a sign-in?"><bpmn:incoming>p2_staff_and_users_f12</bpmn:incoming><bpmn:incoming>p2_staff_and_users_f13</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f14</bpmn:outgoing><bpmn:outgoing>p2_staff_and_users_f15</bpmn:outgoing></bpmn:exclusiveGateway>
+    <bpmn:userTask id="p2_staff_and_users_tUser" name="Create the user: name, email, role, staff record, password"><bpmn:incoming>p2_staff_and_users_f14</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f16</bpmn:outgoing></bpmn:userTask>
+    <bpmn:manualTask id="p2_staff_and_users_tSend" name="Send the sign-in address and password"><bpmn:incoming>p2_staff_and_users_f16</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f17</bpmn:outgoing></bpmn:manualTask>
+    <bpmn:userTask id="p2_staff_and_users_tSign" name="Sign in and change the password"><bpmn:incoming>p2_staff_and_users_f17</bpmn:incoming><bpmn:outgoing>p2_staff_and_users_f18</bpmn:outgoing></bpmn:userTask>
+    <bpmn:endEvent id="p2_staff_and_users_e1" name="Staff member can sign in"><bpmn:incoming>p2_staff_and_users_f18</bpmn:incoming></bpmn:endEvent>
+    <bpmn:endEvent id="p2_staff_and_users_e2" name="Staff recorded"><bpmn:incoming>p2_staff_and_users_f15</bpmn:incoming></bpmn:endEvent>
     <bpmn:sequenceFlow id="p2_staff_and_users_f0" sourceRef="p2_staff_and_users_s" targetRef="p2_staff_and_users_g1" />
     <bpmn:sequenceFlow id="p2_staff_and_users_f1" name="One person" sourceRef="p2_staff_and_users_g1" targetRef="p2_staff_and_users_tAdd" />
     <bpmn:sequenceFlow id="p2_staff_and_users_f2" name="From Excel" sourceRef="p2_staff_and_users_g1" targetRef="p2_staff_and_users_tPrep" />
@@ -58,27 +54,25 @@
     <bpmn:sequenceFlow id="p2_staff_and_users_f4" sourceRef="p2_staff_and_users_tImp" targetRef="p2_staff_and_users_sChk" />
     <bpmn:sequenceFlow id="p2_staff_and_users_f5" sourceRef="p2_staff_and_users_sChk" targetRef="p2_staff_and_users_gErr" />
     <bpmn:sequenceFlow id="p2_staff_and_users_f6" name="Yes: fix the rows" sourceRef="p2_staff_and_users_gErr" targetRef="p2_staff_and_users_tPrep" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f7" name="No" sourceRef="p2_staff_and_users_gErr" targetRef="p2_staff_and_users_gM" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f8" sourceRef="p2_staff_and_users_tAdd" targetRef="p2_staff_and_users_gM" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f9" sourceRef="p2_staff_and_users_gM" targetRef="p2_staff_and_users_gS" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f10" name="One person" sourceRef="p2_staff_and_users_gS" targetRef="p2_staff_and_users_tSc" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f11" name="Everyone" sourceRef="p2_staff_and_users_gS" targetRef="p2_staff_and_users_tAll" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f12" sourceRef="p2_staff_and_users_tAll" targetRef="p2_staff_and_users_sAll" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f13" sourceRef="p2_staff_and_users_tSc" targetRef="p2_staff_and_users_gSm" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f14" sourceRef="p2_staff_and_users_sAll" targetRef="p2_staff_and_users_gSm" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f15" sourceRef="p2_staff_and_users_gSm" targetRef="p2_staff_and_users_gAcc" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f16" name="Yes" sourceRef="p2_staff_and_users_gAcc" targetRef="p2_staff_and_users_tUser" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f17" name="No" sourceRef="p2_staff_and_users_gAcc" targetRef="p2_staff_and_users_e2" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f18" sourceRef="p2_staff_and_users_tUser" targetRef="p2_staff_and_users_tSend" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f19" sourceRef="p2_staff_and_users_tSend" targetRef="p2_staff_and_users_tSign" />
-    <bpmn:sequenceFlow id="p2_staff_and_users_f20" sourceRef="p2_staff_and_users_tSign" targetRef="p2_staff_and_users_e1" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f7" name="No" sourceRef="p2_staff_and_users_gErr" targetRef="p2_staff_and_users_gS" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f8" sourceRef="p2_staff_and_users_tAdd" targetRef="p2_staff_and_users_gS" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f9" name="One person" sourceRef="p2_staff_and_users_gS" targetRef="p2_staff_and_users_tSc" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f10" name="Everyone" sourceRef="p2_staff_and_users_gS" targetRef="p2_staff_and_users_tAll" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f11" sourceRef="p2_staff_and_users_tAll" targetRef="p2_staff_and_users_sAll" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f12" sourceRef="p2_staff_and_users_tSc" targetRef="p2_staff_and_users_gAcc" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f13" sourceRef="p2_staff_and_users_sAll" targetRef="p2_staff_and_users_gAcc" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f14" name="Yes" sourceRef="p2_staff_and_users_gAcc" targetRef="p2_staff_and_users_tUser" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f15" name="No" sourceRef="p2_staff_and_users_gAcc" targetRef="p2_staff_and_users_e2" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f16" sourceRef="p2_staff_and_users_tUser" targetRef="p2_staff_and_users_tSend" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f17" sourceRef="p2_staff_and_users_tSend" targetRef="p2_staff_and_users_tSign" />
+    <bpmn:sequenceFlow id="p2_staff_and_users_f18" sourceRef="p2_staff_and_users_tSign" targetRef="p2_staff_and_users_e1" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="p2_staff_and_users_diagram">
     <bpmndi:BPMNPlane id="p2_staff_and_users_plane" bpmnElement="p2_staff_and_users_collab">
-      <bpmndi:BPMNShape id="p2_staff_and_users_pool_di" bpmnElement="p2_staff_and_users_pool" isHorizontal="true"><dc:Bounds x="70" y="40" width="3510" height="560" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_lane_hr_di" bpmnElement="p2_staff_and_users_lane_hr" isHorizontal="true"><dc:Bounds x="100" y="40" width="3480" height="280" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_lane_sys_di" bpmnElement="p2_staff_and_users_lane_sys" isHorizontal="true"><dc:Bounds x="100" y="320" width="3480" height="140" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_lane_st_di" bpmnElement="p2_staff_and_users_lane_st" isHorizontal="true"><dc:Bounds x="100" y="460" width="3480" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_pool_di" bpmnElement="p2_staff_and_users_pool" isHorizontal="true"><dc:Bounds x="70" y="40" width="3080" height="560" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_lane_hr_di" bpmnElement="p2_staff_and_users_lane_hr" isHorizontal="true"><dc:Bounds x="100" y="40" width="3050" height="280" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_lane_sys_di" bpmnElement="p2_staff_and_users_lane_sys" isHorizontal="true"><dc:Bounds x="100" y="320" width="3050" height="140" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_lane_st_di" bpmnElement="p2_staff_and_users_lane_st" isHorizontal="true"><dc:Bounds x="100" y="460" width="3050" height="140" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p2_staff_and_users_s_di" bpmnElement="p2_staff_and_users_s"><dc:Bounds x="202.0" y="92.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="162.0" y="132.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p2_staff_and_users_g1_di" bpmnElement="p2_staff_and_users_g1" isMarkerVisible="true"><dc:Bounds x="410.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="365.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p2_staff_and_users_tAdd_di" bpmnElement="p2_staff_and_users_tAdd"><dc:Bounds x="570.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
@@ -86,18 +80,16 @@
       <bpmndi:BPMNShape id="p2_staff_and_users_tImp_di" bpmnElement="p2_staff_and_users_tImp"><dc:Bounds x="785.0" y="202.0" width="160" height="96" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p2_staff_and_users_sChk_di" bpmnElement="p2_staff_and_users_sChk"><dc:Bounds x="1000.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="p2_staff_and_users_gErr_di" bpmnElement="p2_staff_and_users_gErr" isMarkerVisible="true"><dc:Bounds x="1270.0" y="365.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1225.0" y="319.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_gM_di" bpmnElement="p2_staff_and_users_gM" isMarkerVisible="true"><dc:Bounds x="1485.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1440.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_gS_di" bpmnElement="p2_staff_and_users_gS" isMarkerVisible="true"><dc:Bounds x="1700.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1655.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_tSc_di" bpmnElement="p2_staff_and_users_tSc"><dc:Bounds x="1860.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_tAll_di" bpmnElement="p2_staff_and_users_tAll"><dc:Bounds x="1860.0" y="202.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_sAll_di" bpmnElement="p2_staff_and_users_sAll"><dc:Bounds x="2075.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_gSm_di" bpmnElement="p2_staff_and_users_gSm" isMarkerVisible="true"><dc:Bounds x="2345.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2300.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_gAcc_di" bpmnElement="p2_staff_and_users_gAcc" isMarkerVisible="true"><dc:Bounds x="2560.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2515.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_tUser_di" bpmnElement="p2_staff_and_users_tUser"><dc:Bounds x="2720.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_tSend_di" bpmnElement="p2_staff_and_users_tSend"><dc:Bounds x="2935.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_tSign_di" bpmnElement="p2_staff_and_users_tSign"><dc:Bounds x="3150.0" y="482.0" width="160" height="96" /></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_e1_di" bpmnElement="p2_staff_and_users_e1"><dc:Bounds x="3427.0" y="512.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="3387.0" y="552.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="p2_staff_and_users_e2_di" bpmnElement="p2_staff_and_users_e2"><dc:Bounds x="2782.0" y="232.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2742.0" y="272.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_gS_di" bpmnElement="p2_staff_and_users_gS" isMarkerVisible="true"><dc:Bounds x="1485.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1440.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_tSc_di" bpmnElement="p2_staff_and_users_tSc"><dc:Bounds x="1645.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_tAll_di" bpmnElement="p2_staff_and_users_tAll"><dc:Bounds x="1645.0" y="202.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_sAll_di" bpmnElement="p2_staff_and_users_sAll"><dc:Bounds x="1860.0" y="342.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_gAcc_di" bpmnElement="p2_staff_and_users_gAcc" isMarkerVisible="true"><dc:Bounds x="2130.0" y="85.0" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2085.0" y="39.0" width="140" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_tUser_di" bpmnElement="p2_staff_and_users_tUser"><dc:Bounds x="2290.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_tSend_di" bpmnElement="p2_staff_and_users_tSend"><dc:Bounds x="2505.0" y="62.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_tSign_di" bpmnElement="p2_staff_and_users_tSign"><dc:Bounds x="2720.0" y="482.0" width="160" height="96" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_e1_di" bpmnElement="p2_staff_and_users_e1"><dc:Bounds x="2997.0" y="512.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2957.0" y="552.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="p2_staff_and_users_e2_di" bpmnElement="p2_staff_and_users_e2"><dc:Bounds x="2352.0" y="232.0" width="36" height="36" /><bpmndi:BPMNLabel><dc:Bounds x="2312.0" y="272.0" width="116" height="28" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="p2_staff_and_users_f0_di" bpmnElement="p2_staff_and_users_f0"><di:waypoint x="238" y="110" /><di:waypoint x="410" y="110" /></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="p2_staff_and_users_f1_di" bpmnElement="p2_staff_and_users_f1"><di:waypoint x="460" y="110" /><di:waypoint x="570" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="466" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="p2_staff_and_users_f2_di" bpmnElement="p2_staff_and_users_f2"><di:waypoint x="435" y="135" /><di:waypoint x="435" y="250" /><di:waypoint x="570" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="441" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
@@ -107,18 +99,16 @@
       <bpmndi:BPMNEdge id="p2_staff_and_users_f6_di" bpmnElement="p2_staff_and_users_f6"><di:waypoint x="1295" y="415" /><di:waypoint x="1295" y="616" /><di:waypoint x="620" y="616" /><di:waypoint x="620" y="298" /><bpmndi:BPMNLabel><dc:Bounds x="1301" y="419" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="p2_staff_and_users_f7_di" bpmnElement="p2_staff_and_users_f7"><di:waypoint x="1320" y="390" /><di:waypoint x="1460" y="390" /><di:waypoint x="1460" y="110" /><di:waypoint x="1485" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="1326" y="372" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="p2_staff_and_users_f8_di" bpmnElement="p2_staff_and_users_f8"><di:waypoint x="730" y="110" /><di:waypoint x="1485" y="110" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f9_di" bpmnElement="p2_staff_and_users_f9"><di:waypoint x="1535" y="110" /><di:waypoint x="1700" y="110" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f10_di" bpmnElement="p2_staff_and_users_f10"><di:waypoint x="1750" y="110" /><di:waypoint x="1860" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="1756" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f11_di" bpmnElement="p2_staff_and_users_f11"><di:waypoint x="1725" y="135" /><di:waypoint x="1725" y="250" /><di:waypoint x="1860" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="1731" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f12_di" bpmnElement="p2_staff_and_users_f12"><di:waypoint x="2020" y="250" /><di:waypoint x="2050" y="250" /><di:waypoint x="2050" y="390" /><di:waypoint x="2075" y="390" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f13_di" bpmnElement="p2_staff_and_users_f13"><di:waypoint x="2020" y="110" /><di:waypoint x="2345" y="110" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f14_di" bpmnElement="p2_staff_and_users_f14"><di:waypoint x="2235" y="390" /><di:waypoint x="2320" y="390" /><di:waypoint x="2320" y="110" /><di:waypoint x="2345" y="110" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f15_di" bpmnElement="p2_staff_and_users_f15"><di:waypoint x="2395" y="110" /><di:waypoint x="2560" y="110" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f16_di" bpmnElement="p2_staff_and_users_f16"><di:waypoint x="2610" y="110" /><di:waypoint x="2720" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="2616" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f17_di" bpmnElement="p2_staff_and_users_f17"><di:waypoint x="2585" y="135" /><di:waypoint x="2585" y="250" /><di:waypoint x="2782" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="2591" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f18_di" bpmnElement="p2_staff_and_users_f18"><di:waypoint x="2880" y="110" /><di:waypoint x="2935" y="110" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f19_di" bpmnElement="p2_staff_and_users_f19"><di:waypoint x="3095" y="110" /><di:waypoint x="3125" y="110" /><di:waypoint x="3125" y="530" /><di:waypoint x="3150" y="530" /></bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="p2_staff_and_users_f20_di" bpmnElement="p2_staff_and_users_f20"><di:waypoint x="3310" y="530" /><di:waypoint x="3427" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p2_staff_and_users_f9_di" bpmnElement="p2_staff_and_users_f9"><di:waypoint x="1535" y="110" /><di:waypoint x="1645" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="1541" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p2_staff_and_users_f10_di" bpmnElement="p2_staff_and_users_f10"><di:waypoint x="1510" y="135" /><di:waypoint x="1510" y="250" /><di:waypoint x="1645" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="1516" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p2_staff_and_users_f11_di" bpmnElement="p2_staff_and_users_f11"><di:waypoint x="1805" y="250" /><di:waypoint x="1835" y="250" /><di:waypoint x="1835" y="390" /><di:waypoint x="1860" y="390" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p2_staff_and_users_f12_di" bpmnElement="p2_staff_and_users_f12"><di:waypoint x="1805" y="110" /><di:waypoint x="2130" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p2_staff_and_users_f13_di" bpmnElement="p2_staff_and_users_f13"><di:waypoint x="2020" y="390" /><di:waypoint x="2105" y="390" /><di:waypoint x="2105" y="110" /><di:waypoint x="2130" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p2_staff_and_users_f14_di" bpmnElement="p2_staff_and_users_f14"><di:waypoint x="2180" y="110" /><di:waypoint x="2290" y="110" /><bpmndi:BPMNLabel><dc:Bounds x="2186" y="92" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p2_staff_and_users_f15_di" bpmnElement="p2_staff_and_users_f15"><di:waypoint x="2155" y="135" /><di:waypoint x="2155" y="250" /><di:waypoint x="2352" y="250" /><bpmndi:BPMNLabel><dc:Bounds x="2161" y="139" width="110" height="14" /></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p2_staff_and_users_f16_di" bpmnElement="p2_staff_and_users_f16"><di:waypoint x="2450" y="110" /><di:waypoint x="2505" y="110" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p2_staff_and_users_f17_di" bpmnElement="p2_staff_and_users_f17"><di:waypoint x="2665" y="110" /><di:waypoint x="2695" y="110" /><di:waypoint x="2695" y="530" /><di:waypoint x="2720" y="530" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="p2_staff_and_users_f18_di" bpmnElement="p2_staff_and_users_f18"><di:waypoint x="2880" y="530" /><di:waypoint x="2997" y="530" /></bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
