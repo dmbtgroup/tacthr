@@ -79,10 +79,8 @@ FA = {
     "Supervisor's score in?": "امتیاز سرپرست ثبت شده؟",
     "No: HR chases the supervisor": "خیر: پیگیری سرپرست توسط منابع انسانی",
     "Average the scores given; calculate the results; check under 50 % (process 5)": "میانگین امتیازهای داده‌شده؛ محاسبه نتایج؛ بررسی زیر ۵۰٪ (فرایند ۵)",
-    "Everyone's result in?": "نتیجه همه ثبت شد؟",
     "Notify the supervisor and HR: the supervisor's score is missing": "اعلان به سرپرست و منابع انسانی: امتیاز سرپرست ثبت نشده",
     "Notify each scorer who hasn't completed, and HR": "اعلان به هر امتیازدهنده‌ای که تکمیل نکرده و به منابع انسانی",
-    "No: HR chases": "خیر: پیگیری منابع انسانی",
     "Close the half-year": "بستن نیم‌سال",
     "Results final": "نتایج نهایی شد",
     # Process 5

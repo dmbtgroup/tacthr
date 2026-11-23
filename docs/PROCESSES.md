@@ -79,13 +79,13 @@ The factors are reviewed every year. Each half-year keeps its own copy, so later
    score is in.
 4. Each time a scorer completes a person's scoring, the system notifies HR: "*person*'s scoring has been
    completed by *scorer*". No approval is needed.
-5. When all the person's scorers are done, or the deadline has passed, the system averages the scores
+5. Until the deadline, the system notifies each scorer who hasn't completed (and HR), and HR follows it
+   up. When all the person's scorers are done, or the deadline has passed, the system averages the scores
    that were given: each factor's score is the average of the scorers who scored it. If one or two of
    the other scorers didn't score, the supervisor's score alone is enough. Without the supervisor's
    score, the system notifies the supervisor and HR, and HR follows it up.
 6. The system then calculates the results and checks for two half-years under 50 % (process 5).
-7. For what's left, the system notifies each scorer who hasn't completed (and HR), and HR follows it
-   up; when everyone's result is in, HR closes the half-year. The results feed the
+7. When everyone's result is in, HR closes the half-year. The results feed the
    reports, the ranking and next year's salary.
 
 Nobody scores themselves. Only the average is the person's result; each scorer's own scores stay on
