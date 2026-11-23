@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-/** Validated categorical slots 1 and 2 (blue, orange) of the reference palette. */
-export const SERIES = ["#2a78d6", "#eb6834"] as const;
+/** The theme blue and the logo grey (dark enough to read on white), told apart by lightness too. */
+export const SERIES = ["#1488f2", "#7a7a7a"] as const;
 
 export type Series = { name: string; values: (number | null)[] };
 

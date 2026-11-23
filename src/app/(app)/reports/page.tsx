@@ -295,7 +295,7 @@ export default async function ReportsPage({
                         <td
                           key={dId ?? "all"}
                           className="text-center"
-                          style={v == null ? undefined : { background: `rgba(42, 120, 214, ${0.06 + (v / 5) * 0.4})` }}
+                          style={v == null ? undefined : { background: `rgba(20, 136, 242, ${0.06 + (v / 5) * 0.4})` }}
                         >
                           {v == null ? "—" : num(t, v, 1)}
                         </td>

@@ -6,7 +6,7 @@ export function Logo({ className = "h-9 w-auto" }: { className?: string }) {
   return <img src={withBase("/tacthr-logo.png")} alt="tactHR" className={className} />;
 }
 
-/** For the dark side menu: the figures, with "tact" in white and "HR" in orange. */
+/** For the dark side menu: the figures, with "tact" in white and "HR" in the theme blue. */
 export function LogoOnDark({ className = "h-7 w-auto" }: { className?: string }) {
   return (
     <span className="inline-flex items-center gap-2" dir="ltr">

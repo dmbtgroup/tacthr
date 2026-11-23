@@ -48,7 +48,7 @@ export function AppShell({
   useEffect(() => setOpen(false), [pathname]);
 
   const menu = (
-    <nav className="flex h-full flex-col bg-[#262a31] text-slate-200">
+    <nav className="flex h-full flex-col bg-[#3a3d42] text-slate-200">
       <div className="border-b border-white/10 px-5 py-4 text-white">{brand}</div>
       <ul className="flex-1 overflow-y-auto py-2">
         {links.map((l) => {

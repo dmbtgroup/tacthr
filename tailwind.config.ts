@@ -5,20 +5,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        // DMBT logo colours: brand-500 is the logo orange, ink the logo's dark grey. Buttons use brand-600
-        // and links brand-700 so white or body text on them stays readable.
+        // House Of Management Engineering logo colours: brand-500 is the logo blue; buttons use brand-600 and
+        // links brand-700 so white or body text on them stays readable. Grey is the logo roof, ink its dark text.
         brand: {
-          50: "#fff5ec",
-          100: "#ffe6cf",
-          200: "#ffcc9f",
-          300: "#fbad66",
-          400: "#f8973f",
-          500: "#f5821f",
-          600: "#e0701a",
-          700: "#c05c12",
-          800: "#9a4a10",
+          50: "#eef6fe",
+          100: "#d9ebfd",
+          200: "#b3d7fb",
+          300: "#7dbcf7",
+          400: "#45a0f5",
+          500: "#1488f2",
+          600: "#0f72d1",
+          700: "#0d5ca8",
+          800: "#0b4682",
         },
-        ink: "#474747",
+        roof: "#9c9c9c",
+        ink: "#3a3a3a",
       },
     },
   },
