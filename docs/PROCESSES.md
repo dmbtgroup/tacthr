@@ -62,7 +62,7 @@ Following specification v1.1:
   factors (from the job descriptions), weighting each from 1 to 10, or 0 to switch it off.
 - **Mode B (standard):** the system loads the 12 standard efficiency factors with locked titles; HR
   adjusts their weights (1 to 9, or 0). Effectiveness uses either the 4 standard factors (achieving
-  results, key expectations, impact, quality of results), weighted, or the direct 0-25 band score.
+  results, key expectations, impact, quality of results), weighted.
 - In both modes HR sets the efficiency / effectiveness split (default 50 / 50, e.g. 75 / 25), and the
   system normalizes the weights.
 

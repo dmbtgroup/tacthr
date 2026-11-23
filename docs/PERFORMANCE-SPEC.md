@@ -51,18 +51,13 @@ For organizations without written job descriptions or predefined efficiency fact
 | 12 | آموزش‌پذیری و آموزش به دیگران | Eagerness to teach and guide colleagues; drive to grow and learn | 6 |
 | | **Total** | | **60** |
 
-### 3.2 Effectiveness in mode B: two supported patterns
-**a) The program's main pattern: 4 standard effectiveness factors.** The user can change the weights
-between them, including setting one to 0:
+### 3.2 Effectiveness in mode B: the 4 standard factors
+The user can change the weights between them, including setting one to 0:
 
 1. **تحقق نتیجه (achieving results):** how far the person reaches the expected goals and outputs.
 2. **تحقق انتظارات کلیدی (meeting key expectations):** how far the key expectations defined for the role are met.
 3. **تأثیرگذاری (impact):** how much the person's work affects processes, the team or broader goals.
 4. **کیفیت نتیجه (quality of results):** the accuracy, standard and quality of what is delivered.
-
-**b) The instruction's alternative: a direct score from 0 to 25.** As in table 2 of the instruction, when
-job descriptions are incomplete the manager scores effectiveness directly, from 0 to 25, in five bands:
-very low 0–5, low 6–10, medium 11–15, high 16–20, very high 21–25.
 
 ## 4. Weighting, scoring and calculation
 ### 4.1 The split between efficiency and effectiveness
@@ -107,7 +102,7 @@ For each person the system calculates and shows three separate results, as a per
 | | Mode A (organization's own) | Mode B (program standard) |
 |---|---|---|
 | Efficiency factors | Number and titles entered by the user | The 12 fixed factors (titles locked) |
-| Effectiveness factors | Number and titles from the job descriptions | The 4 standard factors (or the 0–25 direct score) |
+| Effectiveness factors | Number and titles from the job descriptions | The 4 standard factors |
 | Factor weights | 1–10 by the user, normalized; 0 allowed | Weights on the fixed factors (default total 60); 0 allowed |
 | Efficiency / effectiveness split | 50 / 50 or the user's own | 50 / 50 or the user's own (e.g. 75 / 25 without job descriptions) |
 | Result | Total = efficiency × % efficiency + effectiveness × % effectiveness | The same, from 0 to 100 % |
@@ -125,7 +120,7 @@ For each person the system calculates and shows three separate results, as a per
 **Mode B**
 1. Load the 12 fixed efficiency factors (titles locked).
 2. Weight them (default total 60; 0 allowed).
-3. Effectiveness with the 4 standard factors (or the 0–25 direct score).
+3. Effectiveness with the 4 standard factors.
 4. Weight the 4 effectiveness factors and set the efficiency / effectiveness split.
 5. Enter the eligible people (3 months' service or more) and score each 1 to 5, with the level descriptions shown.
 6. Output: efficiency score, effectiveness score and total performance score.
@@ -138,8 +133,6 @@ For each person the system calculates and shows three separate results, as a per
    organization's own), or drop it?
 3. **Mode B weights.** Keep the rule that weights total exactly 60, or always normalize (so any total
    works)? v1.1 asks for both to be possible: is it a per-company choice?
-4. **Effectiveness in mode B.** Is the choice between the 4 factors and the 0–25 score made per company
-   or per half-year?
 
 <!-- status: kept in the repository, left out of the PDF until the procedures are final -->
 ## Differences from the app today (internal)
@@ -151,7 +144,7 @@ What the app does now (performance part; salary and bonus are outside this spec)
 | Own factors (mode A) | Any number of efficiency and effectiveness factors, entered by the organization | Factors can be added and edited, but effectiveness factors exist only per department in the out-of-650 method |
 | Standard factor titles | Locked | Editable, and factors can be deleted |
 | Weights | 1–10 (A) or 1–9 (B); **0 switches a factor off**; normalized automatically, or fixed total 60 in B | 1–9 (or 1–20 in the out-of-650 method); 0 not allowed; totals must be exactly 60 (or 65 + 65) |
-| Effectiveness in B | 4 standard factors, weighted; or the 0–25 band score | Only the 0–25 band score |
+| Effectiveness in B | 4 standard factors, weighted | Only a 0–25 band score (to be removed) |
 | Efficiency / effectiveness split | Default 50 / 50; any custom split | 75 / 25 or 50 / 50; default 75 / 25 |
 | Score scale | **1 to 5**, each option with its description on the form | 0 to 5, no descriptions |
 | Scores | Each score shown separately as 0–100 %, total as the weighted mix | Efficiency out of 75 (or its share), effectiveness out of 25, total out of 100 (or out of 650) |

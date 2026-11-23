@@ -118,8 +118,7 @@ Process 3. Fields depend on the evaluation mode.
 | Field | Persian label | Req. | Format / allowed values | Notes |
 |---|---|---|---|---|
 | Weight of each of the 12 efficiency factors | وزن | ✓ | Whole number 1-9, or 0 to leave it out | Titles locked; default weights total 60 (fixed total of 60, or normalized) |
-| Effectiveness pattern | الگوی اثربخشی | ✓ | 4 standard factors / direct 0-25 score | |
-| Weight of each of the 4 effectiveness factors | وزن | ✓ (4 factors) | Whole number, or 0 to leave it out | Achieving results, key expectations, impact, quality of results; normalized |
+| Weight of each of the 4 effectiveness factors | وزن | ✓ | Whole number, or 0 to leave it out | Achieving results, key expectations, impact, quality of results; normalized |
 
 **Restore defaults** puts back the instruction's factors and weights. A half-year already open keeps its
 own copy.
@@ -134,9 +133,7 @@ own copy.
 | Field | Persian label | Req. | Format / allowed values | Notes |
 |---|---|---|---|---|
 | Score per efficiency factor | امتیاز | ✓ to send | 1-5, each option with its description | 5 excellent, 4 good, 3 acceptable, 2 weak, 1 not achieved |
-| Score per effectiveness factor | امتیاز | ✓ to send (mode A, or B with 4 factors) | 1-5, each option with its description | |
-| Effectiveness band | سطح اثربخشی | ✓ to send (B with the 0-25 score) | Very high 21-25, high 16-20, medium 11-15, low 6-10, very low 0-5 | |
-| Effectiveness score | نمره اثربخشی | ✓ to send (B with the 0-25 score) | Number inside the chosen band | |
+| Score per effectiveness factor | امتیاز | ✓ to send | 1-5, each option with its description | |
 | Notes | توضیحات | | Text | |
 
 Shown as you score: the efficiency score, the effectiveness score and the total, each 0-100 %. **Save**
