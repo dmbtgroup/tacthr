@@ -45,6 +45,10 @@ FA = {
     "Sign in and change the password": "ورود و تغییر رمز عبور",
     "Staff member can sign in": "کارمند می‌تواند وارد شود",
     "Staff recorded": "پرسنل ثبت شد",
+    "Scorers: one person or everyone?": "امتیازدهنده: یک نفر یا همه؟",
+    "Everyone": "همه",
+    "Second or third scorer for everyone: choose the person, everyone or one department, replace existing or not": "امتیازدهنده دوم یا سوم برای همه: انتخاب فرد، همه یا یک واحد، جایگزینی موارد فعلی یا نه",
+    "Set that scorer for everyone in scope except themselves; fill only empty ones unless replacing": "تعیین آن امتیازدهنده برای همه افراد دامنه به جز خودش؛ بدون جایگزینی فقط جاهای خالی",
     "In the person's profile, choose up to 3 scorers: the supervisor and up to 2 more": "در پروفایل فرد، انتخاب حداکثر ۳ امتیازدهنده: سرپرست و حداکثر ۲ نفر دیگر",
     # Process 3
     "Before the first half-year (reviewed every year)": "پیش از نخستین نیم‌سال (بازنگری سالانه)",

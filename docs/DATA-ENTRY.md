@@ -59,6 +59,17 @@ The process each page belongs to is described in [Processes](PROCESSES.md).
 
 National ID, date of birth, phone and home address are personal data: only HR and the CEO see them.
 
+### Second or third scorer for everyone
+**Scorer for everyone** on the staff page. Process 2.
+
+| Field | Persian label | Req. | Format / allowed values | Notes |
+|---|---|---|---|---|
+| Which scorer | کدام امتیازدهنده | ✓ | Second / third | |
+| Scorer | امتیازدهنده | ✓ | From the active staff | Not set for themselves |
+| Apply to | اعمال برای | ✓ | All active staff / one department | |
+| Department | واحد | ✓ for one department | From the departments | |
+| Replace the current scorers | جایگزینی امتیازدهندگان فعلی | | Yes / no (default no) | No = only people without one get it |
+
 ### Excel import
 One person per row under a heading row. Columns, in order: personnel no., first name ✓, last name ✓,
 job title, department, supervisor's personnel no., start date, full-time (yes / no; empty = yes), then the

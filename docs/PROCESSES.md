@@ -44,7 +44,11 @@ The fields entered at each step are listed in [Data entry, page by page](DATA-EN
    number, creates missing departments and links supervisors. A row in error stops the import, to be
    fixed and imported again.
 3. In each person's profile, HR or the CEO chooses up to three scorers: the person's supervisor (always)
-   and up to two more people. Each scores the person separately in every half-year.
+   and up to two more people. Each scores the person separately in every half-year. The second or third
+   scorer can also be set for everyone at once: HR chooses the person and whether it applies to all
+   active staff or one department; the system sets it for each of them except the scorer themselves.
+   Scorers already chosen are kept, and only empty places filled, unless HR ticks *Replace the current
+   scorers*.
 4. People who need to sign in get a user account: managers and employees are linked to their staff
    record. HR sends them the sign-in address and password; they change the password when they first
    sign in.
