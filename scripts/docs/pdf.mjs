@@ -157,7 +157,7 @@ for (const [lang, files] of parts) {
     printBackground: true,
     displayHeaderFooter: true,
     headerTemplate: "<span></span>",
-    footerTemplate: `<div dir="${T.dir}" style="width:100%;font-size:7pt;color:#8a939e;padding:0 14mm;display:flex;justify-content:space-between;font-family:sans-serif"><span>${T.footer}</span><span class="pageNumber"></span></div>`,
+    footerTemplate: `<div dir="${T.dir}" style="width:100%;font-size:7pt;color:#8a939e;padding:0 14mm;display:flex;justify-content:space-between;font-family:sans-serif"><span>${T.footer}</span></div>`,
     margin: { top: "14mm", bottom: "16mm", left: "14mm", right: "14mm" },
   });
   await page.close();
