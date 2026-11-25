@@ -52,9 +52,9 @@ The process each page belongs to is described in [Processes](PROCESSES.md).
 | Third scorer | امتیازدهنده سوم | | From the active staff, not the person or the other scorers | Scores the person separately |
 | Start date | تاریخ شروع به کار | ✓ | Date | Decides eligibility (3 months by the end of the half-year) |
 | Full-time | تمام‌وقت | ✓ | Yes / no (default yes) | Only full-time staff are evaluated |
-| Education level | مدرک تحصیلی | | Diploma or less / associate / bachelor's / master's / doctorate | Used for the salary |
+| Education level | مدرک تحصیلی | | Diploma or less / associate / bachelor's / master's / doctorate | Used for the salary | <!-- salary -->
 | Field of study | رشته تحصیلی | | Text | Helps judge relevant education |
-| Relevant experience before joining | سابقه کار مرتبط قبلی | | Years | Used for the salary |
+| Relevant experience before joining | سابقه کار مرتبط قبلی | | Years | Used for the salary | <!-- salary -->
 | Active | فعال | | Yes / no (edit only) | Untick when someone leaves; history stays |
 
 National ID, date of birth, phone and home address are personal data: only HR and the CEO see them.
@@ -95,10 +95,10 @@ updated, not added again; new departments are created; a supervisor can be a row
 
 | Role | Can |
 |---|---|
-| Employee (کارمند) | See their own results and salary |
+| Employee (کارمند) | See their own results |
 | Manager / supervisor (مدیر / سرپرست) | Score the people they are a scorer for; notified of scores still missing; see their team's reports |
-| HR (منابع انسانی) | Staff and their scorers, users, factors, half-years, salaries and settings; notified each time a scorer completes a person's scoring, and of whatever needs following up; not the board's decisions |
-| CEO / board (مدیرعامل / هیئت‌مدیره) | Everything, plus salary approvals, the CEO score, probation salaries and closing a salary year |
+| HR (منابع انسانی) | Staff and their scorers, users, factors, half-years and settings; notified each time a scorer completes a person's scoring, and of whatever needs following up; not the board's decisions |
+| CEO / board (مدیرعامل / هیئت‌مدیره) | Everything HR can do |
 
 **My account**: current password ✓, new password ✓ (8+).
 
@@ -141,6 +141,7 @@ keeps a draft; **Complete** needs every score and notifies HR. No approval follo
 result is the average of the scorers who completed their scoring by the deadline, factor by factor; the
 supervisor's score alone is enough.
 
+<!-- salary -->
 ## 7. Salaries and bonus
 ### Open a salary year / year figures (HR / CEO). Process 6.
 | Field | Persian label | Req. | Format / allowed values | Notes |
@@ -174,3 +175,4 @@ Changing the figures later needs the board's approval again for every salary.
 
 Calculated, not entered: last year's performance (average of the completed half-years; nothing under 60),
 the total share of A, the salary, the above-maximum warning and the bonus.
+<!-- /salary -->

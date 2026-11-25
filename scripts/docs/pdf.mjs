@@ -21,7 +21,12 @@ const dataUri = (file, type) => `data:${type};base64,${readFileSync(file).toStri
 /** A Markdown file as HTML: pictures embedded, links to other documents kept as plain text. */
 function render(file) {
   const base = dirname(file);
-  const md = readFileSync(file, "utf8").replace(/<!-- status[\s\S]*?<!-- \/status -->\n?/g, "");
+  // Salary and bonus are left out for now: whole parts between the salary markers, and single lines
+  // (table rows, pictures) ending with one.
+  const md = readFileSync(file, "utf8")
+    .replace(/<!-- status[\s\S]*?<!-- \/status -->\n?/g, "")
+    .replace(/^<!-- salary -->\n[\s\S]*?^<!-- \/salary -->\n?/gm, "")
+    .replace(/^.*<!-- salary -->\n/gm, "");
   let html = marked.parse(md);
   // Diagrams go in as their SVG (sharp at any zoom); other pictures as images.
   html = html.replace(/<img src="([^"]+)" alt="([^"]*)">/g, (m, src, alt) => {
@@ -95,7 +100,7 @@ blockquote{margin:6px 0;padding:4px 10px;border-inline-start:3px solid #1488f2;b
 const TEXT = {
   en: {
     dir: "ltr",
-    title: "Staff performance evaluation, salary and bonus",
+    title: "Staff performance evaluation",
     sub: "Specification, use cases, processes and data entry",
     date: enDate,
     org: "House Of Management Engineering",
@@ -103,18 +108,18 @@ const TEXT = {
     rows: [
       "1. Performance evaluation module: specification v1.1 (summary and questions to settle)",
       "2. Use cases: actors, diagrams and a card for each use case",
-      "3. Processes: six BPMN diagrams with their steps",
+      "3. Processes: five BPMN diagrams with their steps",
       "4. Data entry, page by page",
       "Appendix: the original specification v1.1 (Persian), as received",
     ],
     note: "The BPMN diagrams are also delivered as <code>.bpmn</code> files that open in Camunda Modeler or bpmn.io.",
     appendix: ["Appendix", "The original specification v1.1, as received"],
-    footer: "House Of Management Engineering · Staff performance evaluation, salary and bonus",
+    footer: "House Of Management Engineering · Staff performance evaluation",
     file: "procedures-specification-en.pdf",
   },
   fa: {
     dir: "rtl",
-    title: "ارزیابی عملکرد، حقوق و پاداش پرسنل",
+    title: "ارزیابی عملکرد پرسنل",
     sub: "مشخصات، موارد کاربرد، فرایندها و ورود داده",
     date: faDate,
     org: "خانه مهندسی مدیریت",
@@ -122,13 +127,13 @@ const TEXT = {
     rows: [
       "۱. ماژول ارزیابی عملکرد: مشخصات نسخه ۱.۱ (خلاصه و پرسش‌ها)",
       "۲. موارد کاربرد: نقش‌ها، نمودارها و کارت هر مورد کاربرد",
-      "۳. فرایندها: شش نمودار BPMN با گام‌ها",
+      "۳. فرایندها: پنج نمودار BPMN با گام‌ها",
       "۴. ورود داده، صفحه به صفحه",
       "پیوست: سند اصلی مشخصات نسخه ۱.۱، بدون تغییر",
     ],
     note: "نمودارهای BPMN به‌صورت فایل <code>.bpmn</code> نیز ارائه شده‌اند که در Camunda Modeler یا bpmn.io باز می‌شوند.",
     appendix: ["پیوست", "سند اصلی مشخصات نسخه ۱.۱، بدون تغییر"],
-    footer: "خانه مهندسی مدیریت · ارزیابی عملکرد، حقوق و پاداش پرسنل",
+    footer: "خانه مهندسی مدیریت · ارزیابی عملکرد پرسنل",
     file: "procedures-specification-fa.pdf",
   },
 };

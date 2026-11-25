@@ -1,11 +1,11 @@
 # Processes (BPMN)
 
-The procedures for staff performance evaluation, salary and bonus, drawn in BPMN 2.0. Each `.bpmn` file in
+The procedures for staff performance evaluation, drawn in BPMN 2.0. Each `.bpmn` file in
 [`bpmn/`](bpmn/) opens in Camunda Modeler, bpmn.io or any BPMN 2.0 tool; the `.png` and `.svg` beside it
 are pictures of the same diagram. Lanes show who does each step; gear boxes are steps the system does by
 itself, hand boxes are steps done outside the system.
 
-They follow the HR instructions (HR-WI-01, the salary instruction, WI1202) and, for the factors,
+They follow the HR instructions (HR-WI-01, WI1202) and, for the factors,
 specification v1.1 (the [specification summary](PERFORMANCE-SPEC.md)).
 
 <!-- status: kept in the repository, left out of the PDF -->
@@ -23,7 +23,7 @@ collected, in English and Persian, in [`procedures-specification-en.pdf`](proced
 | 3 | Setting up the evaluation factors | HR / CEO | `p3_factor_setup.bpmn` |
 | 4 | Half-year performance evaluation | HR, scorers (the supervisor and up to two more) | `p4_half_year_evaluation.bpmn` |
 | 5 | Poor performance follow-up | HR, supervisor, unit manager, CEO | `p5_poor_performance.bpmn` |
-| 6 | Yearly salary and bonus | CEO / board, HR | `p6_salary_and_bonus.bpmn` |
+| 6 | Yearly salary and bonus | CEO / board, HR | `p6_salary_and_bonus.bpmn` | <!-- salary -->
 
 The fields entered at each step are listed in [Data entry, page by page](DATA-ENTRY.md).
 
@@ -86,7 +86,7 @@ The factors are reviewed every year. Each half-year keeps its own copy, so later
    score, the system notifies the supervisor and HR, and HR follows it up.
 6. The system then calculates the results and checks for two half-years under 50 % (process 5).
 7. When everyone's result is in, HR closes the half-year. The results feed the
-   reports, the ranking and next year's salary.
+   reports and the ranking.
 
 Nobody scores themselves. Only the average is the person's result; each scorer's own scores stay on
 record for HR.
@@ -94,13 +94,14 @@ record for HR.
 ## 5. Poor performance follow-up
 ![Process 5](bpmn/p5_poor_performance.png)
 
-1. When a person's half-year result is under 50 %, the system records poor performance (no bonus that year).
+1. When a person's half-year result is under 50 %, the system records poor performance.
 2. If the previous half-year was also under 50 %, the system alerts HR, the supervisor, the unit
    manager and the CEO.
 3. HR meets the supervisor, the unit manager and the CEO about continuing the employment.
 4. HR records the decision: an improvement plan, or the end of employment (the person is marked
    inactive; their history stays). HR then marks the alert done.
 
+<!-- salary -->
 ## 6. Yearly salary and bonus
 ![Process 6](bpmn/p6_salary_and_bonus.png)
 
@@ -117,3 +118,4 @@ record for HR.
    (not below the minimum wage, no bonus).
 6. If a salary isn't right, HR revises the factors; otherwise the board approves (one by one or all
    complete) and closes the salary year.
+<!-- /salary -->

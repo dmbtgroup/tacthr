@@ -286,7 +286,7 @@ process(
     ],
     [("s", "g1", ""), ("g1", "s1", "Yes"), ("g1", "e2", "No"), ("s1", "g2", ""), ("g2", "s2", "Yes"), ("g2", "e2", "No"), ("s2", "t1", ""), ("t1", "g3", ""),
      ("g3", "t2", "Continue"), ("g3", "t3", "End cooperation"), ("t2", "t4", ""), ("t3", "t4", ""), ("t4", "e1", "")],
-    "HR-WI-01 5-3 and spec v1.1 section 5. Under 50 % also means no bonus that year.",
+    "HR-WI-01 5-3 and spec v1.1 section 5.",
 )
 
 # 6. Salary and bonus ------------------------------------------------------------------------------

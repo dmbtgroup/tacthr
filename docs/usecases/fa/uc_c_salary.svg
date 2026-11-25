@@ -10,15 +10,15 @@
 <line x1="966" y1="150.5" x2="715.0" y2="328.0" stroke="#7a8794" stroke-width="1.3" />
 <line x1="966" y1="150.5" x2="715.0" y2="402.0" stroke="#7a8794" stroke-width="1.3" />
 <ellipse cx="550.0" cy="106.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
-<text x="550.0" y="106.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">UC-16 · تعیین ارقام سال</text>
+<text x="550.0" y="106.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">UC-18 · تعیین ارقام سال</text>
 <ellipse cx="550.0" cy="180.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
-<text x="550.0" y="180.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">UC-17 · باز کردن سال حقوقی</text>
+<text x="550.0" y="180.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">UC-19 · باز کردن سال حقوقی</text>
 <ellipse cx="550.0" cy="254.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
-<text x="550.0" y="254.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">UC-18 · ورود شاخص‌های حقوق فرد</text>
+<text x="550.0" y="254.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">UC-20 · ورود شاخص‌های حقوق فرد</text>
 <ellipse cx="550.0" cy="328.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
-<text x="550.0" y="320.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">UC-19 · امتیاز مدیرعامل یا حقوق دوره</text><text x="550.0" y="336.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">آزمایشی</text>
+<text x="550.0" y="320.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">UC-21 · امتیاز مدیرعامل یا حقوق دوره</text><text x="550.0" y="336.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">آزمایشی</text>
 <ellipse cx="550.0" cy="402.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
-<text x="550.0" y="402.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">UC-20 · تأیید حقوق‌ها و بستن سال</text>
+<text x="550.0" y="402.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">UC-22 · تأیید حقوق‌ها و بستن سال</text>
 <g stroke="#1f2933" stroke-width="2" fill="none"><circle cx="990" cy="128.5" r="11" /><line x1="990" y1="139.5" x2="990" y2="168.5" /><line x1="972" y1="150.5" x2="1008" y2="150.5" /><line x1="990" y1="168.5" x2="976" y2="192.5" /><line x1="990" y1="168.5" x2="1004" y2="192.5" /></g><text x="990" y="204.5" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">مدیرعامل /</text><text x="990" y="220.5" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">هیئت‌مدیره</text>
 <g stroke="#1f2933" stroke-width="2" fill="none"><circle cx="990" cy="313.5" r="11" /><line x1="990" y1="324.5" x2="990" y2="353.5" /><line x1="972" y1="335.5" x2="1008" y2="335.5" /><line x1="990" y1="353.5" x2="976" y2="377.5" /><line x1="990" y1="353.5" x2="1004" y2="377.5" /></g><text x="990" y="397.5" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle" direction="rtl">منابع انسانی</text>
 <rect x="58" y="225.0" width="104" height="60" rx="6" fill="#eef6fe" stroke="#0f6cc2" stroke-width="2" /><text x="110" y="219.0" font-size="11" fill="#7a8794" text-anchor="middle">«system»</text><text x="110" y="255.0" font-size="13" font-weight="600" fill="#0f6cc2" text-anchor="middle" dominant-baseline="middle" direction="rtl">سامانه</text>

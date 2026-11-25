@@ -8,11 +8,11 @@ page it belongs to ([Processes](PROCESSES.md), [Data entry](DATA-ENTRY.md)).
 | Actor | Who | Does |
 |---|---|---|
 | System administrator | The provider's administrator | Creates and suspends client companies |
-| HR / CEO | The company's HR, or its CEO | Staff, scorers, users, factors, half-years and salary factors |
-| CEO / board | The CEO or the board | The year's salary figures, the CEO score, probation salaries, salary approval |
+| HR / CEO | The company's HR, or its CEO | Staff, scorers, users, factors and half-years |
+| CEO / board | The CEO or the board | The year's salary figures, the CEO score, probation salaries, salary approval | <!-- salary -->
 | Scorer | The person's supervisor (always) and up to two more people chosen in the profile | Scores the people they are a scorer for |
 | Manager / supervisor | Anyone with a team | Sees their team's results and reports |
-| Employee | Any staff member with a sign-in | Sees their own results and salary |
+| Employee | Any staff member with a sign-in | Sees their own results |
 | Any user | Any of the above | Signs in and changes their password |
 | System | The application itself | Checks, copies, calculates, averages and sends notifications and alerts |
 
@@ -21,7 +21,7 @@ page it belongs to ([Processes](PROCESSES.md), [Data entry](DATA-ENTRY.md)).
 
 ![Factors and half-year evaluation](usecases/uc_b_evaluation.svg)
 
-![Salary and bonus](usecases/uc_c_salary.svg)
+![Salary and bonus](usecases/uc_c_salary.svg) <!-- salary -->
 
 ![Results and reports](usecases/uc_d_results.svg)
 
@@ -94,9 +94,9 @@ page it belongs to ([Processes](PROCESSES.md), [Data entry](DATA-ENTRY.md)).
 | Goal | Stop evaluating someone who has left, without losing their history |
 | Trigger | A person leaves, or employment ends after poor performance (UC-15) |
 | Preconditions | The person is active |
-| Main steps | 1. HR edits the person and unticks **Active**.<br>2. The system keeps all their evaluations and salaries. |
+| Main steps | 1. HR edits the person and unticks **Active**.<br>2. The system keeps all their evaluations. |
 | Alternatives and exceptions | — |
-| Result | The person is no longer added to new half-years or salary years; their history stays in the reports |
+| Result | The person is no longer added to new half-years; their history stays in the reports |
 | Process / page | Process 2, process 5 · Data entry 3 |
 
 ### UC-07 · Create a user account
@@ -194,7 +194,7 @@ page it belongs to ([Processes](PROCESSES.md), [Data entry](DATA-ENTRY.md)).
 | Preconditions | No result missing |
 | Main steps | 1. HR checks the half-year's progress.<br>2. HR closes the half-year. |
 | Alternatives and exceptions | Results still missing: HR follows them up first. |
-| Result | Results final; they feed the reports, the ranking and next year's salary |
+| Result | Results final; they feed the reports and the ranking |
 | Process / page | Process 4 · Data entry 6 |
 
 ### UC-15 · Follow up poor performance
@@ -204,14 +204,41 @@ page it belongs to ([Processes](PROCESSES.md), [Data entry](DATA-ENTRY.md)).
 | Goal | Act on a person who performs poorly twice in a row |
 | Trigger | A person's half-year result is under 50 % |
 | Preconditions | The result has been calculated (UC-13) |
-| Main steps | 1. The system records poor performance (no bonus that year).<br>2. If the previous half-year was also under 50 %, the system alerts HR, the supervisor, the unit manager and the CEO.<br>3. HR holds a meeting on continuing the employment.<br>4. HR records the decision and marks the alert done. |
+| Main steps | 1. The system records poor performance.<br>2. If the previous half-year was also under 50 %, the system alerts HR, the supervisor, the unit manager and the CEO.<br>3. HR holds a meeting on continuing the employment.<br>4. HR records the decision and marks the alert done. |
 | Alternatives and exceptions | Decision to continue: an improvement plan is recorded. Decision to end the employment: the person is marked as left (UC-06). |
 | Result | The decision is on record and the alert is closed |
 | Process / page | Process 5 |
 
+## Results and reports
+
+### UC-16 · See own results
+| | |
+|---|---|
+| Actor | Employee |
+| Goal | Know how they were evaluated |
+| Trigger | A half-year is closed |
+| Preconditions | Signed in, linked to their staff record |
+| Main steps | 1. The employee opens their own page.<br>2. They see their results per half-year (efficiency, effectiveness, total) and their trend. |
+| Alternatives and exceptions | Each scorer's own scores aren't shown, only the average. |
+| Result | The employee sees their own results only |
+| Process / page | — |
+
+### UC-17 · See reports and ranking
+| | |
+|---|---|
+| Actor | Manager / supervisor; HR / CEO |
+| Goal | Compare people and departments over time |
+| Trigger | Whenever needed |
+| Preconditions | Signed in |
+| Main steps | 1. The user opens the reports.<br>2. They see results by department, each person's trend over the half-years, the ranking by half-year or year, and the scores per factor. |
+| Alternatives and exceptions | Managers see only their own team; HR and the CEO see everyone. |
+| Result | Results compared across people, departments and half-years |
+| Process / page | — |
+
+<!-- salary -->
 ## Salary and bonus
 
-### UC-16 · Set the year's figures
+### UC-18 · Set the year's figures
 | | |
 |---|---|
 | Actor | CEO / board |
@@ -223,7 +250,7 @@ page it belongs to ([Processes](PROCESSES.md), [Data entry](DATA-ENTRY.md)).
 | Result | The year's figures are set |
 | Process / page | Process 6 · Data entry 7 |
 
-### UC-17 · Open a salary year
+### UC-19 · Open a salary year
 | | |
 |---|---|
 | Actor | HR; System |
@@ -235,7 +262,7 @@ page it belongs to ([Processes](PROCESSES.md), [Data entry](DATA-ENTRY.md)).
 | Result | A salary record for every active person |
 | Process / page | Process 6 · Data entry 7 |
 
-### UC-18 · Enter a person's salary factors
+### UC-20 · Enter a person's salary factors
 | | |
 |---|---|
 | Actor | HR; System |
@@ -247,7 +274,7 @@ page it belongs to ([Processes](PROCESSES.md), [Data entry](DATA-ENTRY.md)).
 | Result | The person's salary and bonus are calculated |
 | Process / page | Process 6 · Data entry 7 (salary form) |
 
-### UC-19 · Give the CEO score or probation salary
+### UC-21 · Give the CEO score or probation salary
 | | |
 |---|---|
 | Actor | CEO / board |
@@ -259,7 +286,7 @@ page it belongs to ([Processes](PROCESSES.md), [Data entry](DATA-ENTRY.md)).
 | Result | The salary is complete and ready for approval |
 | Process / page | Process 6 · Data entry 7 |
 
-### UC-20 · Approve salaries and close the year
+### UC-22 · Approve salaries and close the year
 | | |
 |---|---|
 | Actor | CEO / board |
@@ -267,32 +294,7 @@ page it belongs to ([Processes](PROCESSES.md), [Data entry](DATA-ENTRY.md)).
 | Trigger | The salaries are complete |
 | Preconditions | Every salary has its factors and CEO score |
 | Main steps | 1. The board reviews the salaries.<br>2. The board approves them one by one, or all complete ones at once.<br>3. The board closes the salary year. |
-| Alternatives and exceptions | A salary isn't right: HR revises its factors (UC-18) and it comes back for approval. |
+| Alternatives and exceptions | A salary isn't right: HR revises its factors (UC-20) and it comes back for approval. |
 | Result | Salaries and bonuses final, ready to pay |
 | Process / page | Process 6 · Data entry 7 |
-
-## Results and reports
-
-### UC-21 · See own results and salary
-| | |
-|---|---|
-| Actor | Employee |
-| Goal | Know how they were evaluated and paid |
-| Trigger | A half-year is closed, or a salary year approved |
-| Preconditions | Signed in, linked to their staff record |
-| Main steps | 1. The employee opens their own page.<br>2. They see their results per half-year (efficiency, effectiveness, total) and their trend, and their approved salary and bonus. |
-| Alternatives and exceptions | Each scorer's own scores aren't shown, only the average. |
-| Result | The employee sees their own results only |
-| Process / page | — |
-
-### UC-22 · See reports and ranking
-| | |
-|---|---|
-| Actor | Manager / supervisor; HR / CEO |
-| Goal | Compare people and departments over time |
-| Trigger | Whenever needed |
-| Preconditions | Signed in |
-| Main steps | 1. The user opens the reports.<br>2. They see results by department, each person's trend over the half-years, the ranking by half-year or year, and the scores per factor. |
-| Alternatives and exceptions | Managers see only their own team; HR and the CEO see everyone. |
-| Result | Results compared across people, departments and half-years |
-| Process / page | — |
+<!-- /salary -->

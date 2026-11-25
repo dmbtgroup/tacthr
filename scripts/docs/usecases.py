@@ -44,7 +44,7 @@ FA = {
     "Enter a person's salary factors": "ورود شاخص‌های حقوق فرد",
     "Give the CEO score or probation salary": "امتیاز مدیرعامل یا حقوق دوره آزمایشی",
     "Approve salaries and close the year": "تأیید حقوق‌ها و بستن سال",
-    "See own results and salary": "دیدن نتایج و حقوق خود",
+    "See own results": "دیدن نتایج خود",
     "See reports and ranking": "دیدن گزارش‌ها و رتبه‌بندی",
 }
 
@@ -70,15 +70,15 @@ AREAS = [
         ("15", "Follow up poor performance", ["System", "HR / CEO"]),
     ]),
     ("uc_c_salary", "Salary and bonus", ["CEO / board", "HR"], ["System"], [
-        ("16", "Set the year's figures", ["CEO / board"]),
-        ("17", "Open a salary year", ["HR", "System"]),
-        ("18", "Enter a person's salary factors", ["HR", "System"]),
-        ("19", "Give the CEO score or probation salary", ["CEO / board"]),
-        ("20", "Approve salaries and close the year", ["CEO / board"]),
+        ("18", "Set the year's figures", ["CEO / board"]),
+        ("19", "Open a salary year", ["HR", "System"]),
+        ("20", "Enter a person's salary factors", ["HR", "System"]),
+        ("21", "Give the CEO score or probation salary", ["CEO / board"]),
+        ("22", "Approve salaries and close the year", ["CEO / board"]),
     ]),
     ("uc_d_results", "Results and reports", ["Employee", "Manager / supervisor", "HR / CEO"], [], [
-        ("21", "See own results and salary", ["Employee"]),
-        ("22", "See reports and ranking", ["Manager / supervisor", "HR / CEO"]),
+        ("16", "See own results", ["Employee"]),
+        ("17", "See reports and ranking", ["Manager / supervisor", "HR / CEO"]),
     ]),
 ]
 
