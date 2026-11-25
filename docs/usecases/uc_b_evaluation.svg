@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 658" font-family="Vazirmatn, Arial, sans-serif">
+<rect width="1100" height="658" fill="#fff" />
+<rect x="345.0" y="40" width="410" height="598" rx="10" fill="#fafcfe" stroke="#0f6cc2" stroke-width="1.5" />
+<text x="550.0" y="56.0" font-size="14" font-weight="700" fill="#0f6cc2" text-anchor="middle" dominant-baseline="middle">Factors and half-year evaluation</text>
+<line x1="134" y1="187.5" x2="385.0" y2="106.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="938" y1="329.0" x2="715.0" y2="106.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="187.5" x2="385.0" y2="180.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="938" y1="329.0" x2="715.0" y2="180.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="446.5" x2="385.0" y2="254.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="938" y1="329.0" x2="715.0" y2="328.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="187.5" x2="385.0" y2="328.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="446.5" x2="385.0" y2="328.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="938" y1="329.0" x2="715.0" y2="402.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="187.5" x2="385.0" y2="476.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="938" y1="329.0" x2="715.0" y2="550.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="187.5" x2="385.0" y2="550.0" stroke="#7a8794" stroke-width="1.3" />
+<ellipse cx="550.0" cy="106.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="106.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-09 · Set up the evaluation factors</text>
+<ellipse cx="550.0" cy="180.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="180.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-10 · Open a half-year</text>
+<ellipse cx="550.0" cy="254.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="254.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-11 · Score a person</text>
+<ellipse cx="550.0" cy="328.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="328.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-12 · Send notifications</text>
+<ellipse cx="550.0" cy="402.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="394.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-13 · Average and calculate the</text><text x="550.0" y="410.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">results</text>
+<ellipse cx="550.0" cy="476.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="476.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-14 · Close the half-year</text>
+<ellipse cx="550.0" cy="550.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="550.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-15 · Follow up poor performance</text>
+<g stroke="#1f2933" stroke-width="2" fill="none"><circle cx="110" cy="165.5" r="11" /><line x1="110" y1="176.5" x2="110" y2="205.5" /><line x1="92" y1="187.5" x2="128" y2="187.5" /><line x1="110" y1="205.5" x2="96" y2="229.5" /><line x1="110" y1="205.5" x2="124" y2="229.5" /></g><text x="110" y="249.5" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">HR / CEO</text>
+<g stroke="#1f2933" stroke-width="2" fill="none"><circle cx="110" cy="424.5" r="11" /><line x1="110" y1="435.5" x2="110" y2="464.5" /><line x1="92" y1="446.5" x2="128" y2="446.5" /><line x1="110" y1="464.5" x2="96" y2="488.5" /><line x1="110" y1="464.5" x2="124" y2="488.5" /></g><text x="110" y="508.5" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">Scorer</text>
+<rect x="938" y="299.0" width="104" height="60" rx="6" fill="#eef6fe" stroke="#0f6cc2" stroke-width="2" /><text x="990" y="293.0" font-size="11" fill="#7a8794" text-anchor="middle">«system»</text><text x="990" y="329.0" font-size="13" font-weight="600" fill="#0f6cc2" text-anchor="middle" dominant-baseline="middle">System</text>
+</svg>

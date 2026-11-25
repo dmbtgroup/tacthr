@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 590" font-family="Vazirmatn, Arial, sans-serif">
+<rect width="1100" height="590" fill="#fff" />
+<rect x="345.0" y="40" width="410" height="530" rx="10" fill="#fafcfe" stroke="#0f6cc2" stroke-width="1.5" />
+<text x="550.0" y="56.0" font-size="14" font-weight="700" fill="#0f6cc2" text-anchor="middle" dominant-baseline="middle">Results and reports</text>
+<line x1="134" y1="133.0" x2="385.0" y2="257.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="283.0" x2="385.0" y2="331.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="433.0" x2="385.0" y2="331.0" stroke="#7a8794" stroke-width="1.3" />
+<ellipse cx="550.0" cy="257.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="257.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-21 · See own results and salary</text>
+<ellipse cx="550.0" cy="331.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="331.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-22 · See reports and ranking</text>
+<g stroke="#1f2933" stroke-width="2" fill="none"><circle cx="110" cy="111.0" r="11" /><line x1="110" y1="122.0" x2="110" y2="151.0" /><line x1="92" y1="133.0" x2="128" y2="133.0" /><line x1="110" y1="151.0" x2="96" y2="175.0" /><line x1="110" y1="151.0" x2="124" y2="175.0" /></g><text x="110" y="195.0" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">Employee</text>
+<g stroke="#1f2933" stroke-width="2" fill="none"><circle cx="110" cy="261.0" r="11" /><line x1="110" y1="272.0" x2="110" y2="301.0" /><line x1="92" y1="283.0" x2="128" y2="283.0" /><line x1="110" y1="301.0" x2="96" y2="325.0" /><line x1="110" y1="301.0" x2="124" y2="325.0" /></g><text x="110" y="337.0" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">Manager /</text><text x="110" y="353.0" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">supervisor</text>
+<g stroke="#1f2933" stroke-width="2" fill="none"><circle cx="110" cy="411.0" r="11" /><line x1="110" y1="422.0" x2="110" y2="451.0" /><line x1="92" y1="433.0" x2="128" y2="433.0" /><line x1="110" y1="451.0" x2="96" y2="475.0" /><line x1="110" y1="451.0" x2="124" y2="475.0" /></g><text x="110" y="495.0" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">HR / CEO</text>
+</svg>

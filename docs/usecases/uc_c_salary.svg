@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 510" font-family="Vazirmatn, Arial, sans-serif">
+<rect width="1100" height="510" fill="#fff" />
+<rect x="345.0" y="40" width="410" height="450" rx="10" fill="#fafcfe" stroke="#0f6cc2" stroke-width="1.5" />
+<text x="550.0" y="56.0" font-size="14" font-weight="700" fill="#0f6cc2" text-anchor="middle" dominant-baseline="middle">Salary and bonus</text>
+<line x1="134" y1="150.5" x2="385.0" y2="106.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="335.5" x2="385.0" y2="180.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="938" y1="255.0" x2="715.0" y2="180.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="335.5" x2="385.0" y2="254.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="938" y1="255.0" x2="715.0" y2="254.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="150.5" x2="385.0" y2="328.0" stroke="#7a8794" stroke-width="1.3" />
+<line x1="134" y1="150.5" x2="385.0" y2="402.0" stroke="#7a8794" stroke-width="1.3" />
+<ellipse cx="550.0" cy="106.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="106.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-16 · Set the year's figures</text>
+<ellipse cx="550.0" cy="180.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="180.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-17 · Open a salary year</text>
+<ellipse cx="550.0" cy="254.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="254.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-18 · Enter a person's salary factors</text>
+<ellipse cx="550.0" cy="328.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="320.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-19 · Give the CEO score or probation</text><text x="550.0" y="336.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">salary</text>
+<ellipse cx="550.0" cy="402.0" rx="165.0" ry="26.0" fill="#fff" stroke="#0f6cc2" stroke-width="1.8" />
+<text x="550.0" y="394.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">UC-20 · Approve salaries and close the</text><text x="550.0" y="410.0" font-size="13" font-weight="400" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">year</text>
+<g stroke="#1f2933" stroke-width="2" fill="none"><circle cx="110" cy="128.5" r="11" /><line x1="110" y1="139.5" x2="110" y2="168.5" /><line x1="92" y1="150.5" x2="128" y2="150.5" /><line x1="110" y1="168.5" x2="96" y2="192.5" /><line x1="110" y1="168.5" x2="124" y2="192.5" /></g><text x="110" y="212.5" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">CEO / board</text>
+<g stroke="#1f2933" stroke-width="2" fill="none"><circle cx="110" cy="313.5" r="11" /><line x1="110" y1="324.5" x2="110" y2="353.5" /><line x1="92" y1="335.5" x2="128" y2="335.5" /><line x1="110" y1="353.5" x2="96" y2="377.5" /><line x1="110" y1="353.5" x2="124" y2="377.5" /></g><text x="110" y="397.5" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle" dominant-baseline="middle">HR</text>
+<rect x="938" y="225.0" width="104" height="60" rx="6" fill="#eef6fe" stroke="#0f6cc2" stroke-width="2" /><text x="990" y="219.0" font-size="11" fill="#7a8794" text-anchor="middle">«system»</text><text x="990" y="255.0" font-size="13" font-weight="600" fill="#0f6cc2" text-anchor="middle" dominant-baseline="middle">System</text>
+</svg>

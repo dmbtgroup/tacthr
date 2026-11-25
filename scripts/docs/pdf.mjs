@@ -40,8 +40,8 @@ const faDate = new Intl.DateTimeFormat("fa-IR-u-ca-persian", { day: "numeric", m
 const logo = dataUri(join(docs, "assets", "home-logo.png"), "image/png");
 
 const parts = [
-  ["en", ["PERFORMANCE-SPEC.md", "PROCESSES.md", "DATA-ENTRY.md"].map((f) => join(docs, f))],
-  ["fa", ["PERFORMANCE-SPEC.md", "PROCESSES.md", "DATA-ENTRY.md"].map((f) => join(docs, "fa", f))],
+  ["en", ["PERFORMANCE-SPEC.md", "USE-CASES.md", "PROCESSES.md", "DATA-ENTRY.md"].map((f) => join(docs, f))],
+  ["fa", ["PERFORMANCE-SPEC.md", "USE-CASES.md", "PROCESSES.md", "DATA-ENTRY.md"].map((f) => join(docs, "fa", f))],
 ];
 
 const css = `
@@ -67,6 +67,12 @@ img{max-width:100%;max-height:150mm;display:block;margin:6px auto 8px;border:1px
 .diagram{margin:6px 0 10px;direction:ltr}
 .diagram svg{width:100%;height:auto;max-height:150mm;display:block}
 .doc-processes h2{break-before:page}
+.doc-use-cases .diagram{break-inside:avoid}
+.doc-use-cases .diagram svg{width:auto;max-width:100%;max-height:150mm;margin:0 auto}
+.doc-use-cases h2 ~ h2{break-before:page}
+.doc-use-cases h3 + table{break-inside:avoid}
+.doc-use-cases h3 + table thead{display:none}
+.doc-use-cases h3 + table td:first-child{width:17%;font-weight:600;color:#0b3d6b}
 hr{border:0;border-top:1px solid #d9dee4;margin:10px 0}
 blockquote{margin:6px 0;padding:4px 10px;border-inline-start:3px solid #1488f2;background:#eef6fe}
 [dir=rtl]{text-align:right}
@@ -90,14 +96,15 @@ const TEXT = {
   en: {
     dir: "ltr",
     title: "Staff performance evaluation, salary and bonus",
-    sub: "Specification, processes and data entry",
+    sub: "Specification, use cases, processes and data entry",
     date: enDate,
     org: "House Of Management Engineering",
     contents: "Contents",
     rows: [
       "1. Performance evaluation module: specification v1.1 (summary and questions to settle)",
-      "2. Processes: six BPMN diagrams with their steps",
-      "3. Data entry, page by page",
+      "2. Use cases: actors, diagrams and a card for each use case",
+      "3. Processes: six BPMN diagrams with their steps",
+      "4. Data entry, page by page",
       "Appendix: the original specification v1.1 (Persian), as received",
     ],
     note: "The BPMN diagrams are also delivered as <code>.bpmn</code> files that open in Camunda Modeler or bpmn.io.",
@@ -108,14 +115,15 @@ const TEXT = {
   fa: {
     dir: "rtl",
     title: "ارزیابی عملکرد، حقوق و پاداش پرسنل",
-    sub: "مشخصات، فرایندها و ورود داده",
+    sub: "مشخصات، موارد کاربرد، فرایندها و ورود داده",
     date: faDate,
     org: "خانه مهندسی مدیریت",
     contents: "فهرست",
     rows: [
       "۱. ماژول ارزیابی عملکرد: مشخصات نسخه ۱.۱ (خلاصه و پرسش‌ها)",
-      "۲. فرایندها: شش نمودار BPMN با گام‌ها",
-      "۳. ورود داده، صفحه به صفحه",
+      "۲. موارد کاربرد: نقش‌ها، نمودارها و کارت هر مورد کاربرد",
+      "۳. فرایندها: شش نمودار BPMN با گام‌ها",
+      "۴. ورود داده، صفحه به صفحه",
       "پیوست: سند اصلی مشخصات نسخه ۱.۱، بدون تغییر",
     ],
     note: "نمودارهای BPMN به‌صورت فایل <code>.bpmn</code> نیز ارائه شده‌اند که در Camunda Modeler یا bpmn.io باز می‌شوند.",
